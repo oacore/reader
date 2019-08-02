@@ -22,5 +22,8 @@
     "husky": "^3.0.2",
     "lint-staged": "^9.2.1",
     "prettier": "^1.18.2"
+  },
+  "dependencies": {
+    "webpack": "^4.39.1"
   }
 }
