@@ -14,6 +14,10 @@ const WEBPACK_CONFIG = {
     library: 'CORE Reader',
     libraryTarget: 'commonjs',
   },
+  resolve: {
+    modules: [SRC_DIR, 'node_modules'],
+    extensions: ['.js', '.jsx'],
+  },
   module: {
     rules: [
       {
