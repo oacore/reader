@@ -1,0 +1,229 @@
+$navbar-brand-image-height: $navbar-brand-font-size + 2 *
+  $navbar-brand-padding-y !default;
+$navbar-brand-vertical-fix: -0.1 * $navbar-brand-height !default;
+
+$navbar-dropdown-bg: $dropdown-bg !default;
+$navbar-dropdown-border-color: $dropdown-border-color !default;
+$navbar-dropdown-border-radius: $dropdown-border-radius !default;
+$navbar-dropdown-border-width: $dropdown-border-width !default;
+
+
+// Navbar nav
+//
+// Custom navbar navigation (doesn't require `.nav`, but does make use of `.nav-link`).
+
+.navbar-nav {
+  display: flex;
+  flex-direction: column; // cannot use `inherit` to get the `.navbar`s value
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+
+  .nav-link {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .dropdown-menu {
+    position: static;
+    float: none;
+  }
+}
+
+// Generate series of `.navbar-expand-*` responsive classes for configuring
+// where your navbar collapses.
+.navbar-expand {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    $next: breakpoint-next($breakpoint, $grid-breakpoints);
+    $infix: breakpoint-infix($next, $grid-breakpoints);
+
+    &#{$infix} {
+      @include media-breakpoint-down($breakpoint) {
+        .nav-item {
+          margin-left: -$navbar-padding-x;
+          margin-right: -$navbar-padding-x;
+        }
+
+        .nav-link {
+          padding-left: $navbar-padding-x;
+          padding-right: $navbar-padding-x;
+        }
+
+        .nav-link.dropdown-toggle {
+          position: relative;
+          display: block;
+          width: (2 * $navbar-padding-x) + 1;
+          overflow: hidden;
+          white-space: nowrap;
+          text-align: center;
+          vertical-align: middle;
+          user-select: none;
+          background-color: transparent;
+          color: transparent;
+          border: 0;
+
+          &:hover {
+            color: transparent;
+            text-decoration: none;
+          }
+
+          &:focus,
+          &.focus {
+            color: transparent;
+            text-decoration: none;
+            outline: 0;
+            box-shadow: $btn-focus-box-shadow;
+          }
+
+          &::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            box-sizing: content-box;
+            margin: auto;
+            width: $font-size-lg;
+            height: $font-size-lg;
+            border: 0;
+            color: transparent;
+            text-decoration: none;
+            background: transparent;
+            transform: rotate(-180deg);
+            transition: transform 0.1s;
+
+            .nav-item.show > &,
+            .nav-item.show > .nav-link-group > & {
+              transform: none;
+            }
+          }
+        }
+
+        .nav-item.dropdown.show .dropdown-toggle {
+          &::after {
+            transform: none;
+          }
+        }
+
+        .dropdown-menu {
+          color: inherit;
+          background: transparent;
+          border: 0;
+          @include border-radius(0);
+          @include box-shadow(none);
+
+          box-shadow: inset 0 4px 4px -4px rgba(0, 0, 0, 0.15),
+            inset 0 -4px 4px -4px rgba(0, 0, 0, 0.15);
+        }
+
+        .dropdown-header,
+        .dropdown-item {
+          padding-left: $navbar-padding-x;
+          padding-right: $navbar-padding-x;
+        }
+      }
+
+      @include media-breakpoint-up($next) {
+        .nav-item {
+          border-radius: $navbar-dropdown-border-radius
+            $navbar-dropdown-border-radius 0 0;
+        }
+
+        .nav-item.show {
+          > .nav-link,
+          > .nav-link-group {
+            margin: -$navbar-dropdown-border-width;
+            color: $link-hover-color;
+            border: $navbar-dropdown-border-width solid
+              $navbar-dropdown-border-color;
+            border-bottom: 0;
+            background: $navbar-dropdown-bg;
+            opacity: 1;
+
+            &::after {
+              position: absolute;
+              display: block;
+              box-sizing: content-box;
+              width: 100%;
+              height: $navbar-padding-y;
+              margin: 0 (-1 * $navbar-dropdown-border-width);
+              bottom: -1 * $navbar-dropdown-border-width;
+              left: 0;
+              z-index: $zindex-dropdown + 1;
+              content: "";
+              background: $navbar-dropdown-bg;
+              border: $navbar-dropdown-border-width solid
+                $navbar-dropdown-border-color;
+              border-top-width: 0;
+              border-bottom-color: $navbar-dropdown-bg;
+            }
+          }
+        }
+
+        .nav-link {
+          border-radius: $navbar-dropdown-border-radius
+            $navbar-dropdown-border-radius 0 0;
+        }
+
+        .nav-link.dropdown-toggle {
+          @include sr-only();
+          @include sr-only-focusable();
+
+          @include hover-focus() {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 0;
+            line-height: 0;
+            width: 100%;
+            height: 100%;
+            color: transparent;
+            background: transparent;
+            outline: none !important;
+
+            &::after {
+              $width: 0.7rem;
+              $border-width: $width / 2 * 1.44;
+              position: absolute;
+              top: 100%;
+              left: 50%;
+              display: block;
+              margin: 0 0 0 (-1 * $border-width);
+              width: $width;
+              border-width: $border-width $border-width 0;
+              color: $primary;
+            }
+          }
+        }
+
+        .nav-link-group {
+          position: relative;
+          display: block;
+        }
+
+        .dropdown-menu {
+          border-color: $navbar-dropdown-border-color;
+          margin-top: 0;
+          margin-right: -$navbar-padding-x;
+          flex-flow: row wrap;
+          justify-content: flex-start;
+          @include border-radius($navbar-dropdown-border-radius);
+        }
+
+        .dropdown.show .dropdown-menu {
+          display: flex;
+        }
+
+        .dropdown-menu-wide {
+          min-width: 3 * $dropdown-min-width;
+        }
+
+        .dropdown-section {
+          padding-top: $navbar-padding-y;
+          padding-bottom: $navbar-padding-y;
+          flex: 1;
+        }
+      }
+    }
+  }
+}

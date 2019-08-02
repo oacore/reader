@@ -1,0 +1,19 @@
+.nav-link {
+  &:focus,
+  &.focus {
+    outline: 0;
+    box-shadow: $btn-focus-box-shadow;
+  }
+}
+
+.nav-link-group {
+  display: flex;
+
+  > .nav-link {
+    flex-grow: 1;
+
+    &:last-child {
+      flex-grow: 0;
+    }
+  }
+}

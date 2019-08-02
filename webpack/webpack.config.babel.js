@@ -27,6 +27,29 @@ const WEBPACK_CONFIG = {
           loader: 'babel-loader',
         },
       },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              sourceMap: false,
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: false,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: false,
+            },
+          },
+        ],
+      },
     ],
   },
 }

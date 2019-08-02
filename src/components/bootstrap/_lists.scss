@@ -1,0 +1,11 @@
+.list-comma-separated {
+  @include list-unstyled;
+
+  li {
+    display: inline;
+
+    &:not(:last-child)::after {
+      content: ", ";
+    }
+  }
+}
