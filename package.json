@@ -25,6 +25,9 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
+    "@babel/register": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "core-js": "3",
     "webpack": "^4.39.1"
   }
 }
