@@ -32,6 +32,8 @@ const WEBPACK_CONFIG = {
 }
 
 const WEBPACK_DEV_CONFIG = {
+  entry: `${SRC_DIR}/standalone.jsx`,
+  output: {},
   devtool: 'source-map',
   devServer: {
     contentBase: BUILD_DIR,
