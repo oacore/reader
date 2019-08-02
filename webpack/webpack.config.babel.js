@@ -38,7 +38,12 @@ const WEBPACK_DEV_CONFIG = {
     compress: true,
     port: 9000,
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'CORE Reader development page',
+      template: `${SRC_DIR}/index.template.html`,
+    }),
+  ],
 }
 
 const WEBPACK_ZEIT_CONFIG = {
