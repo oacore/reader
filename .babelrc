@@ -1,0 +1,5 @@
+{
+  "presets": [
+    ["preset-env", { "useBuiltIns": "usage" }]
+  ]
+}
