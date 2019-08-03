@@ -50,6 +50,10 @@ const WEBPACK_CONFIG = {
           },
         ],
       },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader',
+      },
     ],
   },
 }
