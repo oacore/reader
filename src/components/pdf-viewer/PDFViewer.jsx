@@ -31,6 +31,9 @@ class PDFViewer extends React.PureComponent {
           id: pageNum,
           scale: 1.0, // Fit the whole container
           defaultViewport: currentPage.getViewport({ scale: 1.0 }),
+
+          // allows to copy/highlight text in PDF
+          textLayerFactory: new DefaultTextLayerFactory(),
         })
 
         // Associate the actual page with the view and draw it.
