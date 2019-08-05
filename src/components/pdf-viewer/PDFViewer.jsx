@@ -1,33 +1,60 @@
 import React from 'react'
-import Spinner from 'reactstrap/es/Spinner'
-import pdfjs from 'pdfjs-dist/webpack'
 import PropTypes from 'prop-types'
 import withAppContext from 'store/withAppContext'
+import {
+  PDFPageView as _PDFPageView,
+  DefaultTextLayerFactory,
+} from 'pdfjs-dist/web/pdf_viewer'
 
+import 'pdfjs-dist/web/pdf_viewer.css'
 import 'components/pdf-viewer/PDFViewer.scss'
 
 class PDFViewer extends React.PureComponent {
-  async componentDidMount() {
+  containerNode = null
+
+  componentDidMount() {
     /**
      * Load PDF when this component is inserted into the DOM
      */
-    const { pdfUrl, context } = this.props
-    const pdfDocument = await pdfjs.getDocument(pdfUrl).promise
+    const {
+      context: {
+        state: { pdfDocument },
+      },
+    } = this.props
 
-    context.setPDFDocument(pdfDocument)
+    // iterates over every page in PDF file and draw it
+    const pagesCount = pdfDocument.numPages
+    for (let pageNum = 1; pageNum <= pagesCount; pageNum++) {
+      pdfDocument.getPage(pageNum).then(currentPage => {
+        const pdfPageView = new _PDFPageView({
+          container: this.containerNode,
+          id: pageNum,
+          scale: 1.0, // Fit the whole container
+          defaultViewport: currentPage.getViewport({ scale: 1.0 }),
+        })
+
+        // Associate the actual page with the view and draw it.
+        pdfPageView.setPdfPage(currentPage)
+        pdfPageView.draw()
+      })
+    }
   }
 
   render() {
     return (
-      <div className="pdf-loader">
-        <Spinner />
+      <div className="pdf-highlighter">
+        <div
+          ref={node => {
+            this.containerNode = node
+          }}
+          className="pdf-viewer"
+        />
       </div>
     )
   }
 }
 
 PDFViewer.propTypes = {
-  pdfUrl: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   context: PropTypes.object.isRequired, // TODO: Type it better
 }

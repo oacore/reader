@@ -1,6 +1,18 @@
-.pdf-loader {
-  display: flex;
-  height: inherit;
+.pdf-viewer {
   align-items: center;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  height: inherit;
+
+  .page {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    position: relative;
+  }
+}
+
+.pdf-highlighter {
+  height: inherit;
 }
