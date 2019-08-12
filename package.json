@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --mode production --progress --colors --config webpack/webpack.config.babel.js",
-    "start": "webpack-dev-server --config webpack/webpack.config.devel.babel.js",
+    "start": "webpack-dev-server --config webpack/webpack.config.babel.js",
     "lint": "eslint --ignore-path .gitignore --ext .js,.jsx .",
     "format": "eslint --ignore-path .gitignore --ext .js,.jsx --fix ."
   },
