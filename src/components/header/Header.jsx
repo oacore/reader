@@ -2,12 +2,14 @@ import React, { useContext } from 'react'
 import { Navbar } from 'reactstrap'
 import Icon from 'components/icons/Icon'
 import GlobalContext from 'store/configureContext'
+import { downloadPDF } from 'components/pdf-downloader/PDFDownloader'
 
 import 'components/header/Header.scss'
 
-export const Header = () => {
-  // eslint-disable-next-line no-unused-vars
-  const context = useContext(GlobalContext)
+const Header = () => {
+  const {
+    state: { pdfDocument, pdfUrl },
+  } = useContext(GlobalContext)
 
   return (
     <Navbar light color="light" className="header" tag="header">
@@ -31,7 +33,12 @@ export const Header = () => {
         <button type="button" className="btn p-0">
           <Icon iconType="share" />
         </button>
-        <button type="button" className="btn p-0 ml-3">
+        <button
+          type="button"
+          className="btn p-0 ml-3"
+          disabled={!pdfDocument} // pdf is not loaded yet
+          onClick={() => downloadPDF(pdfDocument, pdfUrl)}
+        >
           <Icon iconType="download" />
         </button>
         <button type="button" className="btn p-0 ml-3">
