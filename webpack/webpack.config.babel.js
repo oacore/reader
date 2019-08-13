@@ -37,7 +37,21 @@ const WEBPACK_DEV_CONFIG = {
   plugins: [new HtmlWebpackPlugin()],
 }
 
-export default (env, argv) => {
-  const IS_DEV = argv.mode !== 'production'
-  return IS_DEV ? { ...WEBPACK_CONFIG, ...WEBPACK_DEV_CONFIG } : WEBPACK_CONFIG
+const WEBPACK_ZEIT_CONFIG = {
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'CORE Reader development page',
+      template: `${SRC_DIR}/index.template.html`,
+    }),
+  ],
+}
+
+export default () => {
+  const nodeEnv = process.env.NODE_ENV
+
+  if (nodeEnv === 'zeit') return { ...WEBPACK_CONFIG, ...WEBPACK_ZEIT_CONFIG }
+  if (nodeEnv !== 'production')
+    return { ...WEBPACK_CONFIG, ...WEBPACK_DEV_CONFIG }
+
+  return WEBPACK_CONFIG
 }
