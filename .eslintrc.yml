@@ -36,3 +36,8 @@ rules:
     skipUndeclared: true,
     ignore: [class, className, id, children, tag],
   }]
+
+settings:
+  import/resolver:
+    node:
+      paths: ['src']

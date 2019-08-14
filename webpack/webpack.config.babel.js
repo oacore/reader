@@ -11,8 +11,12 @@ const WEBPACK_CONFIG = {
   output: {
     path: DIST_DIR,
     filename: 'index.js',
-    library: 'CORE Reader',
+    library: 'CORE_Reader',
     libraryTarget: 'commonjs',
+  },
+  resolve: {
+    modules: [SRC_DIR, 'node_modules'],
+    extensions: ['.js', '.jsx'],
   },
   module: {
     rules: [
@@ -23,21 +27,61 @@ const WEBPACK_CONFIG = {
           loader: 'babel-loader',
         },
       },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              sourceMap: false,
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: false,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: false,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader',
+      },
     ],
   },
 }
 
 const WEBPACK_DEV_CONFIG = {
+  entry: `${SRC_DIR}/standalone.jsx`,
+  output: {},
   devtool: 'source-map',
   devServer: {
     contentBase: BUILD_DIR,
     compress: true,
     port: 9000,
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'CORE Reader development page',
+      template: `${SRC_DIR}/index.template.html`,
+    }),
+  ],
 }
 
 const WEBPACK_ZEIT_CONFIG = {
+  entry: `${SRC_DIR}/standalone.jsx`,
+  output: {
+    path: DIST_DIR,
+    filename: 'index.js',
+    library: 'CORE_Reader',
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'CORE Reader development page',

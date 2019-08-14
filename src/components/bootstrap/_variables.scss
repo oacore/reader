@@ -1,0 +1,200 @@
+// Variables
+//
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+
+//
+// Color system
+//
+
+$white: #fff !default;
+
+$nearly-black: #2a3840;
+$light-grey: lighten(desaturate(adjust-hue($nearly-black, 8), 15.99), 70.98);
+
+$orange: #e08639;
+$orange-dark: #b75400;
+$orange-darker: darken($orange-dark, 12.75);
+
+$blue: #005f96;
+$blue-light: lighten(desaturate($blue, 59.26), 65.29);
+$blue-dark: darken($blue, 8%);
+$blue-darker: darken($blue-dark, 8%);
+
+$beige: #f1f4ef;
+$beige-dark: darken(desaturate(adjust-hue($beige, -10), 0.57), 2.35);
+
+$brown: #763600;
+$green: #28a745;
+
+$primary: $orange-dark;
+$primary-dark: $orange-darker;
+
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+
+$enable-shadows: true;
+
+
+// Spacing
+//
+// Control the default styling of most Bootstrap elements by modifying these
+// variables. Mostly focused on spacing.
+// You can add more entries to the $spacers map, should you need more variation.
+
+$spacer: 1.5rem;
+
+// Sections
+
+$section-sm-spacer: 1 * $spacer;
+$section-md-spacer: 2 * $spacer;
+$section-lg-spacer: 3 * $spacer;
+$section-spacer: $section-md-spacer;
+$article-spacer: $section-lg-spacer;
+$content-max-width: 80ch;
+
+$spacers: (
+  section-sm: $section-sm-spacer,
+  section-md: $section-md-spacer,
+  section-lg: $section-lg-spacer,
+  section: $section-spacer
+);
+
+
+// Links
+//
+// Style anchor elements.
+
+$link-color:                $primary;
+$link-decoration:           none;
+$link-hover-color:          $primary;
+$link-hover-decoration:     underline;
+
+
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px
+);
+
+
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px
+);
+
+
+// Grid columns
+//
+// Set the number of columns and specify the width of the gutters.
+
+$grid-columns: 12;
+$grid-gutter-width: 32px;
+
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+
+// stylelint-disable value-keyword-case
+$font-family-sans-serif:
+  Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+// stylelint-enable value-keyword-case
+
+$font-size-base:              1rem; // browser default, typically 16px
+$font-size-lg:                ($font-size-base * 1.125); // 18px
+$font-size-sm:                ($font-size-base * .875); // 14px
+
+$font-weight-light:           300;
+$font-weight-normal:          400;
+$font-weight-bold:            700;
+
+$font-weight-base:            $font-weight-normal;
+$line-height-base:            1.5;
+
+$h1-font-size:                $font-size-base * 3.75;
+$h2-font-size:                $font-size-base * 3;
+$h3-font-size:                $font-size-base * 2.125;
+$h4-font-size:                $font-size-base * 1.75;
+
+$headings-margin-bottom:      $spacer;
+$headings-font-weight:        $font-weight-bold;
+$headings-line-height:        1.2;
+
+$lead-font-size:              ($font-size-base * 1.5);
+$lead-font-weight:            $font-weight-light;
+
+$small-font-size:             80%;
+
+
+$blockquote-font-size:        $font-size-base * 1.125;
+$blockquote-padding-left:     3.5 * $font-size-base;
+$blockquote-avatar-size:      8rem;
+$blockquote-avatar-vertical-fix:    -1rem;
+
+$mark-padding:                .2em;
+$mark-bg:                     $green;
+
+
+// Forms
+
+$custom-control-indicator-box-shadow:           0 0 0 .2rem rgba($light-grey, .25);
+$custom-control-indicator-focus-border-color:   $light-grey;
+$custom-control-indicator-checked-color:        $green;
+$custom-control-indicator-checked-bg:           $green;
+$custom-control-indicator-checked-disabled-bg:  rgba($green, .5);
+$custom-control-indicator-focus-box-shadow:     0 0 0 .2rem rgba($green, .25);
+$custom-control-indicator-active-color:         $green;
+$custom-control-indicator-active-bg:            $green;
+
+// Cards
+
+$card-border-radius: 0;
+
+
+// Carousel
+
+$carousel-control-color:            $primary;
+
+
+// Navbar
+
+$navbar-padding-y:                  .5rem;
+
+$navbar-dropdown-border-color:      $blue-light;
+$navbar-dropdown-border-radius:     0;
+
+$navbar-light-color:                $nearly-black;
+$navbar-light-hover-color:          $link-color;
+$navbar-light-active-color:         $link-hover-color;
+
+$navbar-light-brand-color:          $navbar-light-color;
+
+
+// Dropdowns
+//
+// Dropdown menu container and contents.
+
+$dropdown-link-color:               $link-color;
+$dropdown-link-hover-color:         $link-color;
+$dropdown-link-active-color:        $white;
+
+
+// Sections
+
+$section-skew-width:                2 * $spacer;
