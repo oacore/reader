@@ -36,6 +36,8 @@ rules:
     skipUndeclared: true,
     ignore: [class, className, id, children, tag],
   }]
+  no-underscore-dangle: off
+  no-bitwise: off
 
 settings:
   import/resolver:

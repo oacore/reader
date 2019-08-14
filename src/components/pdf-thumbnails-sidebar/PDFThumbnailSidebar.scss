@@ -1,0 +1,77 @@
+.pdf-thumbnails-view {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: 10px 30px 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+
+  > a:active,
+  > a:focus {
+    outline: 0;
+  }
+
+  .thumbnail {
+    margin: 0 10px 5px 10px;
+    float: left;
+    &:not([data-loaded]) {
+      border: 1px dashed rgba(255, 255, 255, 0.5);
+      margin: -1px 9px 4px 9px;
+    }
+
+    &.selected {
+      > .thumbnailSelectionRing {
+        background-color: hsla(0,0%,100%,.3);
+        background-image: linear-gradient(hsla(0,0%,100%,.05), hsla(0,0%,100%,0));
+        background-clip: padding-box;
+        box-shadow: 0 1px 0 hsla(0,0%,100%,.05) inset,
+        0 0 1px hsla(0,0%,100%,.1) inset,
+        0 0 1px hsla(0,0%,0%,.2);
+        color: hsla(0,0%,100%,1);
+
+        > .thumbnailImage {
+          box-shadow: 0 0 0 1px hsla(0,0%,0%,.5);
+          opacity: 1;
+        }
+      }
+    }
+
+  }
+
+  > a:last-of-type > .thumbnail {
+    margin-bottom: 10px;
+  }
+
+  .thumbnailSelectionRing {
+    border-radius: 2px;
+    padding: 7px;
+    display: inline-table;
+  }
+
+  .thumbnailImage {
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
+    z-index: 99;
+    background-color: white;
+    background-clip: content-box;
+  }
+
+
+  a:focus > .thumbnail > .thumbnailSelectionRing > .thumbnailImage,
+  .thumbnail:hover > .thumbnailSelectionRing > .thumbnailImage {
+    opacity: .9;
+  }
+
+  a:focus > .thumbnail > .thumbnailSelectionRing,
+  .thumbnail:hover > .thumbnailSelectionRing {
+    background-color: hsla(0,0%,100%,.15);
+    background-image: linear-gradient(hsla(0,0%,100%,.05), hsla(0,0%,100%,0));
+    background-clip: padding-box;
+    box-shadow: 0 1px 0 hsla(0,0%,100%,.05) inset,
+    0 0 1px hsla(0,0%,100%,.2) inset,
+    0 0 1px hsla(0,0%,0%,.2);
+    color: hsla(0,0%,100%,.9);
+  }
+}

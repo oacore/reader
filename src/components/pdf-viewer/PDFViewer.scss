@@ -1,18 +1,10 @@
-.pdf-viewer {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  height: inherit;
-
+.pdfViewer {
   .page {
-    margin-top: 10px;
-    margin-bottom: 10px;
     border: none;
-    position: relative;
-  }
-}
+    margin-top: 15px;
 
-.pdf-highlighter {
-  height: inherit;
+    &:last-of-type {
+      margin-bottom: 15px;
+    }
+  }
 }

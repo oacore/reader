@@ -8,7 +8,12 @@ import 'components/header/Header.scss'
 
 const Header = () => {
   const {
-    state: { pdfDocument, pdfUrl },
+    state: {
+      pdfDocument: { pdfDocumentProxy },
+      pdfUrl,
+      isThumbnailViewVisible,
+    },
+    toggleIsThumbnailViewVisible,
   } = useContext(GlobalContext)
 
   return (
@@ -17,8 +22,12 @@ const Header = () => {
         <button type="button" className="btn p-0 mr-3">
           <Icon iconType="outline" />
         </button>
-        <button type="button" className="btn p-0 mr-3">
-          <Icon iconType="thumbnails" />
+        <button
+          type="button"
+          className="btn p-0 mr-3"
+          onClick={toggleIsThumbnailViewVisible}
+        >
+          <Icon iconType="thumbnails" isActive={isThumbnailViewVisible} />
         </button>
         <button type="button" className="btn p-0">
           <Icon iconType="paper_info" />
@@ -36,8 +45,8 @@ const Header = () => {
         <button
           type="button"
           className="btn p-0 ml-3"
-          disabled={!pdfDocument} // pdf is not loaded yet
-          onClick={() => downloadPDF(pdfDocument, pdfUrl)}
+          disabled={!pdfDocumentProxy} // pdf is not loaded yet
+          onClick={() => downloadPDF(pdfDocumentProxy, pdfUrl)}
         >
           <Icon iconType="download" />
         </button>
