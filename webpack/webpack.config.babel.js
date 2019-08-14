@@ -28,7 +28,7 @@ const WEBPACK_CONFIG = {
         },
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         use: [
           {
             loader: 'style-loader',
@@ -53,6 +53,15 @@ const WEBPACK_CONFIG = {
       {
         test: /\.svg$/,
         loader: 'svg-inline-loader',
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {},
+          },
+        ],
       },
     ],
   },
