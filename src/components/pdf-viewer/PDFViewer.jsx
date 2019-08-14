@@ -7,7 +7,7 @@ import {
 } from 'pdfjs-dist/web/pdf_viewer'
 
 import 'pdfjs-dist/web/pdf_viewer.css'
-import 'components/pdf-viewer/PDFViewer.scss'
+import './PDFViewer.scss'
 
 class PDFViewer extends React.PureComponent {
   containerNode = null

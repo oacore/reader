@@ -4,7 +4,7 @@ import pdfjs from 'pdfjs-dist/webpack'
 import PropTypes from 'prop-types'
 import GlobalContext from 'store/configureContext'
 
-import 'components/pdf-loader/PDFLoader.scss'
+import './PDFLoader.scss'
 
 /**
  * Load PDF when this component is inserted into the DOM
