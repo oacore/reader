@@ -11,7 +11,7 @@ const WEBPACK_CONFIG = {
   output: {
     path: DIST_DIR,
     filename: 'index.js',
-    library: 'CORE Reader',
+    library: 'CORE_Reader',
     libraryTarget: 'commonjs',
   },
   resolve: {
@@ -76,6 +76,12 @@ const WEBPACK_DEV_CONFIG = {
 }
 
 const WEBPACK_ZEIT_CONFIG = {
+  entry: `${SRC_DIR}/standalone.jsx`,
+  output: {
+    path: DIST_DIR,
+    filename: 'index.js',
+    library: 'CORE_Reader',
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'CORE Reader development page',
