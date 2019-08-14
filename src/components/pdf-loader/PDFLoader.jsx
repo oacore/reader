@@ -15,6 +15,7 @@ const PDFLoader = ({ pdfUrl, children }) => {
   // Load document on mount
   useEffect(() => {
     const loadPDFDocument = async () => {
+      context.setPDFUrl(pdfUrl)
       const pdfDocument = await pdfjs.getDocument(pdfUrl).promise
       context.setPDFDocument(pdfDocument)
     }
