@@ -1,0 +1,43 @@
+.pdf-outline-view {
+  margin-top: 30px;
+  margin-left: 20px;
+
+  &.outlineWithDeepNesting > .outlineItem,
+  .outlineItem > .outlineItems {
+    margin-left: 20px;
+  }
+
+  .outlineItem > a {
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 1px;
+    padding: 2px 4px 5px 0;
+  }
+
+  .outlineItemToggler {
+    position: relative;
+    height: 0;
+    width: 0;
+
+    &::before {
+      content: url(assets/treeitem-expanded.png);
+      display: inline-block;
+      position: absolute;
+      right: 10px;
+      top: 3px;
+      cursor: pointer;
+    }
+
+
+    &.outlineItemsHidden {
+      &::before {
+        content: url(assets/treeitem-collapsed.png);
+      }
+
+      ~ .outlineItems {
+        display: none;
+      }
+    }
+  }
+}
+

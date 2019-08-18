@@ -6,7 +6,8 @@
     fill: #424242;
   }
 
-  &.active path {
-    fill: #b75526 !important;
+  &.active path,
+  &:hover path {
+    fill: #b75526;
   }
 }

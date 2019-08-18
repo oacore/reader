@@ -14,6 +14,7 @@ class GlobalProvider extends React.Component {
     // eslint-disable-next-line react/no-unused-state
     pdfUrl: null,
     isThumbnailViewVisible: false,
+    isOutlineViewVisible: false,
   }
 
   render() {
@@ -30,11 +31,21 @@ class GlobalProvider extends React.Component {
             }),
           // eslint-disable-next-line react/no-unused-state
           setPDFUrl: pdfUrl => this.setState({ pdfUrl }),
-          isSidebarOpen: this.state.isThumbnailViewVisible,
+          isSidebarOpen:
+            this.state.isThumbnailViewVisible ||
+            this.state.isOutlineViewVisible,
           toggleIsThumbnailViewVisible: () =>
             this.setState(state => {
               return {
                 isThumbnailViewVisible: !state.isThumbnailViewVisible,
+                isOutlineViewVisible: false,
+              }
+            }),
+          toggleIsOutlineViewVisible: () =>
+            this.setState(state => {
+              return {
+                isOutlineViewVisible: !state.isOutlineViewVisible,
+                isThumbnailViewVisible: false,
               }
             }),
         }}

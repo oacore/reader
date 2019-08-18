@@ -53,12 +53,19 @@ class PDFThumbnailSidebar extends React.PureComponent {
   }
 
   render() {
+    const {
+      context: {
+        state: { isThumbnailViewVisible },
+      },
+    } = this.props
+
     return (
       <div
         ref={node => {
           this.containerNode = node
         }}
         className="pdf-thumbnails-view"
+        style={{ visibility: isThumbnailViewVisible ? 'visible' : 'hidden' }}
       />
     )
   }
