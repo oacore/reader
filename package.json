@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --mode production --progress --colors --config webpack/webpack.config.babel.js",
-    "now-build":"NODE_ENV=zeit webpack --progress --colors --config webpack/webpack.config.babel.js",
+    "now-build": "NODE_ENV=zeit webpack --progress --colors --config webpack/webpack.config.babel.js",
     "start": "webpack-dev-server --config webpack/webpack.config.babel.js",
     "lint": "eslint --ignore-path .gitignore --ext .js,.jsx .",
     "format": "eslint --ignore-path .gitignore --ext .js,.jsx --fix ."
@@ -39,12 +39,11 @@
     "@babel/register": "^7.5.5",
     "babel-loader": "^8.0.6",
     "bootstrap": "^4.3.1",
-    "core-js": "^3.1.4",
     "css-loader": "^3.1.0",
     "file-loader": "^4.1.0",
     "file-saver": "^2.0.2",
     "node-sass": "^4.12.0",
-    "pdfjs-dist": "^2.1.266",
+    "pdfjs-dist": "https://github.com/Joozty/pdf.js/releases/download/3/custom_pdf_js.tgz",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

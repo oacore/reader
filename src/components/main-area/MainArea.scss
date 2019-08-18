@@ -1,0 +1,46 @@
+$sidebar-width: 400px;
+
+.main-area {
+  background: #C4C4C4;
+  height: 93vh;
+  position: relative;
+  > div {
+    height: inherit;
+  }
+
+  .sidebar {
+    position: absolute;
+    left: -$sidebar-width;
+    width: $sidebar-width;
+    border-right: #7e7e7e;
+    border-right-width: 2px;
+    border-right-style: solid;
+    bottom: 0;
+    overflow: auto;
+  }
+
+  .sidebar,
+  .pdf-container
+  {
+    transition: left 200ms ease;
+  }
+
+  .pdf-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+  }
+
+  &.sidebar-open {
+    .sidebar {
+      left: 0;
+    }
+
+    .pdf-container{
+      left: $sidebar-width
+    }
+  }
+}

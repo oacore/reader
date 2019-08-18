@@ -10,22 +10,70 @@ import InfoIcon from 'components/icons/assests/info.svg'
 import PrintIcon from 'components/icons/assests/print.svg'
 import ShareIcon from 'components/icons/assests/share.svg'
 
-const Icon = React.memo(({ iconType }) => {
+const Icon = React.memo(({ iconType, isActive = false }) => {
+  // `key` property has to be specified otherwise component
+  // won't rerender when isActive changes
+  // `react-inlinesvg` rerenders SVG component only
+  // when value of `src` is changed
+  const uniqueHash = `${iconType}.reader-icon.${isActive ? 'active' : ''}`
+
   switch (iconType) {
     case 'download':
-      return <SVG src={DownloadIcon} className="reader-icon" />
+      return (
+        <SVG
+          key={uniqueHash}
+          src={DownloadIcon}
+          className={`reader-icon ${isActive ? 'active' : ''}`}
+        />
+      )
     case 'outline':
-      return <SVG src={OutlineIcon} className="reader-icon" />
+      return (
+        <SVG
+          key={uniqueHash}
+          src={OutlineIcon}
+          className={`reader-icon ${isActive ? 'active' : ''}`}
+        />
+      )
     case 'thumbnails':
-      return <SVG src={ThumbnailsIcon} className="reader-icon" />
+      return (
+        <SVG
+          key={uniqueHash}
+          src={ThumbnailsIcon}
+          className={`reader-icon ${isActive ? 'active' : ''}`}
+        />
+      )
     case 'paper_info':
-      return <SVG src={PaperInfoIcon} className="reader-icon" />
+      return (
+        <SVG
+          key={uniqueHash}
+          src={PaperInfoIcon}
+          className={`reader-icon ${isActive ? 'active' : ''}`}
+        />
+      )
     case 'info':
-      return <SVG src={InfoIcon} className="reader-icon" />
+      return (
+        <SVG
+          key={uniqueHash}
+          src={InfoIcon}
+          className={`reader-icon ${isActive ? 'active' : ''}`}
+        />
+      )
     case 'print':
-      return <SVG src={PrintIcon} className="reader-icon" />
+      return (
+        <SVG
+          key={uniqueHash}
+          src={PrintIcon}
+          className={`reader-icon ${isActive ? 'active' : ''}`}
+        />
+      )
     case 'share':
-      return <SVG src={ShareIcon} className="reader-icon" />
+      return (
+        <SVG
+          key={uniqueHash}
+          src={ShareIcon}
+          className={`reader-icon ${isActive ? 'active' : ''}`}
+        />
+      )
     default:
       return null
   }

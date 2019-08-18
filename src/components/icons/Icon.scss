@@ -5,4 +5,8 @@
   path {
     fill: #424242;
   }
+
+  &.active path {
+    fill: #b75526 !important;
+  }
 }

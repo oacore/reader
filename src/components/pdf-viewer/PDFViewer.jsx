@@ -1,10 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import withAppContext from 'store/withAppContext'
 import {
-  PDFPageView as _PDFPageView,
-  DefaultTextLayerFactory,
+  PDFViewer as _PDFViewer,
+  PDFLinkService as _PDFLinkService,
+  EventBus as _PDFEventBus,
 } from 'pdfjs-dist/web/pdf_viewer'
+import { PDFRenderingQueue as _PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
 
 import 'pdfjs-dist/web/pdf_viewer.css'
 import './PDFViewer.scss'
@@ -13,53 +14,78 @@ class PDFViewer extends React.PureComponent {
   containerNode = null
 
   componentDidMount() {
-    /**
-     * Load PDF when this component is inserted into the DOM
-     */
     const {
       context: {
-        state: { pdfDocument },
+        state: {
+          pdfDocument: { pdfDocumentProxy },
+        },
+        setPDFDocument,
       },
     } = this.props
 
-    // iterates over every page in PDF file and draw it
-    const pagesCount = pdfDocument.numPages
-    for (let pageNum = 1; pageNum <= pagesCount; pageNum++) {
-      pdfDocument.getPage(pageNum).then(currentPage => {
-        const pdfPageView = new _PDFPageView({
-          container: this.containerNode,
-          id: pageNum,
-          scale: 1.0, // Fit the whole container
-          defaultViewport: currentPage.getViewport({ scale: 1.0 }),
+    // Create shared Queue for rendering pages and thumbnails
+    this.pdfRenderingQueue = new _PDFRenderingQueue()
 
-          // allows to copy/highlight text in PDF
-          textLayerFactory: new DefaultTextLayerFactory(),
-        })
+    // Bus used for catching all events from PDF.js
+    this.pdfEventBus = new _PDFEventBus({ dispatchToDOM: false })
 
-        // Associate the actual page with the view and draw it.
-        pdfPageView.setPdfPage(currentPage)
-        pdfPageView.draw()
-      })
-    }
+    // Link service allows to clicking on internal links in PDF
+    this.pdfLinkService = new _PDFLinkService()
+
+    // PDFViewer allows to render pages on demand,
+    // i.e. page is render only when is visible
+    // This PDFViewer makes animations (sidebar open/closed) much more faster.
+    this.viewer = new _PDFViewer({
+      container: this.containerNode,
+      enhanceTextSelection: true,
+      renderingQueue: this.pdfRenderingQueue,
+      eventBus: this.pdfEventBus,
+      linkService: this.pdfLinkService,
+    })
+
+    this.pdfEventBus.on('pagesinit', () => {
+      this.viewer.update()
+    })
+
+    this.pdfEventBus.on('rotationchanging', () => {
+      this.viewer.update()
+    })
+
+    this.pdfRenderingQueue.setViewer(this.viewer)
+    this.pdfLinkService.setViewer(this.viewer)
+
+    this.viewer.setDocument(pdfDocumentProxy)
+    this.pdfLinkService.setDocument(pdfDocumentProxy)
+
+    setPDFDocument({
+      pdfLinkService: this.pdfLinkService,
+      pdfRenderingQueue: this.pdfRenderingQueue,
+      pdfEventBus: this.pdfEventBus,
+      pdfViewer: this.viewer,
+    })
   }
 
+  componentWillUnmount() {
+    // unregister all event listeners
+    this.pdfEventBus.off('pagesinit')
+    this.pdfEventBus.off('rotationchanging')
+  }
+
+  // It's important to use `pdfViewer` class in inner element.
+  // It allows to use custom PDF.js styles, i.e. loading animation
+  // when particular PDF page is not rendered
   render() {
     return (
-      <div className="pdf-highlighter">
-        <div
-          ref={node => {
-            this.containerNode = node
-          }}
-          className="pdf-viewer"
-        />
+      <div
+        className="pdf-container"
+        ref={node => {
+          this.containerNode = node
+        }}
+      >
+        <div className="pdfViewer" />
       </div>
     )
   }
-}
-
-PDFViewer.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  context: PropTypes.object.isRequired, // TODO: Type it better
 }
 
 export default withAppContext(PDFViewer)
