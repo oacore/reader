@@ -44,11 +44,7 @@ class PDFViewer extends React.PureComponent {
     })
 
     this.pdfEventBus.on('pagesinit', () => {
-      this.viewer.update()
-    })
-
-    this.pdfEventBus.on('rotationchanging', () => {
-      this.viewer.update()
+      this.viewer.currentScaleValue = 'auto'
     })
 
     this.pdfRenderingQueue.setViewer(this.viewer)
@@ -68,7 +64,6 @@ class PDFViewer extends React.PureComponent {
   componentWillUnmount() {
     // unregister all event listeners
     this.pdfEventBus.off('pagesinit')
-    this.pdfEventBus.off('rotationchanging')
   }
 
   // It's important to use `pdfViewer` class in inner element.

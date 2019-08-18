@@ -12,15 +12,21 @@ const Header = () => {
       pdfDocument: { pdfDocumentProxy },
       pdfUrl,
       isThumbnailViewVisible,
+      isOutlineViewVisible,
     },
     toggleIsThumbnailViewVisible,
+    toggleIsOutlineViewVisible,
   } = useContext(GlobalContext)
 
   return (
     <Navbar light color="light" className="header" tag="header">
       <div className="item d-flex justify-content-start">
-        <button type="button" className="btn p-0 mr-3">
-          <Icon iconType="outline" />
+        <button
+          type="button"
+          className="btn p-0 mr-3"
+          onClick={toggleIsOutlineViewVisible}
+        >
+          <Icon iconType="outline" isActive={isOutlineViewVisible} />
         </button>
         <button
           type="button"
