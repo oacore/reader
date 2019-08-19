@@ -9,9 +9,16 @@ import { PDFRenderingQueue as _PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_
 
 import 'pdfjs-dist/web/pdf_viewer.css'
 import './PDFViewer.scss'
+import PDFToolbar from 'components/pdf-toolbar/PDFToolbar'
 
 class PDFViewer extends React.PureComponent {
   containerNode = null
+
+  viewer = null
+
+  state = {
+    toolbarEnabled: false,
+  }
 
   componentDidMount() {
     const {
@@ -30,7 +37,7 @@ class PDFViewer extends React.PureComponent {
     this.pdfEventBus = new _PDFEventBus({ dispatchToDOM: false })
 
     // Link service allows to clicking on internal links in PDF
-    this.pdfLinkService = new _PDFLinkService()
+    this.pdfLinkService = new _PDFLinkService(this.pdfEventBus)
 
     // PDFViewer allows to render pages on demand,
     // i.e. page is render only when is visible
@@ -45,6 +52,7 @@ class PDFViewer extends React.PureComponent {
 
     this.pdfEventBus.on('pagesinit', () => {
       this.viewer.currentScaleValue = 'auto'
+      this.setState({ toolbarEnabled: true })
     })
 
     this.pdfRenderingQueue.setViewer(this.viewer)
@@ -70,6 +78,8 @@ class PDFViewer extends React.PureComponent {
   // It allows to use custom PDF.js styles, i.e. loading animation
   // when particular PDF page is not rendered
   render() {
+    const { toolbarEnabled } = this.state
+
     return (
       <div
         className="pdf-container"
@@ -78,6 +88,9 @@ class PDFViewer extends React.PureComponent {
         }}
       >
         <div className="pdfViewer" />
+        {toolbarEnabled && (
+          <PDFToolbar pdfViewer={this.viewer} pdfEventBus={this.pdfEventBus} />
+        )}
       </div>
     )
   }
