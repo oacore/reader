@@ -16,7 +16,6 @@ plugins:
 rules:
   curly: [error, multi-or-nest]
   eqeqeq: [error, smart]
-  no-plusplus: [error, { allowForLoopAfterthoughts: true }]
   no-param-reassign: [error, { props: false }]
   max-len: [error, {
     code: 80,
@@ -38,6 +37,7 @@ rules:
   }]
   no-underscore-dangle: off
   no-bitwise: off
+  no-plusplus: off
 
 settings:
   import/resolver:
