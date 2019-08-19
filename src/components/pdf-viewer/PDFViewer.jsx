@@ -50,10 +50,7 @@ class PDFViewer extends React.PureComponent {
       linkService: this.pdfLinkService,
     })
 
-    this.pdfEventBus.on('pagesinit', () => {
-      this.viewer.currentScaleValue = 'auto'
-      this.setState({ toolbarEnabled: true })
-    })
+    this.pdfEventBus.on('pagesinit', this.onPagesInit)
 
     this.pdfRenderingQueue.setViewer(this.viewer)
     this.pdfLinkService.setViewer(this.viewer)
@@ -71,7 +68,12 @@ class PDFViewer extends React.PureComponent {
 
   componentWillUnmount() {
     // unregister all event listeners
-    this.pdfEventBus.off('pagesinit')
+    this.pdfEventBus.off('pagesinit', this.onPagesInit)
+  }
+
+  onPagesInit = () => {
+    this.viewer.currentScaleValue = 'auto'
+    this.setState({ toolbarEnabled: true })
   }
 
   // It's important to use `pdfViewer` class in inner element.
