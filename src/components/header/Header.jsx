@@ -40,7 +40,19 @@ const Header = () => {
         </button>
       </div>
       <div className="item d-flex justify-content-center">
-        <button type="button" className="btn p-0">
+        <button
+          type="button"
+          className="btn p-0"
+          disabled={pdfMetadata.id === null}
+          onClick={() => {
+            const coreHostname = 'core.ac.uk'
+            const pdfMetadataSuffix = `display/${pdfMetadata.id}`
+            if (window.location.hostname === coreHostname)
+              window.location.pathname = pdfMetadataSuffix
+            else
+              window.location = `https://${coreHostname}/${pdfMetadataSuffix}`
+          }}
+        >
           <Icon iconType="info" />
         </button>
       </div>
