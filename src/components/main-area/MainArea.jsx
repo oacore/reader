@@ -7,7 +7,7 @@ import GlobalContext from 'store/configureContext'
 
 import './MainArea.scss'
 
-const MainArea = () => {
+const MainArea = ({ pdfUrl }) => {
   const {
     state: {
       pdfDocument: { pdfDocumentProxy, pdfLinkService },
@@ -21,7 +21,7 @@ const MainArea = () => {
         {pdfDocumentProxy && pdfLinkService && <PDFThumbnailSidebar />}
         {pdfDocumentProxy && pdfLinkService && <PDFOutlineSidebar />}
       </div>
-      <PDFLoader pdfUrl="https://arxiv.org/pdf/1907.11915.pdf">
+      <PDFLoader pdfUrl={pdfUrl}>
         <PDFViewer />
       </PDFLoader>
     </div>
