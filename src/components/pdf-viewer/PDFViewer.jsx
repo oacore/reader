@@ -44,7 +44,7 @@ class PDFViewer extends React.PureComponent {
     // PDFViewer allows to render pages on demand,
     // i.e. page is render only when is visible
     // This PDFViewer makes animations (sidebar open/closed) much more faster.
-    this.viewer = new _PDFViewer({
+    this.pdfViewer = new _PDFViewer({
       container: this.containerNode,
       viewer: this.viewerNode,
       enhanceTextSelection: true,
@@ -55,17 +55,17 @@ class PDFViewer extends React.PureComponent {
 
     this.pdfEventBus.on('pagesinit', this.onPagesInit)
 
-    this.pdfRenderingQueue.setViewer(this.viewer)
-    this.pdfLinkService.setViewer(this.viewer)
+    this.pdfRenderingQueue.setViewer(this.pdfViewer)
+    this.pdfLinkService.setViewer(this.pdfViewer)
 
-    this.viewer.setDocument(pdfDocumentProxy)
+    this.pdfViewer.setDocument(pdfDocumentProxy)
     this.pdfLinkService.setDocument(pdfDocumentProxy)
 
     setPDFDocument({
       pdfLinkService: this.pdfLinkService,
       pdfRenderingQueue: this.pdfRenderingQueue,
       pdfEventBus: this.pdfEventBus,
-      pdfViewer: this.viewer,
+      pdfViewer: this.pdfViewer,
     })
   }
 
@@ -75,7 +75,7 @@ class PDFViewer extends React.PureComponent {
   }
 
   onPagesInit = () => {
-    this.viewer.currentScaleValue = 'auto'
+    this.pdfViewer.currentScaleValue = 'auto'
     this.setState({ toolbarEnabled: true })
   }
 
@@ -99,7 +99,10 @@ class PDFViewer extends React.PureComponent {
           className="pdfViewer"
         />
         {toolbarEnabled && (
-          <PDFToolbar pdfViewer={this.viewer} pdfEventBus={this.pdfEventBus} />
+          <PDFToolbar
+            pdfViewer={this.pdfViewer}
+            pdfEventBus={this.pdfEventBus}
+          />
         )}
       </div>
     )

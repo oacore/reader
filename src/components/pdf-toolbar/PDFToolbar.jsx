@@ -17,6 +17,29 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
 
   return (
     <div className="pdf-toolbar d-flex flex-row justify-content-end align-items-center">
+      <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-5">
+        <button
+          type="button"
+          className="btn p-2"
+          onClick={() => {
+            const delta = 90
+            pdfViewer.pagesRotation =
+              (pdfViewer.pagesRotation + 360 + delta) % 360
+
+            // important to rerender otherwise page becomes slightly
+            // blurred until scroll event occurs
+            pdfViewer.update()
+          }}
+        >
+          <Icon iconType="rotate" />
+        </button>
+        <button type="button" className="btn p-2" onClick={() => {}}>
+          <Icon iconType="zoom-in" />
+        </button>
+        <button type="button" className="btn p-2" onClick={() => {}}>
+          <Icon iconType="zoom-out" />
+        </button>
+      </div>
       <div className="pdf-pagination d-flex flex-row align-items-center justify-content-between mr-5">
         <button
           type="button"

@@ -10,6 +10,7 @@ class GlobalProvider extends React.Component {
       pdfDocumentProxy: null,
       pdfRenderingQueue: null,
       pdfEventBus: null,
+      pdfViewer: null,
     },
     // eslint-disable-next-line react/no-unused-state
     pdfUrl: null,
