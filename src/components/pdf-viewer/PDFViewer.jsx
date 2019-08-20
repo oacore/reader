@@ -14,6 +14,8 @@ import PDFToolbar from 'components/pdf-toolbar/PDFToolbar'
 class PDFViewer extends React.PureComponent {
   containerNode = null
 
+  viewerNode = null
+
   viewer = null
 
   state = {
@@ -44,6 +46,7 @@ class PDFViewer extends React.PureComponent {
     // This PDFViewer makes animations (sidebar open/closed) much more faster.
     this.viewer = new _PDFViewer({
       container: this.containerNode,
+      viewer: this.viewerNode,
       enhanceTextSelection: true,
       renderingQueue: this.pdfRenderingQueue,
       eventBus: this.pdfEventBus,
@@ -89,7 +92,12 @@ class PDFViewer extends React.PureComponent {
           this.containerNode = node
         }}
       >
-        <div className="pdfViewer" />
+        <div
+          ref={node => {
+            this.viewerNode = node
+          }}
+          className="pdfViewer"
+        />
         {toolbarEnabled && (
           <PDFToolbar pdfViewer={this.viewer} pdfEventBus={this.pdfEventBus} />
         )}
