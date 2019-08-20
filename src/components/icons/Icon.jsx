@@ -11,6 +11,9 @@ import PrintIcon from 'components/icons/assests/print.svg'
 import ShareIcon from 'components/icons/assests/share.svg'
 import LeftArrowIcon from 'components/icons/assests/left-arrow.svg'
 import RightArrowIcon from 'components/icons/assests/right-arrow.svg'
+import RotateIcon from 'components/icons/assests/rotate.svg'
+import ZoomInIcon from 'components/icons/assests/zoom-in.svg'
+import ZoomOutIcon from 'components/icons/assests/zoom-out.svg'
 
 const Icon = React.memo(({ iconType, isActive = false }) => {
   // `key` property has to be specified otherwise component
@@ -90,6 +93,33 @@ const Icon = React.memo(({ iconType, isActive = false }) => {
         <SVG
           key={uniqueHash}
           src={RightArrowIcon}
+          className={`reader-icon ${isActive ? 'active' : ''}`}
+        />
+      )
+
+    case 'zoom-in':
+      return (
+        <SVG
+          key={uniqueHash}
+          src={ZoomInIcon}
+          className={`reader-icon ${isActive ? 'active' : ''}`}
+        />
+      )
+
+    case 'zoom-out':
+      return (
+        <SVG
+          key={uniqueHash}
+          src={ZoomOutIcon}
+          className={`reader-icon ${isActive ? 'active' : ''}`}
+        />
+      )
+
+    case 'rotate':
+      return (
+        <SVG
+          key={uniqueHash}
+          src={RotateIcon}
           className={`reader-icon ${isActive ? 'active' : ''}`}
         />
       )
