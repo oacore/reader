@@ -3,8 +3,29 @@ import Icon from 'components/icons/Icon'
 
 import './PDFToolbar.scss'
 
+const MIN_SCALE = 0.1
+const MAX_SCALE = 10.0
+const DEFAULT_SCALE_DELTA = 1.1
+
 const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
   const [, currPageChange] = useState(1)
+  const [, scaleChange] = useState(0)
+
+  const zoomIn = () => {
+    let newScale = pdfViewer.currentScale
+    newScale = (newScale * DEFAULT_SCALE_DELTA).toFixed(2)
+    newScale = Math.ceil(newScale * 10) / 10
+    newScale = Math.min(MAX_SCALE, newScale)
+    pdfViewer.currentScaleValue = newScale
+  }
+
+  const zoomOut = () => {
+    let newScale = pdfViewer.currentScale
+    newScale = (newScale / DEFAULT_SCALE_DELTA).toFixed(2)
+    newScale = Math.floor(newScale * 10) / 10
+    newScale = Math.max(MIN_SCALE, newScale)
+    pdfViewer.currentScaleValue = newScale
+  }
 
   useEffect(() => {
     // component didMount
@@ -33,10 +54,28 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
         >
           <Icon iconType="rotate" />
         </button>
-        <button type="button" className="btn p-2" onClick={() => {}}>
+        <button
+          type="button"
+          className="btn p-2"
+          disabled={pdfViewer.currentScaleValue >= MAX_SCALE}
+          onClick={() => {
+            zoomIn()
+            scaleChange(pdfViewer.currentScaleValue)
+            pdfViewer.update()
+          }}
+        >
           <Icon iconType="zoom-in" />
         </button>
-        <button type="button" className="btn p-2" onClick={() => {}}>
+        <button
+          type="button"
+          className="btn p-2"
+          disabled={pdfViewer.currentScaleValue <= MIN_SCALE}
+          onClick={() => {
+            zoomOut()
+            scaleChange(pdfViewer.currentScaleValue)
+            pdfViewer.update()
+          }}
+        >
           <Icon iconType="zoom-out" />
         </button>
       </div>
