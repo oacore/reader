@@ -3,16 +3,16 @@ import GlobalContext from 'store/configureContext'
 
 class GlobalProvider extends React.Component {
   state = {
-    // TODO: Find better way how to do it
-    // eslint-disable-next-line react/no-unused-state
     pdfDocument: {
       pdfLinkService: null,
       pdfDocumentProxy: null,
       pdfRenderingQueue: null,
       pdfEventBus: null,
     },
-    // eslint-disable-next-line react/no-unused-state
-    pdfUrl: null,
+    pdfMetadata: {
+      url: null,
+      id: null,
+    },
     isThumbnailViewVisible: false,
     isOutlineViewVisible: false,
   }
@@ -29,8 +29,12 @@ class GlobalProvider extends React.Component {
                 pdfDocument: { ...state.pdfDocument, ...pdfDocument },
               }
             }),
-          // eslint-disable-next-line react/no-unused-state
-          setPDFUrl: pdfUrl => this.setState({ pdfUrl }),
+          setPDFMetadata: metadata =>
+            this.setState(state => {
+              return {
+                pdfMetadata: { ...state.pdfMetadata, ...metadata },
+              }
+            }),
           isSidebarOpen:
             this.state.isThumbnailViewVisible ||
             this.state.isOutlineViewVisible,

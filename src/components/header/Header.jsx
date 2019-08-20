@@ -10,7 +10,7 @@ const Header = () => {
   const {
     state: {
       pdfDocument: { pdfDocumentProxy },
-      pdfUrl,
+      pdfMetadata,
       isThumbnailViewVisible,
       isOutlineViewVisible,
     },
@@ -52,7 +52,7 @@ const Header = () => {
           type="button"
           className="btn p-0 ml-3"
           disabled={!pdfDocumentProxy} // pdf is not loaded yet
-          onClick={() => downloadPDF(pdfDocumentProxy, pdfUrl)}
+          onClick={() => downloadPDF(pdfDocumentProxy, pdfMetadata.url)}
         >
           <Icon iconType="download" />
         </button>
