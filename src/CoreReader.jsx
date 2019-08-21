@@ -5,12 +5,12 @@ import GlobalProvider from 'store/GlobalProvider'
 
 import 'components/bootstrap/bootstrap.scss'
 
-const CoreReader = ({ pdfUrl, pdfId }) => {
+const CoreReader = props => {
   return (
     <GlobalProvider>
       <div>
         <Header />
-        <MainArea pdfUrl={pdfUrl} pdfId={pdfId} />
+        <MainArea {...props} />
       </div>
     </GlobalProvider>
   )

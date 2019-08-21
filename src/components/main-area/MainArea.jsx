@@ -7,7 +7,7 @@ import GlobalContext from 'store/configureContext'
 
 import './MainArea.scss'
 
-const MainArea = ({ pdfUrl, pdfId }) => {
+const MainArea = ({ pdfUrl, ...pdfMetadata }) => {
   const {
     state: {
       pdfDocument: { pdfDocumentProxy, pdfLinkService },
@@ -17,7 +17,10 @@ const MainArea = ({ pdfUrl, pdfId }) => {
   } = useContext(GlobalContext)
 
   useEffect(() => {
-    setPDFMetadata({ id: pdfId })
+    setPDFMetadata({
+      url: pdfUrl,
+      ...pdfMetadata,
+    })
   }, [])
 
   return (

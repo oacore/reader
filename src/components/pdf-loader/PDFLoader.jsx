@@ -11,7 +11,6 @@ const PDFLoader = React.memo(({ pdfUrl, children }) => {
   // Load document on mount
   useEffect(() => {
     const loadPDFDocument = async () => {
-      context.setPDFMetadata({ url: pdfUrl })
       const pdfDocumentProxy = await pdfjs.getDocument(pdfUrl).promise
       context.setPDFDocument({ pdfDocumentProxy })
     }

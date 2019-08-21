@@ -13,6 +13,9 @@ class GlobalProvider extends React.Component {
     pdfMetadata: {
       url: null,
       id: null,
+      publisher: null,
+      year: null,
+      additionalInfo: null,
     },
     isThumbnailViewVisible: false,
     isOutlineViewVisible: false,

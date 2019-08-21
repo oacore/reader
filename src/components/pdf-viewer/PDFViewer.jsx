@@ -16,10 +16,9 @@ class PDFViewer extends React.PureComponent {
 
   viewerNode = null
 
-  viewer = null
-
   state = {
     toolbarEnabled: false,
+    metadataContainerWidth: null,
   }
 
   componentDidMount() {
@@ -54,6 +53,7 @@ class PDFViewer extends React.PureComponent {
     })
 
     this.pdfEventBus.on('pagesinit', this.onPagesInit)
+    this.pdfEventBus.on('pagesloaded', this.onPagesLoaded)
 
     this.pdfRenderingQueue.setViewer(this.pdfViewer)
     this.pdfLinkService.setViewer(this.pdfViewer)
@@ -72,18 +72,50 @@ class PDFViewer extends React.PureComponent {
   componentWillUnmount() {
     // unregister all event listeners
     this.pdfEventBus.off('pagesinit', this.onPagesInit)
+    this.pdfEventBus.off('pagesloaded', this.onPagesLoaded)
+  }
+
+  onPagesLoaded = () => {
+    this.setState({
+      metadataContainerWidth: this.pdfViewer.getPageView(0).width,
+    })
   }
 
   onPagesInit = () => {
-    this.pdfViewer.currentScaleValue = 'auto'
+    this.pdfViewer._setScale('auto', /* no_scroll */ true)
+    this.pdfViewer.update()
     this.setState({ toolbarEnabled: true })
+  }
+
+  Metadata = ({ pdfMetadata }) => {
+    return (
+      <div
+        className="pdf-metadata d-flex justify-content-between pt-2"
+        style={{
+          width: this.state.metadataContainerWidth,
+        }}
+      >
+        <div className="pdf-metadata-left">
+          {pdfMetadata.additionalInfo}
+        </div>
+        <div className="pdf-metadata-right">
+          {pdfMetadata.publisher}, <b>{pdfMetadata.year}</b>
+        </div>
+      </div>
+    )
   }
 
   // It's important to use `pdfViewer` class in inner element.
   // It allows to use custom PDF.js styles, i.e. loading animation
   // when particular PDF page is not rendered
   render() {
-    const { toolbarEnabled } = this.state
+    const { toolbarEnabled, metadataContainerWidth } = this.state
+    const {
+      context: {
+        state: { pdfMetadata },
+      },
+    } = this.props
+    const { Metadata } = this
 
     return (
       <div
@@ -92,6 +124,7 @@ class PDFViewer extends React.PureComponent {
           this.containerNode = node
         }}
       >
+        {metadataContainerWidth && <Metadata pdfMetadata={pdfMetadata} />}
         <div
           ref={node => {
             this.viewerNode = node
