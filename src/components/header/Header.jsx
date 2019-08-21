@@ -13,9 +13,11 @@ const Header = () => {
       pdfMetadata,
       isThumbnailViewVisible,
       isOutlineViewVisible,
+      isEnhancementViewVisible,
     },
     toggleIsThumbnailViewVisible,
     toggleIsOutlineViewVisible,
+    toggleIsEnhancementViewVisible,
   } = useContext(GlobalContext)
 
   return (
@@ -35,8 +37,12 @@ const Header = () => {
         >
           <Icon iconType="thumbnails" isActive={isThumbnailViewVisible} />
         </button>
-        <button type="button" className="btn p-0">
-          <Icon iconType="paper_info" />
+        <button
+          type="button"
+          className="btn p-0"
+          onClick={toggleIsEnhancementViewVisible}
+        >
+          <Icon iconType="paper_info" isActive={isEnhancementViewVisible} />
         </button>
       </div>
       <div className="item d-flex justify-content-center">
