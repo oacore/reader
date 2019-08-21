@@ -34,10 +34,8 @@ class PDFThumbnailSidebar extends React.PureComponent {
 
     this.thumbnailViewer.setDocument(pdfDocumentProxy)
 
-    pdfEventBus.on('pagechanging', e => {
-      const page = e.pageNumber
-      this.thumbnailViewer.scrollThumbnailIntoView(page)
-    })
+    pdfEventBus.on('pagechanging', this.onPageChanging)
+    pdfEventBus.on('rotationchanging', this.onRotationChanging)
   }
 
   componentWillUnmount() {
@@ -49,7 +47,28 @@ class PDFThumbnailSidebar extends React.PureComponent {
       },
     } = this.props
 
-    pdfEventBus.off('pagechanging')
+    pdfEventBus.off('pagechanging', this.onPageChanging)
+    pdfEventBus.off('rotationchanging', this.onRotationChanging)
+  }
+
+  onPageChanging = e => {
+    const page = e.pageNumber
+    this.thumbnailViewer.scrollThumbnailIntoView(page)
+  }
+
+  onRotationChanging = e => {
+    const {
+      context: {
+        state: {
+          pdfDocument: { pdfViewer, pdfRenderingQueue },
+        },
+      },
+    } = this.props
+    this.thumbnailViewer.pagesRotation = e.pagesRotation
+
+    pdfRenderingQueue.renderHighestPriority()
+    // Ensure that the active page doesn't change during rotation.
+    pdfViewer.currentPageNumber = e.pageNumber
   }
 
   render() {
