@@ -5,15 +5,17 @@ import GlobalContext from 'store/configureContext'
 import { downloadPDF } from 'components/pdf-downloader/PDFDownloader'
 
 import 'components/header/Header.scss'
+import ReactToPrint from 'react-to-print'
 
 const Header = () => {
   const {
     state: {
-      pdfDocument: { pdfDocumentProxy },
+      pdfDocument: { pdfDocumentProxy, pdfPagesLoaded },
       pdfMetadata,
       isThumbnailViewVisible,
       isOutlineViewVisible,
       isEnhancementViewVisible,
+      printContainerRef,
     },
     toggleIsThumbnailViewVisible,
     toggleIsOutlineViewVisible,
@@ -74,9 +76,18 @@ const Header = () => {
         >
           <Icon iconType="download" />
         </button>
-        <button type="button" className="btn p-0 ml-3">
-          <Icon iconType="print" />
-        </button>
+        <ReactToPrint
+          trigger={() => (
+            <button
+              type="button"
+              className="btn p-0 ml-3"
+              disabled={!pdfPagesLoaded}
+            >
+              <Icon iconType="print" />
+            </button>
+          )}
+          content={() => printContainerRef.current}
+        />
       </div>
     </Navbar>
   )
