@@ -20,6 +20,7 @@ class GlobalProvider extends React.Component {
     isThumbnailViewVisible: false,
     isOutlineViewVisible: false,
     isEnhancementViewVisible: false,
+    printContainerRef: this.props.printContainerRef,
   }
 
   render() {

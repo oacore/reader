@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Header from 'components/header/Header'
 import MainArea from 'components/main-area/MainArea'
 import GlobalProvider from 'store/GlobalProvider'
@@ -9,6 +9,7 @@ import {
 } from 'pdfjs-dist/web/pdf_viewer'
 
 import 'components/bootstrap/bootstrap.scss'
+import PDFPrint from './components/pdf-print/PDFPrint'
 
 const CoreReader = ({ pdfId, pdfUrl, publisher, year, additionalInfo }) => {
   // Create shared Queue for rendering pages and thumbnails
@@ -20,6 +21,8 @@ const CoreReader = ({ pdfId, pdfUrl, publisher, year, additionalInfo }) => {
   // Link service allows to clicking on internal links in PDF
   const pdfLinkService = new _PDFLinkService(pdfEventBus)
 
+  const printContainerRef = useRef()
+
   return (
     <GlobalProvider
       pdfRenderingQueue={pdfRenderingQueue}
@@ -30,7 +33,9 @@ const CoreReader = ({ pdfId, pdfUrl, publisher, year, additionalInfo }) => {
       publisher={publisher}
       year={year}
       additionalInfo={additionalInfo}
+      printContainerRef={printContainerRef}
     >
+      <PDFPrint ref={printContainerRef} />
       <div id="pdf-viewer-container">
         <Header />
         <MainArea />
