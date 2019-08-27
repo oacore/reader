@@ -9,6 +9,7 @@ class GlobalProvider extends React.Component {
       pdfRenderingQueue: this.props.pdfRenderingQueue,
       pdfEventBus: this.props.pdfEventBus,
       pdfViewer: null,
+      pdfPagesLoaded: false,
     },
     pdfMetadata: {
       url: this.props.pdfUrl,

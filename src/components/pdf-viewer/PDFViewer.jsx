@@ -62,8 +62,13 @@ class PDFViewer extends React.PureComponent {
   }
 
   onPagesLoaded = () => {
+    const { setPDFDocument } = this.props
+
     this.setState({
       metadataContainerWidth: this.pdfViewer.getPageView(0).width,
+    })
+    setPDFDocument({
+      pdfPagesLoaded: true,
     })
   }
 
