@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import PDFViewer from 'components/pdf-viewer/PDFViewer'
 import PDFLoader from 'components/pdf-loader/PDFLoader'
 import PDFEnhancementSidebar from 'components/pdf-enhancement-sidebar/PDFEnhancementSidebar'
@@ -8,31 +8,36 @@ import GlobalContext from 'store/configureContext'
 
 import './MainArea.scss'
 
-const MainArea = ({ pdfUrl, ...pdfMetadata }) => {
+const MainArea = () => {
   const {
     state: {
-      pdfDocument: { pdfDocumentProxy, pdfLinkService },
+      pdfDocument: {
+        pdfDocumentProxy,
+        pdfRenderingQueue,
+        pdfEventBus,
+        pdfLinkService,
+      },
+      pdfMetadata,
     },
     isSidebarOpen,
-    setPDFMetadata,
+    setPDFDocument,
   } = useContext(GlobalContext)
-
-  useEffect(() => {
-    setPDFMetadata({
-      url: pdfUrl,
-      ...pdfMetadata,
-    })
-  }, [])
 
   return (
     <div className={`main-area ${isSidebarOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar">
-        {pdfDocumentProxy && pdfLinkService && <PDFThumbnailSidebar />}
-        {pdfDocumentProxy && pdfLinkService && <PDFOutlineSidebar />}
+        {pdfDocumentProxy && <PDFThumbnailSidebar />}
+        {pdfDocumentProxy && <PDFOutlineSidebar />}
         <PDFEnhancementSidebar />
       </div>
-      <PDFLoader pdfUrl={pdfUrl}>
-        <PDFViewer />
+      <PDFLoader pdfUrl={pdfMetadata.url} pdfDocumentProxy={pdfDocumentProxy}>
+        <PDFViewer
+          pdfLinkService={pdfLinkService}
+          pdfEventBus={pdfEventBus}
+          pdfRenderingQueue={pdfRenderingQueue}
+          pdfMetadata={pdfMetadata}
+          setPDFDocument={setPDFDocument}
+        />
       </PDFLoader>
     </div>
   )

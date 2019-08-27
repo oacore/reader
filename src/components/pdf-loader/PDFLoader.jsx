@@ -1,31 +1,27 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import React, { useEffect, useState, cloneElement } from 'react'
 import Spinner from 'reactstrap/es/Spinner'
 import pdfjs from 'pdfjs-dist/webpack'
-import GlobalContext from 'store/configureContext'
 
 import './PDFLoader.scss'
 
 const PDFLoader = React.memo(({ pdfUrl, children }) => {
-  const context = useContext(GlobalContext)
+  const [pdfDocumentProxy, setPdfDocumentProxy] = useState(null)
 
   // Load document on mount
   useEffect(() => {
     const loadPDFDocument = async () => {
-      const pdfDocumentProxy = await pdfjs.getDocument(pdfUrl).promise
-      context.setPDFDocument({ pdfDocumentProxy })
+      setPdfDocumentProxy(await pdfjs.getDocument(pdfUrl).promise)
     }
     loadPDFDocument()
   }, [])
 
-  return useMemo(() => {
-    if (context.state.pdfDocument.pdfDocumentProxy) return children
+  if (pdfDocumentProxy) return cloneElement(children, { pdfDocumentProxy })
 
-    return (
-      <div className="pdf-loader">
-        <Spinner />
-      </div>
-    )
-  }, [context.state.pdfDocument.pdfDocumentProxy])
+  return (
+    <div className="pdf-loader">
+      <Spinner />
+    </div>
+  )
 })
 
 export default PDFLoader

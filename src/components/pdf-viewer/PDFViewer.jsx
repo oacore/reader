@@ -1,11 +1,5 @@
 import React from 'react'
-import withAppContext from 'store/withAppContext'
-import {
-  PDFViewer as _PDFViewer,
-  PDFLinkService as _PDFLinkService,
-  EventBus as _PDFEventBus,
-} from 'pdfjs-dist/web/pdf_viewer'
-import { PDFRenderingQueue as _PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
+import { PDFViewer as _PDFViewer } from 'pdfjs-dist/web/pdf_viewer'
 
 import 'pdfjs-dist/web/pdf_viewer.css'
 import './PDFViewer.scss'
@@ -16,6 +10,8 @@ class PDFViewer extends React.PureComponent {
 
   viewerNode = null
 
+  pdfViewer = null
+
   state = {
     toolbarEnabled: false,
     metadataContainerWidth: null,
@@ -23,22 +19,12 @@ class PDFViewer extends React.PureComponent {
 
   componentDidMount() {
     const {
-      context: {
-        state: {
-          pdfDocument: { pdfDocumentProxy },
-        },
-        setPDFDocument,
-      },
+      pdfLinkService,
+      pdfEventBus,
+      pdfRenderingQueue,
+      setPDFDocument,
+      pdfDocumentProxy,
     } = this.props
-
-    // Create shared Queue for rendering pages and thumbnails
-    this.pdfRenderingQueue = new _PDFRenderingQueue()
-
-    // Bus used for catching all events from PDF.js
-    this.pdfEventBus = new _PDFEventBus({ dispatchToDOM: false })
-
-    // Link service allows to clicking on internal links in PDF
-    this.pdfLinkService = new _PDFLinkService(this.pdfEventBus)
 
     // PDFViewer allows to render pages on demand,
     // i.e. page is render only when is visible
@@ -47,32 +33,32 @@ class PDFViewer extends React.PureComponent {
       container: this.containerNode,
       viewer: this.viewerNode,
       enhanceTextSelection: true,
-      renderingQueue: this.pdfRenderingQueue,
-      eventBus: this.pdfEventBus,
-      linkService: this.pdfLinkService,
+      renderingQueue: pdfRenderingQueue,
+      eventBus: pdfEventBus,
+      linkService: pdfLinkService,
     })
 
-    this.pdfEventBus.on('pagesinit', this.onPagesInit)
-    this.pdfEventBus.on('pagesloaded', this.onPagesLoaded)
+    pdfEventBus.on('pagesinit', this.onPagesInit)
+    pdfEventBus.on('pagesloaded', this.onPagesLoaded)
 
-    this.pdfRenderingQueue.setViewer(this.pdfViewer)
-    this.pdfLinkService.setViewer(this.pdfViewer)
+    pdfRenderingQueue.setViewer(this.pdfViewer)
+    pdfLinkService.setViewer(this.pdfViewer)
 
     this.pdfViewer.setDocument(pdfDocumentProxy)
-    this.pdfLinkService.setDocument(pdfDocumentProxy)
+    pdfLinkService.setDocument(pdfDocumentProxy)
 
     setPDFDocument({
-      pdfLinkService: this.pdfLinkService,
-      pdfRenderingQueue: this.pdfRenderingQueue,
-      pdfEventBus: this.pdfEventBus,
       pdfViewer: this.pdfViewer,
+      pdfDocumentProxy,
     })
   }
 
   componentWillUnmount() {
+    const { pdfEventBus } = this.props
+
     // unregister all event listeners
-    this.pdfEventBus.off('pagesinit', this.onPagesInit)
-    this.pdfEventBus.off('pagesloaded', this.onPagesLoaded)
+    pdfEventBus.off('pagesinit', this.onPagesInit)
+    pdfEventBus.off('pagesloaded', this.onPagesLoaded)
   }
 
   onPagesLoaded = () => {
@@ -108,12 +94,8 @@ class PDFViewer extends React.PureComponent {
   // when particular PDF page is not rendered
   render() {
     const { toolbarEnabled, metadataContainerWidth } = this.state
-    const {
-      context: {
-        state: { pdfMetadata },
-      },
-    } = this.props
-    const { Metadata } = this
+    const { pdfMetadata, pdfEventBus } = this.props
+    const { Metadata, pdfViewer } = this
 
     return (
       <div
@@ -130,14 +112,11 @@ class PDFViewer extends React.PureComponent {
           className="pdfViewer"
         />
         {toolbarEnabled && (
-          <PDFToolbar
-            pdfViewer={this.pdfViewer}
-            pdfEventBus={this.pdfEventBus}
-          />
+          <PDFToolbar pdfViewer={pdfViewer} pdfEventBus={pdfEventBus} />
         )}
       </div>
     )
   }
 }
 
-export default withAppContext(PDFViewer)
+export default PDFViewer

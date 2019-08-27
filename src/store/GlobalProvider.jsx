@@ -4,18 +4,18 @@ import GlobalContext from 'store/configureContext'
 class GlobalProvider extends React.Component {
   state = {
     pdfDocument: {
-      pdfLinkService: null,
+      pdfLinkService: this.props.pdfLinkService,
       pdfDocumentProxy: null,
-      pdfRenderingQueue: null,
-      pdfEventBus: null,
+      pdfRenderingQueue: this.props.pdfRenderingQueue,
+      pdfEventBus: this.props.pdfEventBus,
       pdfViewer: null,
     },
     pdfMetadata: {
-      url: null,
-      id: null,
-      publisher: null,
-      year: null,
-      additionalInfo: null,
+      url: this.props.pdfUrl,
+      id: this.props.pdfId,
+      publisher: this.props.publisher,
+      year: this.props.year,
+      additionalInfo: this.props.additionalInfo,
     },
     isThumbnailViewVisible: false,
     isOutlineViewVisible: false,
