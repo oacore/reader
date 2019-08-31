@@ -1,6 +1,12 @@
 .pdf-outline-view {
-  margin-top: 30px;
-  margin-left: 20px;
+  padding-top: 30px;
+  padding-left: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
 
   &.outlineWithDeepNesting > .outlineItem,
   .outlineItem > .outlineItems {

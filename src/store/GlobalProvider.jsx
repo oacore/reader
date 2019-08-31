@@ -13,9 +13,13 @@ class GlobalProvider extends React.Component {
     pdfMetadata: {
       url: null,
       id: null,
+      publisher: null,
+      year: null,
+      additionalInfo: null,
     },
     isThumbnailViewVisible: false,
     isOutlineViewVisible: false,
+    isEnhancementViewVisible: false,
   }
 
   render() {
@@ -23,7 +27,6 @@ class GlobalProvider extends React.Component {
       <GlobalContext.Provider
         value={{
           state: this.state,
-          // eslint-disable-next-line react/no-unused-state
           setPDFDocument: pdfDocument =>
             this.setState(state => {
               return {
@@ -38,11 +41,21 @@ class GlobalProvider extends React.Component {
             }),
           isSidebarOpen:
             this.state.isThumbnailViewVisible ||
-            this.state.isOutlineViewVisible,
+            this.state.isOutlineViewVisible ||
+            this.state.isEnhancementViewVisible,
           toggleIsThumbnailViewVisible: () =>
             this.setState(state => {
               return {
                 isThumbnailViewVisible: !state.isThumbnailViewVisible,
+                isEnhancementViewVisible: false,
+                isOutlineViewVisible: false,
+              }
+            }),
+          toggleIsEnhancementViewVisible: () =>
+            this.setState(state => {
+              return {
+                isEnhancementViewVisible: !state.isEnhancementViewVisible,
+                isThumbnailViewVisible: false,
                 isOutlineViewVisible: false,
               }
             }),
@@ -51,6 +64,7 @@ class GlobalProvider extends React.Component {
               return {
                 isOutlineViewVisible: !state.isOutlineViewVisible,
                 isThumbnailViewVisible: false,
+                isEnhancementViewVisible: false,
               }
             }),
         }}
