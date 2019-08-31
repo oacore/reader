@@ -90,6 +90,11 @@ const Header = () => {
             return printContainerRef.current.printContainer
           }}
           onBeforeGetContent={() => printContainerRef.current.onBeforePrint()}
+          onAfterPrint={() => printContainerRef.current.onAfterPrint()}
+          // TODO: consider to show some warning to user
+          //       that print wasn't successful
+          onPrintError={() => printContainerRef.current.onAfterPrint()}
+          removeAfterPrint
           copyStyles={false}
           pageStyle={`
             *,
@@ -99,9 +104,9 @@ const Header = () => {
             *, *:before, *:after {
                 box-sizing: inherit;
             }
-            
+
             @page {
-             margin: 0; 
+             margin: 0;
              size: auto;
             }
 
@@ -111,11 +116,11 @@ const Header = () => {
               width: 100%;
               display: block;
             }
-            
+
             #pdf-print-container {
               display: block;
             }
-            
+
             #pdf-print-container > div {
               display: flex;
               flex-direction: column;

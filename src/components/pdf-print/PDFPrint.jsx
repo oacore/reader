@@ -1,6 +1,14 @@
 import React from 'react'
 import { CSS_UNITS } from 'pdfjs-dist/lib/web/ui_utils'
 import withAppContext from 'store/withAppContext'
+import {
+  Progress,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap'
 
 import './PDFPrint.scss'
 
@@ -19,6 +27,13 @@ class PDFPrint extends React.Component {
   printContainer = null
 
   pagesOverview = null
+
+  state = {
+    isPrintModalOpen: false,
+    printProgress: 0,
+  }
+
+  printRejected = false
 
   componentDidMount() {
     // Suppress shortcut for print
@@ -64,6 +79,11 @@ class PDFPrint extends React.Component {
       },
     } = this.props
 
+    this.printRejected = false
+    this.setState({
+      isPrintModalOpen: true,
+    })
+
     if (!pdfViewer.hasEqualPageSizes) {
       // TODO: Consider to show some warning to user
       // eslint-disable-next-line no-console
@@ -76,10 +96,25 @@ class PDFPrint extends React.Component {
     return this._renderPages()
   }
 
+  onAfterPrint = () => {
+    // remove all temporary rendered pages
+    while (this.printContainer.firstChild)
+      this.printContainer.removeChild(this.printContainer.firstChild)
+    this.setState({
+      isPrintModalOpen: false,
+      printProgress: 0,
+    })
+  }
+
   _renderPages = () => {
     let currentPage = -1
     const pageCount = this.pagesOverview.length
     const renderNextPage = (resolve, reject) => {
+      if (this.printRejected) {
+        reject()
+        return
+      }
+
       if (++currentPage >= pageCount) {
         resolve()
         return
@@ -88,6 +123,9 @@ class PDFPrint extends React.Component {
       this._renderPage(currentPage + 1, this.pagesOverview[currentPage])
         .then(this._useRenderedPage)
         .then(() => {
+          this.setState({
+            printProgress: Math.round((100 * currentPage) / pageCount),
+          })
           renderNextPage(resolve, reject)
         }, reject)
     }
@@ -159,14 +197,36 @@ class PDFPrint extends React.Component {
     })
   }
 
+  rejectPrinting = () => {
+    // eslint-disable-next-line no-unused-expressions
+    this.printRejected = true
+    this.setState({ isPrintModalOpen: false })
+  }
+
   render() {
+    const { isPrintModalOpen, printProgress } = this.state
     return (
-      <div
-        id="pdf-print-container"
-        ref={r => {
-          this.printContainer = r
-        }}
-      />
+      <>
+        <div
+          id="pdf-print-container"
+          ref={r => {
+            this.printContainer = r
+          }}
+        />
+        <div>
+          <Modal isOpen={isPrintModalOpen} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggle}>Print in progress</ModalHeader>
+            <ModalBody>
+              <Progress value={printProgress} />
+            </ModalBody>
+            <ModalFooter>
+              <Button color="secondary" onClick={this.rejectPrinting}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </div>
+      </>
     )
   }
 }
