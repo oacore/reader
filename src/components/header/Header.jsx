@@ -86,7 +86,51 @@ const Header = () => {
               <Icon iconType="print" />
             </button>
           )}
-          content={() => printContainerRef.current}
+          content={() => {
+            return printContainerRef.current.printContainer
+          }}
+          onBeforeGetContent={() => printContainerRef.current.onBeforePrint()}
+          copyStyles={false}
+          pageStyle={`
+            *,
+            html {
+                box-sizing: border-box;
+            }
+            *, *:before, *:after {
+                box-sizing: inherit;
+            }
+            
+            @page {
+             margin: 0; 
+             size: auto;
+            }
+
+            body, html {
+              margin: 0;
+              padding: 0;
+              width: 100%;
+              display: block;
+            }
+            
+            #pdf-print-container {
+              display: block;
+            }
+            
+            #pdf-print-container > div {
+              display: flex;
+              flex-direction: column;
+              min-height: 100%;
+              align-items: center;
+              justify-content: center;
+              page-break-after:always;
+              page-break-inside: avoid;
+            }
+
+            #pdf-print-container > div > img {
+              max-width:100%;
+              max-height:100%;
+            }
+          `}
         />
       </div>
     </Navbar>
