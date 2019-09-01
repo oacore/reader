@@ -21,6 +21,7 @@ class GlobalProvider extends React.Component {
     isThumbnailViewVisible: false,
     isOutlineViewVisible: false,
     isEnhancementViewVisible: false,
+    // eslint-disable-next-line react/no-unused-state
     printContainerRef: this.props.printContainerRef,
   }
 
