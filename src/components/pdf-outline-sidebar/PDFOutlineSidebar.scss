@@ -8,42 +8,21 @@
   -webkit-overflow-scrolling: touch;
   width: 100%;
 
-  &.outlineWithDeepNesting > .outlineItem,
-  .outlineItem > .outlineItems {
-    margin-left: 20px;
+  .outline-button {
+    background: none;
+    border: none;
   }
 
-  .outlineItem > a {
-    text-decoration: none;
-    display: inline-block;
-    margin-bottom: 1px;
-    padding: 2px 4px 5px 0;
+  ol {
+    list-style-type:none
   }
 
-  .outlineItemToggler {
-    position: relative;
-    height: 0;
-    width: 0;
+  > div > ol {
+    padding-left: 0;
+  }
 
-    &::before {
-      content: url(assets/treeitem-expanded.png);
-      display: inline-block;
-      position: absolute;
-      right: 10px;
-      top: 3px;
-      cursor: pointer;
-    }
-
-
-    &.outlineItemsHidden {
-      &::before {
-        content: url(assets/treeitem-collapsed.png);
-      }
-
-      ~ .outlineItems {
-        display: none;
-      }
-    }
+  .outline-tree-icon {
+    margin-bottom: 5px;
   }
 }
 
