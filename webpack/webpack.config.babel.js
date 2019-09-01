@@ -81,7 +81,6 @@ const WEBPACK_DEV_CONFIG = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'CORE Reader development page',
       template: `${SRC_DIR}/index.template.html`,
     }),
   ],
