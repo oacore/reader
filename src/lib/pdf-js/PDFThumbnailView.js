@@ -127,7 +127,7 @@ class PDFThumbnailView {
       .then(msg => {
         anchor.title = msg
       })
-    anchor.onclick = function() {
+    anchor.onclick = () => {
       linkService.page = id
       return false
     }
@@ -299,6 +299,7 @@ class PDFThumbnailView {
 
   draw() {
     if (this.renderingState !== RenderingStates.INITIAL) {
+      // eslint-disable-next-line no-console
       console.error('Must be in new state before drawing')
       return Promise.resolve(undefined)
     }
@@ -347,10 +348,10 @@ class PDFThumbnailView {
     renderTask.onContinue = renderContinueCallback
 
     renderTask.promise.then(
-      function() {
+      () => {
         finishRenderTask(null)
       },
-      function(error) {
+      error => {
         finishRenderTask(error)
       }
     )
