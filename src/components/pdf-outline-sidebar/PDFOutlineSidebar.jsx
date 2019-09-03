@@ -1,30 +1,53 @@
 import React from 'react'
-import { PDFOutlineViewer as _PDFOutlineViewer } from 'pdfjs-dist/lib/web/pdf_outline_viewer'
 import withAppContext from 'store/withAppContext'
+import { Spinner } from 'reactstrap'
+import OutlineGroup from './renderers/OutlineRenderer'
 
 import './PDFOutlineSidebar.scss'
 
 class PDFOutlineSidebar extends React.PureComponent {
   containerNode = null
 
+  state = {
+    outline: null,
+    isOutlineLoading: true,
+  }
+
   componentDidMount() {
     const {
       context: {
         state: {
-          pdfDocument: { pdfDocumentProxy, pdfLinkService, pdfEventBus },
+          pdfDocument: { pdfDocumentProxy },
         },
       },
     } = this.props
 
-    this.pdfOutlineViewer = new _PDFOutlineViewer({
-      container: this.containerNode,
-      eventBus: pdfEventBus,
-      linkService: pdfLinkService,
-    })
-
     pdfDocumentProxy.getOutline().then(outline => {
-      this.pdfOutlineViewer.render({ outline })
+      this.setState({
+        isOutlineLoading: false,
+        outline,
+      })
     })
+  }
+
+  Outline = ({ outline }) => {
+    const {
+      context: {
+        state: {
+          pdfDocument: { pdfLinkService },
+        },
+      },
+    } = this.props
+
+    if (outline.length === 0) return <h5>PDF does not contain any outline</h5>
+
+    return (
+      <OutlineGroup
+        isExpanded
+        pdfLinkService={pdfLinkService}
+        outline={outline}
+      />
+    )
   }
 
   render() {
@@ -33,6 +56,8 @@ class PDFOutlineSidebar extends React.PureComponent {
         state: { isOutlineViewVisible },
       },
     } = this.props
+    const { isOutlineLoading, outline } = this.state
+    const { Outline } = this
 
     return (
       <div
@@ -41,7 +66,16 @@ class PDFOutlineSidebar extends React.PureComponent {
         }}
         className="pdf-outline-view"
         style={{ visibility: isOutlineViewVisible ? 'visible' : 'hidden' }}
-      />
+      >
+        {isOutlineLoading ? (
+          <div className="d-flex flex-column justify-content-center">
+            <Spinner color="primary" />
+            <h5>Outline is loading currently</h5>
+          </div>
+        ) : (
+          <Outline outline={outline} />
+        )}
+      </div>
     )
   }
 }
