@@ -5,15 +5,17 @@ import GlobalContext from 'store/configureContext'
 import { downloadPDF } from 'components/pdf-downloader/PDFDownloader'
 
 import 'components/header/Header.scss'
+import ReactToPrint from 'react-to-print'
 
 const Header = () => {
   const {
     state: {
-      pdfDocument: { pdfDocumentProxy },
+      pdfDocument: { pdfDocumentProxy, pdfPagesLoaded },
       pdfMetadata,
       isThumbnailViewVisible,
       isOutlineViewVisible,
       isEnhancementViewVisible,
+      printContainerRef,
     },
     toggleIsThumbnailViewVisible,
     toggleIsOutlineViewVisible,
@@ -74,9 +76,67 @@ const Header = () => {
         >
           <Icon iconType="download" />
         </button>
-        <button type="button" className="btn p-0 ml-3">
-          <Icon iconType="print" />
-        </button>
+        <ReactToPrint
+          trigger={() => (
+            <button
+              type="button"
+              className="btn p-0 ml-3"
+              disabled={!pdfPagesLoaded}
+            >
+              <Icon iconType="print" />
+            </button>
+          )}
+          content={() => {
+            return printContainerRef.current.printContainer
+          }}
+          onBeforeGetContent={() => printContainerRef.current.onBeforePrint()}
+          onAfterPrint={() => printContainerRef.current.onAfterPrint()}
+          // TODO: consider to show some warning to user
+          //       that print wasn't successful
+          onPrintError={() => printContainerRef.current.onAfterPrint()}
+          removeAfterPrint
+          copyStyles={false}
+          pageStyle={`
+            *,
+            html {
+                box-sizing: border-box;
+            }
+            *, *:before, *:after {
+                box-sizing: inherit;
+            }
+
+            @page {
+             margin: 0;
+             size: auto;
+            }
+
+            body, html {
+              margin: 0;
+              padding: 0;
+              width: 100%;
+              display: block;
+            }
+
+            #pdf-print-container {
+              display: block;
+            }
+
+            #pdf-print-container > div {
+              display: flex;
+              flex-direction: column;
+              min-height: 100%;
+              align-items: center;
+              justify-content: center;
+              page-break-after:always;
+              page-break-inside: avoid;
+            }
+
+            #pdf-print-container > div > img {
+              max-width:100%;
+              max-height:100%;
+            }
+          `}
+        />
       </div>
     </Navbar>
   )

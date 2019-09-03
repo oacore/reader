@@ -22,9 +22,12 @@ const WEBPACK_CONFIG = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules\/(?!(pdfjs-dist\/(external|lib)\/)).*/],
         use: {
           loader: 'babel-loader',
+          options: {
+            configFile: `${ABSOLUTE_BASE}/.babelrc`,
+          },
         },
       },
       {
