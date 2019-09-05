@@ -198,7 +198,6 @@ class PDFPrint extends React.Component {
   }
 
   rejectPrinting = () => {
-    // eslint-disable-next-line no-unused-expressions
     this.printRejected = true
     this.setState({ isPrintModalOpen: false })
   }
