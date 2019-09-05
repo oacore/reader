@@ -39,6 +39,8 @@ rules:
   no-bitwise: off
   no-plusplus: off
 
+reportUnusedDisableDirectives: true
+
 settings:
   import/resolver:
     node:
