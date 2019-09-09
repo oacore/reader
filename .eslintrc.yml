@@ -16,6 +16,7 @@ plugins:
 rules:
   curly: [error, multi-or-nest]
   eqeqeq: [error, smart]
+  function-call-argument-newline: ['error', 'consistent']
   no-param-reassign: [error, { props: false }]
   max-len: [error, {
     code: 80,
