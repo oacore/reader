@@ -4376,6 +4376,11 @@ listr@^0.14.3:
     p-map "^2.0.0"
     rxjs "^6.3.3"
 
+little-loader@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/little-loader/-/little-loader-0.2.0.tgz#d572b842ab95ab6fab40571f79514ad49ab8d9bd"
+  integrity sha1-1XK4QquVq2+rQFcfeVFK1Jq42b0=
+
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"

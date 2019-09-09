@@ -1,0 +1,62 @@
+.pdf-recommender {
+  margin: 0 auto;
+
+  h3 {
+    color: #424242;
+  }
+
+  #coreRecommenderOutput {
+    .tab-container {
+      display: none;
+    }
+  }
+
+  #coreRecommender-tab1 {
+    > ul {
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      > li {
+        max-width: 49%;
+        flex-grow: 1;
+        margin-bottom: 20px;
+
+        .dropdown {
+          display: none;
+        }
+
+        > a {
+          display: flex;
+          padding: 10px;
+          border-style: dashed;
+          border-color: #bfbfbf;
+          text-decoration: none;
+
+          .information {
+            padding-left: 10px;
+
+            > div {
+              margin-bottom: 5px;
+            }
+
+            .title {
+              font-weight: bold;
+              color: #424242;
+            }
+
+            .detail-info, #authors {
+              color: #909090;
+            }
+          }
+        }
+      }
+    }
+
+    .footer {
+      display: none;
+    }
+  }
+}

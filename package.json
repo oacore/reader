@@ -42,6 +42,7 @@
     "css-loader": "^3.2.0",
     "file-loader": "^4.1.0",
     "file-saver": "^2.0.2",
+    "little-loader": "^0.2.0",
     "node-sass": "^4.12.0",
     "pdfjs-dist": "https://github.com/Joozty/pdf.js/releases/download/3/custom_pdf_js.tgz",
     "prop-types": "^15.7.2",
