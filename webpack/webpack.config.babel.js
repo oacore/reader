@@ -35,9 +35,6 @@ const WEBPACK_CONFIG = {
         use: [
           {
             loader: 'style-loader',
-            options: {
-              sourceMap: false,
-            },
           },
           {
             loader: 'css-loader',
