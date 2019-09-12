@@ -702,6 +702,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.4.3":
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.6.0.tgz#4fc1d642a9fd0299754e8b5de62c631cf5568205"
+  integrity sha512-89eSBLJsxNxOERC0Op4vd+0Bqm6wRMqMbFtV3i0/fbaWw/mJ8Q3eBvgX0G4SyrOOLCtbu98HspF8o09MRT+KzQ==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
 "@babel/template@^7.1.0", "@babel/template@^7.4.4", "@babel/template@^7.6.0":
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.6.0.tgz#7f0159c7f5012230dad64cca42ec9bdb5c9536e6"
@@ -755,6 +762,14 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.1"
     fastq "^1.6.0"
+
+"@oacore/design@https://github.com/oacore/design":
+  version "0.0.1"
+  resolved "https://github.com/oacore/design#4ead37c7e1b669b9d709d0c80c4c4289c18857eb"
+  dependencies:
+    "@babel/runtime" "^7.4.3"
+    prop-types "^15.7.2"
+    reactstrap "^8.0.0"
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
@@ -5988,7 +6003,7 @@ react@^16.8.6:
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
-reactstrap@^8.0.1:
+reactstrap@^8.0.0, reactstrap@^8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-8.0.1.tgz#0b663c8195f540bc1d6d5dbcbcf73cab56fe7c79"
   integrity sha512-GvUWEL+a2+3npK1OxTXcNBMHXX4x6uc1KQRzK7yAOl+8sAHTRWqjunvMUfny3oDh8yKVzgqpqQlWWvs1B2HR9A==

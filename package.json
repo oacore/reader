@@ -37,6 +37,7 @@
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/register": "^7.5.5",
+    "@oacore/design": "https://github.com/oacore/design",
     "babel-loader": "^8.0.6",
     "bootstrap": "^4.3.1",
     "css-loader": "^3.2.0",
