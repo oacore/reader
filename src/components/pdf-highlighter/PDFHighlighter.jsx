@@ -17,6 +17,7 @@ class PDFHighlighter extends React.Component {
       left: null,
       top: null,
     },
+    selectedText: '',
   }
 
   componentDidMount() {
@@ -68,6 +69,7 @@ class PDFHighlighter extends React.Component {
         top: firstRect.top - pdfRect.top,
       },
       rects: rectsByPage,
+      selectedText: selection.toString(),
     })
   }
 
@@ -77,6 +79,7 @@ class PDFHighlighter extends React.Component {
       isVisible,
       position: { left, top },
       rects,
+      selectedText,
     } = this.state
 
     const children = cloneElement(this.props.children, {
@@ -91,6 +94,7 @@ class PDFHighlighter extends React.Component {
           left={left}
           top={top}
           rects={rects}
+          selectedText={selectedText}
         />,
         contextRoot
       )

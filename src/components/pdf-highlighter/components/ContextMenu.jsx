@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import GlobalContext from 'store/configureContext'
 
-const ContextMenu = ({ left, top, isVisible, rects }) => {
+const ContextMenu = ({ left, top, isVisible, rects, selectedText }) => {
   const {
     state: { annotations },
     setAnnotation,
@@ -9,6 +9,7 @@ const ContextMenu = ({ left, top, isVisible, rects }) => {
 
   const annotationIndex = Object.keys(annotations).length + 1
 
+  // TODO: Make this in for loop and create color enum
   return (
     <div
       className={`highlight-popup ${
@@ -26,7 +27,11 @@ const ContextMenu = ({ left, top, isVisible, rects }) => {
           className="btn p-0"
           type="button"
           onClick={() =>
-            setAnnotation(annotationIndex, { color: 'red', rects })
+            setAnnotation(annotationIndex, {
+              color: 'red',
+              rects,
+              selectedText,
+            })
           }
         >
           <span className="dot dot-red" />
@@ -35,7 +40,11 @@ const ContextMenu = ({ left, top, isVisible, rects }) => {
           className="btn p-0"
           type="button"
           onClick={() =>
-            setAnnotation(annotationIndex, { color: 'yellow', rects })
+            setAnnotation(annotationIndex, {
+              color: 'yellow',
+              rects,
+              selectedText,
+            })
           }
         >
           <span className="dot dot-yellow" />
@@ -44,7 +53,11 @@ const ContextMenu = ({ left, top, isVisible, rects }) => {
           className="btn p-0"
           type="button"
           onClick={() =>
-            setAnnotation(annotationIndex, { color: 'green', rects })
+            setAnnotation(annotationIndex, {
+              color: 'green',
+              rects,
+              selectedText,
+            })
           }
         >
           <span className="dot dot-green" />
@@ -53,7 +66,11 @@ const ContextMenu = ({ left, top, isVisible, rects }) => {
           className="btn p-0"
           type="button"
           onClick={() =>
-            setAnnotation(annotationIndex, { color: 'blue', rects })
+            setAnnotation(annotationIndex, {
+              color: 'blue',
+              rects,
+              selectedText,
+            })
           }
         >
           <span className="dot dot-blue" />

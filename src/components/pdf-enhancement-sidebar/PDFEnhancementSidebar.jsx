@@ -4,7 +4,7 @@ import GlobalContext from 'store/configureContext'
 
 const PDFEnhancementSidebar = () => {
   const {
-    state: { isEnhancementViewVisible },
+    state: { isEnhancementViewVisible, annotations },
   } = useContext(GlobalContext)
 
   return (
@@ -12,12 +12,17 @@ const PDFEnhancementSidebar = () => {
       className="pdf-enhancement-sidebar"
       style={{ visibility: isEnhancementViewVisible ? 'visible' : 'hidden' }}
     >
-      <div className="info-box info-box-1 p-2">Microsoft Academic Graph</div>
-      <div className="info-box info-box-2 p-2">
-        The main area of interest to us was the relation between the
-        contribution measure and citation counts. The reason for this was the
-        prevalence of use of citation counts in re-search evaluation.
-      </div>
+      {Object.entries(annotations).map(([annotationId, annotationContent]) => (
+        <div
+          key={annotationId}
+          className="info-box p-2"
+          style={{
+            backgroundColor: annotationContent.color,
+          }}
+        >
+          {annotationContent.selectedText}
+        </div>
+      ))}
     </div>
   )
 }
