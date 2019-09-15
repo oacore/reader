@@ -55,8 +55,9 @@ $HIGHLIGHT_COLORS: (
 }
 
 .highlights-layer {
-  position: absolute;
-  top: 0;
+  > section {
+    position: absolute;
+  }
 
   .highlight {
     opacity: 0.7;

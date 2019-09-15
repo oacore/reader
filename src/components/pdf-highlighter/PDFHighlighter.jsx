@@ -3,6 +3,7 @@ import ReactDom from 'react-dom'
 import debounce from 'utils/debounce'
 import { getPageFromRange } from 'components/pdf-highlighter/utils/utils'
 import { groupRectsByPage } from 'components/pdf-highlighter/utils/rects'
+import withAppContext from 'store/withAppContext'
 import ContextMenu from './components/ContextMenu'
 import { findOrCreateLayerForContextMenu } from './utils/layer'
 import Highlights from './components/Highlights'
@@ -39,7 +40,12 @@ class PDFHighlighter extends React.Component {
 
   @debounce(250)
   onAfterSelection(selection) {
-    if (selection.rangeCount <= 0) return
+    const {
+      state: {
+        pdfDocument: { pdfViewer },
+      },
+    } = this.props.context
+    if (selection.rangeCount <= 0 || pdfViewer === null) return
 
     let rects = []
     for (let i = 0; i < selection.rangeCount; i++) {
@@ -54,7 +60,7 @@ class PDFHighlighter extends React.Component {
 
     if (!pagesRange.selectionStartPage || !pagesRange.selectionEndPage) return
 
-    const rectsByPage = groupRectsByPage(rects, pagesRange)
+    const rectsByPage = groupRectsByPage(rects, pagesRange, pdfViewer)
     const firstRect = rects[0]
     const pdfRect = pagesRange.selectionStartPage.node.getBoundingClientRect()
 
@@ -102,11 +108,11 @@ class PDFHighlighter extends React.Component {
     return (
       <>
         {contextMenu}
-        {contextMenu && <Highlights />}
+        <Highlights />
         {children}
       </>
     )
   }
 }
 
-export default PDFHighlighter
+export default withAppContext(PDFHighlighter)

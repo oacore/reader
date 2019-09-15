@@ -1,6 +1,23 @@
 import { sortBy } from 'lodash'
 
-export const groupRectsByPage = (rects, pagesRange) => {
+const normalizeToScale1 = ({ top, left, width, height }, scale) => {
+  if (scale >= 1) {
+    return {
+      top: top / scale,
+      left: left / scale,
+      width: width / scale,
+      height: height / scale,
+    }
+  }
+  return {
+    top: top * scale,
+    left: left * scale,
+    width: width * scale,
+    height: height * scale,
+  }
+}
+
+export const groupRectsByPage = (rects, pagesRange, pdfViewer) => {
   let pageNode = pagesRange.selectionStartPage.node
   let pageRect = pageNode.getBoundingClientRect()
 
@@ -12,13 +29,14 @@ export const groupRectsByPage = (rects, pagesRange) => {
 
   const rectsByPages = {}
   let pageNumber = pagesRange.selectionStartPage.number
-
+  let pageView = pdfViewer.getPageView(Number(pageNumber) - 1)
   // eslint-disable-next-line no-restricted-syntax
   for (const rect of sortedRects) {
     if (rect.top - shiftPage > pageRect.bottom - shiftPage) {
       pageNumber++
       pageNode = pageNode.nextSibling
       pageRect = pageNode.getBoundingClientRect()
+      pageView = pdfViewer.getPageView(Number(pageNumber) - 1)
     }
 
     // don't want to highlight whole page
@@ -28,20 +46,28 @@ export const groupRectsByPage = (rects, pagesRange) => {
       continue
 
     if (pageNumber in rectsByPages) {
-      rectsByPages[pageNumber].push({
-        top: rect.top - pageRect.top,
-        left: rect.left - pageRect.left,
-        width: rect.width,
-        height: rect.height,
-      })
+      rectsByPages[pageNumber].push(
+        normalizeToScale1(
+          {
+            top: rect.top - pageRect.top,
+            left: rect.left - pageRect.left,
+            width: rect.width,
+            height: rect.height,
+          },
+          pageView.viewport.scale
+        )
+      )
     } else {
       rectsByPages[pageNumber] = [
-        {
-          top: rect.top - pageRect.top,
-          left: rect.left - pageRect.left,
-          width: rect.width,
-          height: rect.height,
-        },
+        normalizeToScale1(
+          {
+            top: rect.top - pageRect.top,
+            left: rect.left - pageRect.left,
+            width: rect.width,
+            height: rect.height,
+          },
+          pageView.viewport.scale
+        ),
       ]
     }
   }
