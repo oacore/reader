@@ -7,10 +7,10 @@ $HIGHLIGHT_COLORS: (
 
 @keyframes tooltip {
   from {
-    transform: translate(-50%, -100%);
+    transform: translate(-50%, -80%);
   }
   to {
-    transform: translate(-50%, -125%);
+    transform: translate(-50%, -100%);
   }
 }
 
@@ -21,17 +21,19 @@ $HIGHLIGHT_COLORS: (
   right: 0;
   bottom: 0;
 
+  .highlight-popup-animated {
+    animation: tooltip 300ms ease-out forwards;
+  }
+
   .highlight-popup {
     width: 150px;
     background: #fafafa;
     padding: 10px;
     box-shadow: 0 0 13px -1px rgba(0,0,0,0.75);
     border-radius: 10px;
-    z-index: 12;
+    z-index: 150;
 
-    &.highlight-popup-animated {
-      animation: tooltip 300ms ease-out forwards;
-    }
+
 
     > div > button {
       max-height: 27px;

@@ -77,6 +77,7 @@ class GlobalProvider extends React.Component {
                 annotations: {
                   ...state.annotations,
                   [annotationId]: {
+                    ...state.annotations[annotationId],
                     ...annotationContent,
                   },
                 },

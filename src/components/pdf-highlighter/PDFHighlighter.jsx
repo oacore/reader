@@ -18,6 +18,7 @@ class PDFHighlighter extends React.Component {
       left: null,
       top: null,
     },
+    annotationId: null,
     selectedText: '',
   }
 
@@ -72,10 +73,36 @@ class PDFHighlighter extends React.Component {
       position: {
         left: `${((firstRect.left - pdfRect.left + firstRect.width / 2) * 100) /
           pagesRange.selectionStartPage.node.children[0].offsetWidth}%`,
-        top: firstRect.top - pdfRect.top,
+        top: `${firstRect.top - pdfRect.top}px`,
+        height: `${firstRect.height}px`,
       },
       rects: rectsByPage,
       selectedText: selection.toString(),
+      annotationId: null,
+    })
+  }
+
+  onUpdateContextMenu = ({
+    isVisible,
+    left,
+    top,
+    annotationId,
+    contextRoot,
+    width,
+    height,
+  }) => {
+    const pdfRect = contextRoot.getBoundingClientRect()
+    console.log('***')
+    console.log({height})
+    this.setState({
+      isVisible,
+      position: {
+        left: `${((left + width / 2) * 100) / pdfRect.width}%`,
+        top: `${(top * 100) / pdfRect.height}%`,
+        height: `${height}px`,
+      },
+      annotationId,
+      contextRoot,
     })
   }
 
@@ -83,9 +110,10 @@ class PDFHighlighter extends React.Component {
     const {
       contextRoot,
       isVisible,
-      position: { left, top },
+      position: { left, top, height },
       rects,
       selectedText,
+      annotationId,
     } = this.state
 
     const children = cloneElement(this.props.children, {
@@ -100,15 +128,17 @@ class PDFHighlighter extends React.Component {
           left={left}
           top={top}
           rects={rects}
+          height={height}
           selectedText={selectedText}
+          annotationId={annotationId}
         />,
         contextRoot
       )
 
     return (
       <>
-        {contextMenu}
-        <Highlights />
+        {contextRoot && contextMenu}
+        <Highlights updateContextMenu={this.onUpdateContextMenu} />
         {children}
       </>
     )

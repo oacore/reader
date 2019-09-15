@@ -43,6 +43,7 @@ class Highlights extends React.PureComponent {
           annotations,
         },
       },
+      updateContextMenu,
     } = this.props
 
     if (!pdfViewer.pageViewsReady) return
@@ -54,6 +55,12 @@ class Highlights extends React.PureComponent {
       for (const [pageNumber, rects] of Object.entries(
         annotationContent.rects
       )) {
+        const pageViewport = pdfViewer
+          .getPageView(Number(pageNumber) - 1)
+          .viewport.clone({
+            dontFlip: true,
+          })
+
         if (pageNumber in annotationsByPage) {
           annotationsByPage[pageNumber] = [
             ...annotationsByPage[pageNumber],
@@ -63,11 +70,10 @@ class Highlights extends React.PureComponent {
                   annotationsByPage[pageNumber].length}`}
                 rect={rect}
                 color={annotationContent.color}
-                viewPort={pdfViewer
-                  .getPageView(Number(pageNumber) - 1)
-                  .viewport.clone({
-                    dontFlip: true,
-                  })}
+                viewPort={pageViewport}
+                pageNumber={pageNumber}
+                annotationId={annotationId}
+                onUpdateContextMenu={updateContextMenu}
               />
             )),
           ]
@@ -78,19 +84,16 @@ class Highlights extends React.PureComponent {
                 key={`${annotationId}-${index}`}
                 rect={rect}
                 color={annotationContent.color}
-                viewPort={pdfViewer
-                  .getPageView(Number(pageNumber) - 1)
-                  .viewport.clone({
-                    dontFlip: true,
-                  })}
+                viewPort={pageViewport}
+                pageNumber={pageNumber}
+                annotationId={annotationId}
+                onUpdateContextMenu={updateContextMenu}
               />
             )),
           ]
         }
       }
     }
-
-    console.log({ annotationsByPage })
     /* eslint-enable react/no-array-index-key,no-restricted-syntax */
 
     const portals = Object.entries(annotationsByPage).map(
