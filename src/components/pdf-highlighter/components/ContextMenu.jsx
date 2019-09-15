@@ -6,10 +6,17 @@ const HIGHLIGHTS_COLORS = ['red', 'yellow', 'green', 'blue']
 
 const ContextMenu = ({ left, top, isVisible, rects, selectedText }) => {
   const {
-    state: { annotations, isEnhancementViewVisible },
+    state: {
+      pdfDocument: { pdfViewer },
+      annotations,
+      isEnhancementViewVisible,
+    },
     setAnnotation,
     toggleIsEnhancementViewVisible,
   } = useContext(GlobalContext)
+
+  // TODO: Currently annotations are available only if page is not rotated
+  const isMenuVisible = pdfViewer.pagesRotation === 0 && isVisible
 
   const annotationIndex = Object.keys(annotations).length + 1
   const setAnnotationAndToggleSidebar = color => {
@@ -26,13 +33,14 @@ const ContextMenu = ({ left, top, isVisible, rects, selectedText }) => {
     toggleSidebar()
   }
 
+
   return (
     <div
       className={`highlight-popup ${
-        isVisible ? 'highlight-popup-animated' : ''
+        isMenuVisible ? 'highlight-popup-animated' : ''
       }`}
       style={{
-        visibility: isVisible ? 'visible' : 'hidden',
+        visibility: isMenuVisible ? 'visible' : 'hidden',
         position: 'relative',
         left,
         top,

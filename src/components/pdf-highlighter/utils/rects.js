@@ -1,5 +1,6 @@
 import { sortBy } from 'lodash'
 
+// TODO: allow to highlight when PDF is rotated
 const normalizeToScale1 = ({ top, left, width, height }, scale) => {
   if (scale >= 1) {
     return {
