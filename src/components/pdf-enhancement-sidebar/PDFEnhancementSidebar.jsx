@@ -15,10 +15,7 @@ const PDFEnhancementSidebar = () => {
       {Object.entries(annotations).map(([annotationId, annotationContent]) => (
         <div
           key={annotationId}
-          className="info-box p-2"
-          style={{
-            backgroundColor: annotationContent.color,
-          }}
+          className={`info-box info-box-${annotationContent.color} p-2`}
         >
           {annotationContent.selectedText}
         </div>

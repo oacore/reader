@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import GlobalContext from 'store/configureContext'
 import { isEmpty, noop } from 'lodash'
 
+const HIGHLIGHTS_COLORS = ['red', 'yellow', 'green', 'blue']
+
 const ContextMenu = ({ left, top, isVisible, rects, selectedText }) => {
   const {
     state: { annotations, isEnhancementViewVisible },
@@ -24,7 +26,6 @@ const ContextMenu = ({ left, top, isVisible, rects, selectedText }) => {
     toggleSidebar()
   }
 
-  // TODO: Make this in for loop and create color enum
   return (
     <div
       className={`highlight-popup ${
@@ -38,34 +39,16 @@ const ContextMenu = ({ left, top, isVisible, rects, selectedText }) => {
       }}
     >
       <div className="d-flex justify-content-between">
-        <button
-          className="btn p-0"
-          type="button"
-          onClick={() => setAnnotationAndToggleSidebar('red')}
-        >
-          <span className="dot dot-red" />
-        </button>
-        <button
-          className="btn p-0"
-          type="button"
-          onClick={() => setAnnotationAndToggleSidebar('yellow')}
-        >
-          <span className="dot dot-yellow" />
-        </button>
-        <button
-          className="btn p-0"
-          type="button"
-          onClick={() => setAnnotationAndToggleSidebar('green')}
-        >
-          <span className="dot dot-green" />
-        </button>
-        <button
-          className="btn p-0"
-          type="button"
-          onClick={() => setAnnotationAndToggleSidebar('blue')}
-        >
-          <span className="dot dot-blue" />
-        </button>
+        {HIGHLIGHTS_COLORS.map(color => (
+          <button
+            key={color}
+            className="btn p-0"
+            type="button"
+            onClick={() => setAnnotationAndToggleSidebar(color)}
+          >
+            <span className={`dot dot-${color}`} />
+          </button>
+        ))}
       </div>
     </div>
   )

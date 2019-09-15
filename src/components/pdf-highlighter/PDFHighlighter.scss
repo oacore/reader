@@ -1,3 +1,10 @@
+$HIGHLIGHT_COLORS: (
+  red: #e57373,
+  yellow: #fff176,
+  green: #aed581,
+  blue: #64b5f6,
+);
+
 @keyframes tooltip {
   from {
     transform: translate(-50%, -100%);
@@ -39,20 +46,10 @@
       display: inline-block;
     }
 
-    .dot-red {
-      background-color: #e57373;
-    }
-
-    .dot-yellow {
-      background-color: #fff176;
-    }
-
-    .dot-green {
-      background-color: #aed581;
-    }
-
-    .dot-blue {
-      background-color: #64b5f6;
+    @each $colorName, $color in $HIGHLIGHT_COLORS {
+      .dot-#{$colorName} {
+        background-color: $color;
+      }
     }
   }
 }
@@ -60,4 +57,22 @@
 .highlights-layer {
   position: absolute;
   top: 0;
+
+  .highlight {
+    opacity: 0.7;
+  }
+
+  @each $colorName, $color in $HIGHLIGHT_COLORS {
+    .highlight-#{$colorName} {
+      background-color: $color;
+    }
+  }
+}
+
+
+// TODO: Move it to better location and create config.scss file
+@each $colorName, $color in $HIGHLIGHT_COLORS {
+  .info-box-#{$colorName} {
+    background-color: $color;
+  }
 }
