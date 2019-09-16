@@ -1,5 +1,5 @@
 import React from 'react'
-import { isEmpty, noop } from 'lodash'
+import { isEmpty, noop, debounce } from 'lodash'
 import withAppContext from '../../../store/withAppContext'
 
 const HIGHLIGHTS_COLORS = ['red', 'yellow', 'green', 'blue']
@@ -31,6 +31,7 @@ class ContextMenu extends React.PureComponent {
         rects,
         selectedText,
       })
+      window.getSelection().removeAllRanges()
     }
 
     toggleSidebar()
@@ -53,20 +54,12 @@ class ContextMenu extends React.PureComponent {
         pdfDocument: { pdfViewer },
       },
     } = this.props.context
-    const { left, top, height, isVisible, annotationId } = this.props
-    const { isInnerVisible } = this.state
+    const { left, top, height } = this.props
 
-    console.log({ isVisible })
-    console.log({ isInnerVisible })
     // TODO: Currently annotations are available only if page is not rotated
-    console.log({ annotationId })
     const isMenuVisible =
       pdfViewer.pagesRotation === 0 && this.determineVisibility()
 
-    // if (annotationId !== null)
-    // else isMenuVisible = pdfViewer.pagesRotation === 0 && isVisible
-    console.log({height})
-    console.log({top})
     return (
       <div
         className={`${isMenuVisible ? 'highlight-popup-animated' : ''}`}
@@ -80,15 +73,13 @@ class ContextMenu extends React.PureComponent {
           display: 'inline-block',
         }}
         onMouseEnter={() => {
-          console.log('onMouseOverC')
           if (!this.state.isInnerVisible)
             this.setState({ isInnerVisible: true })
         }}
-        onMouseLeave={() => {
-          console.log('onMouseLeaveC')
+        onMouseLeave={debounce(() => {
           if (this.state.isInnerVisible)
             this.setState({ isInnerVisible: false })
-        }}
+        }, 100)}
       >
         <div className="highlight-popup">
           <div className="d-flex justify-content-between">
