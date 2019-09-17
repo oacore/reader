@@ -36,6 +36,13 @@ const Header = () => {
         >
           <Icon iconType="thumbnails" />
         </Button>
+        <Button
+          color="none"
+          active={isEnhancementViewVisible}
+          onClick={toggleIsEnhancementViewVisible}
+        >
+          <Icon iconType="paper_info" isActive={isEnhancementViewVisible} />
+        </Button>
       </div>
       <div className="item d-flex justify-content-center">
         <Button

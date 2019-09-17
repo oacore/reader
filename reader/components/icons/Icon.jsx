@@ -13,6 +13,10 @@ import RightArrowIcon from './assets/right-arrow.svg'
 import RotateIcon from './assets/rotate.svg'
 import ZoomInIcon from './assets/zoom-in.svg'
 import ZoomOutIcon from './assets/zoom-out.svg'
+import CopyIcon from './assets/copy.svg'
+import WikiIcon from './assets/wiki.svg'
+import CreateNewAnnotationIcon from './assets/create-new-annotation.svg'
+import SearchIcon from './assets/search.svg'
 
 const mapNameToModule = name => {
   const iconMap = {
@@ -28,6 +32,10 @@ const mapNameToModule = name => {
     'zoom-in': ZoomInIcon,
     'zoom-out': ZoomOutIcon,
     rotate: RotateIcon,
+    copy: CopyIcon,
+    wiki: WikiIcon,
+    'create-new-annotation': CreateNewAnnotationIcon,
+    search: SearchIcon,
   }
 
   if (!(name in iconMap)) throw new Error(`Icon ${name} not found`)
