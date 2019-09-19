@@ -10,6 +10,7 @@ import {
 import { Helmet } from 'react-helmet'
 
 import 'components/bootstrap/bootstrap.scss'
+import Layout from './components/layout'
 import PDFPrint from './components/pdf-print/PDFPrint'
 
 const CoreReader = ({
@@ -72,10 +73,9 @@ const CoreReader = ({
         printContainerRef={printContainerRef}
       >
         <PDFPrint ref={printContainerRef} />
-        <div id="pdf-viewer-container">
-          <Header />
+        <Layout>
           <MainArea />
-        </div>
+        </Layout>
       </GlobalProvider>
     </>
   )

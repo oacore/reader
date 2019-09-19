@@ -1,0 +1,63 @@
+html,
+body {
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+:local(.application) {
+  --sidebar-width: 18rem;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+
+:local(.main) {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+:local(.toolbar) {
+  z-index: 1000;
+  display: flex;
+}
+
+:local(.sidebar) {
+  position: relative;
+  box-sizing: border-box;
+  margin-left: calc(-1 * var(--sidebar-width));
+  width: var(--sidebar-width);
+  transition: 250ms;
+}
+
+:local(.application).withSidebar :local(.sidebar) {
+  display: block;
+  width: var(--sidebar-width);
+  margin-left: 0;
+}
+
+:local(.sidebar) > :local(.toolbar) {
+  position: absolute;
+  z-index: 1010;
+  left: 0;
+  display: block;
+  order: 0;
+  bottom: 100%;
+  width: 100%;
+}
+
+:local(.toolbar) > :local(.sidebar) {
+  display: block;
+  width: auto;
+  margin-left: 0;
+  transition: flex-grow 250ms;
+}
+
+:local(.content) {
+  position: relative;
+  flex: 1 1 auto;
+}

@@ -1,0 +1,12 @@
+:local(.toolbar) {
+  --toolbar-padding: .25rem;
+
+  display: flex;
+  justify-content: flex-start;
+
+  box-sizing: border-box;
+  padding: var(--toolbar-padding);
+
+  background: #fafafa;
+  box-shadow: 0 4px 16px rgba(0,0,0,.25);
+}
