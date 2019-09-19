@@ -40,6 +40,7 @@
     "@oacore/design": "https://github.com/oacore/design",
     "babel-loader": "^8.0.6",
     "bootstrap": "^4.3.1",
+    "classnames": "^2.2.6",
     "css-loader": "^3.2.0",
     "file-loader": "^4.1.0",
     "file-saver": "^2.0.2",
