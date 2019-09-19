@@ -39,8 +39,13 @@ const WEBPACK_CONFIG = {
           {
             loader: 'css-loader',
             options: {
+              importLoaders: 1,
+              modules: 'global',
               sourceMap: false,
             },
+          },
+          {
+            loader: 'postcss-loader',
           },
           {
             loader: 'sass-loader',
