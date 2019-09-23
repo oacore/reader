@@ -54,6 +54,6 @@
     "reactstrap": "^8.0.1",
     "sass-loader": "^7.1.0",
     "svg-inline-loader": "^0.8.0",
-    "webpack": "^4.39.1"
+    "webpack": "^4.40.2"
   }
 }
