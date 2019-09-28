@@ -180,6 +180,7 @@ class ContextMenu extends React.PureComponent {
                 placement="top"
                 isOpen={this.state.isShowCopied}
                 target="copy-text-to-clipboard"
+                fade={false}
               >
                 Copied!
               </Tooltip>

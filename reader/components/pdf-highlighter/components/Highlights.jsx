@@ -34,7 +34,6 @@ class Highlights extends React.PureComponent {
       this.preparePortals()
   }
 
-  /* eslint-disable react/no-array-index-key,no-restricted-syntax */
   preparePortals() {
     const {
       context: {
@@ -48,13 +47,9 @@ class Highlights extends React.PureComponent {
 
     if (!pdfViewer.pageViewsReady) return
 
-    const annotationsByPage = {}
-    for (const [annotationId, annotationContent] of Object.entries(
-      annotations
-    )) {
-      for (const [pageNumber, rects] of Object.entries(
-        annotationContent.rects
-      )) {
+    const annotationsByPage = new Map()
+    Object.entries(annotations).forEach(([annotationId, annotationContent]) => {
+      Object.entries(annotationContent.rects).forEach(([pageNumber, rects]) => {
         const pageViewport = pdfViewer
           .getPageView(Number(pageNumber) - 1)
           .viewport.clone({
@@ -81,6 +76,7 @@ class Highlights extends React.PureComponent {
           annotationsByPage[pageNumber] = [
             ...rects.map((rect, index) => (
               <Highlight
+                // eslint-disable-next-line react/no-array-index-key
                 key={`${annotationId}-${index}`}
                 rect={rect}
                 color={annotationContent.color}
@@ -92,9 +88,8 @@ class Highlights extends React.PureComponent {
             )),
           ]
         }
-      }
-    }
-    /* eslint-enable react/no-array-index-key,no-restricted-syntax */
+      })
+    })
 
     const portals = Object.entries(annotationsByPage).map(
       ([pageNumber, pageHighlights]) =>
