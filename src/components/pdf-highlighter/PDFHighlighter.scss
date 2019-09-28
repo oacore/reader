@@ -1,0 +1,81 @@
+$HIGHLIGHT_COLORS: (
+  red: #e57373,
+  yellow: #fff176,
+  green: #aed581,
+  blue: #64b5f6,
+);
+
+@keyframes tooltip {
+  from {
+    transform: translate(-50%, -80%);
+  }
+  to {
+    transform: translate(-50%, -100%);
+  }
+}
+
+.context-menu-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  .highlight-popup-animated {
+    animation: tooltip 300ms ease-out forwards;
+  }
+
+  .highlight-popup {
+    width: 150px;
+    background: #fafafa;
+    padding: 10px;
+    box-shadow: 0 0 13px -1px rgba(0,0,0,0.75);
+    border-radius: 10px;
+    z-index: 150;
+
+
+
+    > div > button {
+      max-height: 27px;
+      max-width: 27px;
+    }
+
+    .dot {
+      height: 25px;
+      width: 25px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    @each $colorName, $color in $HIGHLIGHT_COLORS {
+      .dot-#{$colorName} {
+        background-color: $color;
+      }
+    }
+  }
+}
+
+.highlights-layer {
+  > section {
+    position: absolute;
+  }
+
+  .highlight {
+    opacity: 0.7;
+  }
+
+  @each $colorName, $color in $HIGHLIGHT_COLORS {
+    .highlight-#{$colorName} {
+      background-color: $color;
+    }
+  }
+}
+
+
+// TODO: Move it to better location and create config.scss file
+@each $colorName, $color in $HIGHLIGHT_COLORS {
+  .info-box-#{$colorName} {
+    background-color: $color;
+  }
+}

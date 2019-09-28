@@ -12,3 +12,8 @@
 .pdf-metadata {
   margin: 0 auto;
 }
+
+.textLayer {
+  // has to be higher than .context-menu-layer
+  z-index: 10;
+}

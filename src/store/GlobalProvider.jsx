@@ -18,6 +18,7 @@ class GlobalProvider extends React.Component {
       year: this.props.year,
       additionalInfo: this.props.additionalInfo,
     },
+    annotations: {},
     isThumbnailViewVisible: false,
     isOutlineViewVisible: false,
     isEnhancementViewVisible: false,
@@ -68,6 +69,18 @@ class GlobalProvider extends React.Component {
                 isOutlineViewVisible: !state.isOutlineViewVisible,
                 isThumbnailViewVisible: false,
                 isEnhancementViewVisible: false,
+              }
+            }),
+          setAnnotation: (annotationId, annotationContent) =>
+            this.setState(state => {
+              return {
+                annotations: {
+                  ...state.annotations,
+                  [annotationId]: {
+                    ...state.annotations[annotationId],
+                    ...annotationContent,
+                  },
+                },
               }
             }),
         }}
