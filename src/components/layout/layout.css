@@ -7,57 +7,61 @@ body {
 :local(.application) {
   --sidebar-width: 18rem;
 
-  display: flex;
-  flex-direction: column;
   box-sizing: border-box;
   width: 100%;
   height: 100%;
 }
 
-:local(.main) {
-  position: relative;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: row-reverse;
-}
-
 :local(.toolbar) {
-  z-index: 1000;
-  display: flex;
-}
-
-:local(.sidebar) {
-  position: relative;
-  box-sizing: border-box;
-  margin-left: calc(-1 * var(--sidebar-width));
-  width: var(--sidebar-width);
-  transition: 250ms;
-}
-
-:local(.application).withSidebar :local(.sidebar) {
-  display: block;
-  width: var(--sidebar-width);
-  margin-left: 0;
-}
-
-:local(.sidebar) > :local(.toolbar) {
-  position: absolute;
-  z-index: 1010;
+  position: fixed;
+  top: 0;
   left: 0;
-  display: block;
-  order: 0;
-  bottom: 100%;
+  z-index: 1100;
+  display: flex;
+  box-sizing: border-box;
   width: 100%;
+  height: 3.5rem;
 }
 
 :local(.toolbar) > :local(.sidebar) {
-  display: block;
+  position: relative;
+  transform: none;
   width: auto;
-  margin-left: 0;
-  transition: flex-grow 250ms;
+  opacity: 1;
+  will-change: width;
+}
+
+:local(.application).withSidebar > :local(.toolbar) > :local(.sidebar) {
+  width: var(--sidebar-width);
+}
+
+:local(.sidebar) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  box-sizing: border-box;
+  width: var(--sidebar-width);
+  height: 100%;
+  opacity: 0;
+  transform: translate(-100%, 0);
+  transition: 250ms;
+  background: #fafafa;
+}
+
+:local(.application).withSidebar :local(.sidebar) {
+  opacity: 1;
+  transform: none;
 }
 
 :local(.content) {
-  position: relative;
-  flex: 1 1 auto;
+  box-sizing: border-box;
+  padding-top: 3.5rem;
+  background: #757575;
+  transition: 250ms;
+}
+
+:local(.application).withSidebar :local(.content) {
+  padding-left: var(--sidebar-width);
 }

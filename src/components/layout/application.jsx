@@ -6,39 +6,37 @@ import Sidebar from './sidebar'
 
 import classNames from './layout.css'
 
-const Content = ({ children, tag: Tag = 'div', ...restProps }) => (
-  <Tag className={classNames.content} {...restProps}>
+const Content = ({ children, className, tag: Tag = 'div', ...restProps }) => (
+  <Tag className={flatClassList(classNames.content, className)} {...restProps}>
     {children}
   </Tag>
 )
 
 const Layout = ({ children, tag: Tag = 'div' }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false)
+  const layoutClassName = flatClassList(classNames.application, {
+    withSidebar: isSidebarOpen,
+  })
 
   return (
-    <Tag
-      className={flatClassList(classNames.application, {
-        withSidebar: isSidebarOpen,
-      })}
-    >
+    <Tag className={layoutClassName}>
       <Toolbar className={classNames.toolbar}>
         <div className={classNames.sidebar}>
-          <button type="button" onClick={() => setSidebarOpen(value => !value)}>Toggle sidebar</button>
+          <button type="button" onClick={() => setSidebarOpen(value => !value)}>
+            Toggle sidebar
+          </button>
         </div>
         Toolbar rest
       </Toolbar>
 
-      <div className={classNames.main}>
-        <Content>{children}</Content>
+      <Content>{children}</Content>
 
-        <Sidebar
-          className={classNames.sidebar}
-          onClick={() => setSidebarOpen(value => !value)}
-        >
-          <Toolbar className={classNames.toolbar}>Sidebar toolbar</Toolbar>
-          <div className={classNames.content}>Sidebar content</div>
-        </Sidebar>
-      </div>
+      <Sidebar
+        className={classNames.sidebar}
+        onClick={() => setSidebarOpen(value => !value)}
+      >
+        Sidebar content
+      </Sidebar>
     </Tag>
   )
 }
