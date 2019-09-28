@@ -2,19 +2,13 @@ import { sortBy } from 'lodash'
 
 // TODO: allow to highlight when PDF is rotated
 const normalizeToScale1 = ({ top, left, width, height }, scale) => {
-  if (scale >= 1) {
-    return {
-      top: top / scale,
-      left: left / scale,
-      width: width / scale,
-      height: height / scale,
-    }
-  }
+  const normalizedScale = 1 / scale
+
   return {
-    top: top * scale,
-    left: left * scale,
-    width: width * scale,
-    height: height * scale,
+    top: top * normalizedScale,
+    left: left * normalizedScale,
+    width: width * normalizedScale,
+    height: height * normalizedScale,
   }
 }
 
