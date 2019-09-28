@@ -106,7 +106,13 @@ class PDFHighlighter extends React.Component {
     width,
     height,
   }) => {
+    if (!isVisible) {
+      this.setState({ isVisible })
+      return
+    }
+
     const pdfRect = contextRoot.getBoundingClientRect()
+
     this.setState({
       isVisible,
       position: {

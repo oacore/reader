@@ -16,7 +16,7 @@ const Highlight = ({
   return (
     <>
       {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
-      <section
+      <span
         className={`highlight highlight-${color}`}
         style={{
           top,
@@ -41,12 +41,6 @@ const Highlight = ({
         onMouseLeave={() => {
           onUpdateContextMenu({
             isVisible: false,
-            left: left * viewPort.scale,
-            top: top * viewPort.scale,
-            annotationId,
-            width: width * viewPort.scale,
-            contextRoot: contextMenuLayer,
-            height: height * viewPort.scale,
           })
         }}
       />
