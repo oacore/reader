@@ -1,6 +1,6 @@
 import React, { cloneElement } from 'react'
 import ReactDom from 'react-dom'
-import debounce from 'utils/debounce'
+import throttle from 'utils/throttle'
 import { getPageFromRange } from 'components/pdf-highlighter/utils/utils'
 import { groupRectsByPage } from 'components/pdf-highlighter/utils/rects'
 import withAppContext from 'store/withAppContext'
@@ -24,6 +24,11 @@ class PDFHighlighter extends React.Component {
 
   componentDidMount() {
     document.addEventListener('selectionchange', this.onSelectionChange)
+    document.addEventListener('mouseup', this.onAfterSelection.bind(this))
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mouseup', this.onAfterSelection)
   }
 
   onSelectionChange = () => {
@@ -32,21 +37,31 @@ class PDFHighlighter extends React.Component {
     // no text was selected
     // https://developer.mozilla.org/en-US/docs/Web/API/Selection/isCollapsed
     if (selection.isCollapsed) {
-      this.setState({ isVisible: false })
-      return
+      this.setState({
+        isVisible: false,
+      })
     }
-
-    this.onAfterSelection(selection)
   }
 
-  @debounce(250)
-  onAfterSelection(selection) {
+  @throttle(250)
+  onAfterSelection() {
     const {
       state: {
         pdfDocument: { pdfViewer },
       },
     } = this.props.context
-    if (selection.rangeCount <= 0 || pdfViewer === null) return
+    const selection = window.getSelection()
+
+    // no text was selected
+    // https://developer.mozilla.org/en-US/docs/Web/API/Selection/isCollapsed
+    if (
+      selection.isCollapsed ||
+      selection.rangeCount <= 0 ||
+      pdfViewer === null
+    ) {
+      this.setState({ isVisible: false })
+      return
+    }
 
     let rects = []
     for (let i = 0; i < selection.rangeCount; i++) {
