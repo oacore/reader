@@ -1,13 +1,22 @@
 import React from 'react'
+import { Tooltip } from 'reactstrap'
 import { isEmpty, noop, debounce } from 'lodash'
-import withAppContext from '../../../store/withAppContext'
+import withAppContext from 'store/withAppContext'
+import Icon from '../../icons/Icon'
 
 const HIGHLIGHTS_COLORS = ['red', 'yellow', 'green', 'blue']
 
 class ContextMenu extends React.PureComponent {
   state = {
     isInnerVisible: true,
+    isAddNewAnnotationVisible: false,
+    isCopyToClipboardVisible: false,
+    isSearchVisible: false,
+    isWikipediaSearchVisible: false,
+    isShowCopied: false,
   }
+
+  copyClipBoardInputRef = null
 
   setAnnotationAndToggleSidebar(color) {
     const {
@@ -47,6 +56,40 @@ class ContextMenu extends React.PureComponent {
     return isVisible
   }
 
+  copyToClipBoard = () => {
+    // Source: https://www.w3schools.com/howto/howto_js_copy_clipboard.asp
+    if (this.copyClipBoardInputRef === null) return
+
+    // Select the text field
+    this.copyClipBoardInputRef.select()
+
+    // For mobile devices
+    this.copyClipBoardInputRef.setSelectionRange(0, 99999)
+
+    // Copy the text inside the text field
+    document.execCommand('copy')
+
+    this.setState({
+      isShowCopied: true,
+      isCopyToClipboardVisible: false,
+    })
+    setTimeout(() => this.setState({ isShowCopied: false }), 1000)
+  }
+
+  toggle = ({
+    isAddNewAnnotationVisible = false,
+    isCopyToClipboardVisible = false,
+    isSearchVisible = false,
+    isWikipediaSearchVisible = false,
+  }) => {
+    this.setState({
+      isAddNewAnnotationVisible,
+      isCopyToClipboardVisible,
+      isSearchVisible,
+      isWikipediaSearchVisible,
+    })
+  }
+
   render() {
     if (!this.props.context.state) return null
     const {
@@ -54,7 +97,13 @@ class ContextMenu extends React.PureComponent {
         pdfDocument: { pdfViewer },
       },
     } = this.props.context
-    const { left, top, height } = this.props
+    const { left, top, height, selectedText } = this.props
+    const {
+      isAddNewAnnotationVisible,
+      isCopyToClipboardVisible,
+      isSearchVisible,
+      isWikipediaSearchVisible,
+    } = this.state
 
     // TODO: Currently annotations are available only if page is not rotated
     const isMenuVisible =
@@ -82,7 +131,103 @@ class ContextMenu extends React.PureComponent {
         }, 100)}
       >
         <div className="highlight-popup">
-          <div className="d-flex justify-content-between">
+          <input
+            ref={ref => {
+              this.copyClipBoardInputRef = ref
+            }}
+            type="text"
+            className="d-none"
+            value={`${selectedText}`}
+            onChange={noop}
+          />
+          <div className="d-flex justify-content-between menu-actions mb-1">
+            <button id="add-new-annotation" className="btn p-0" type="button">
+              <Tooltip
+                placement="top"
+                isOpen={this.state.isAddNewAnnotationVisible}
+                target="add-new-annotation"
+                fade={false}
+                toggle={() =>
+                  this.toggle({
+                    isAddNewAnnotationVisible: !isAddNewAnnotationVisible,
+                  })
+                }
+              >
+                Create new annotation!
+              </Tooltip>
+              <Icon iconType="create-new-annotation" isActive={false} />
+            </button>
+            <button
+              id="copy-text-to-clipboard"
+              className="btn p-0"
+              type="button"
+              onClick={this.copyToClipBoard}
+            >
+              <Tooltip
+                placement="top"
+                isOpen={this.state.isCopyToClipboardVisible}
+                target="copy-text-to-clipboard"
+                fade={false}
+                toggle={() =>
+                  this.toggle({
+                    isCopyToClipboardVisible: !isCopyToClipboardVisible,
+                  })
+                }
+              >
+                Copy text to clipboard
+              </Tooltip>
+              <Tooltip
+                placement="top"
+                isOpen={this.state.isShowCopied}
+                target="copy-text-to-clipboard"
+              >
+                Copied!
+              </Tooltip>
+              <Icon iconType="copy" isActive={false} />
+            </button>
+            <button id="wikification" className="btn p-0" type="button">
+              <Tooltip
+                placement="top"
+                isOpen={this.state.isWikipediaSearchVisible}
+                target="wikification"
+                fade={false}
+                toggle={() =>
+                  this.toggle({
+                    isWikipediaSearchVisible: !isWikipediaSearchVisible,
+                  })
+                }
+              >
+                Search Wikipedia
+              </Tooltip>
+              <Icon iconType="wiki" isActive={false} />
+            </button>
+            <a
+              id="search-web"
+              className="btn p-0"
+              href={`http://www.google.com/search?q=${encodeURIComponent(
+                selectedText
+              )}`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Tooltip
+                placement="top"
+                isOpen={this.state.isSearchVisible}
+                target="search-web"
+                fade={false}
+                toggle={() =>
+                  this.toggle({
+                    isSearchVisible: !isSearchVisible,
+                  })
+                }
+              >
+                Search on Google
+              </Tooltip>
+              <Icon iconType="search" isActive={false} />
+            </a>
+          </div>
+          <hr className="m-1" />
+          <div className="d-flex justify-content-between menu-colors">
             {HIGHLIGHTS_COLORS.map(color => (
               <button
                 key={color}
