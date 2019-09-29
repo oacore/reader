@@ -143,6 +143,7 @@ class PDFHighlighter extends React.Component {
       contextRoot &&
       ReactDom.createPortal(
         <ContextMenu
+          key={selectedText}
           isVisible={isVisible}
           left={left}
           top={top}

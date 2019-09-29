@@ -2,7 +2,9 @@ import React from 'react'
 import { Tooltip } from 'reactstrap'
 import { isEmpty, noop, debounce } from 'lodash'
 import withAppContext from 'store/withAppContext'
+import { Markup } from 'interweave'
 import Icon from '../../icons/Icon'
+import getWikipediaSuggestions from '../utils/wiki-suggestions'
 
 const HIGHLIGHTS_COLORS = ['red', 'yellow', 'green', 'blue']
 
@@ -14,9 +16,21 @@ class ContextMenu extends React.PureComponent {
     isSearchVisible: false,
     isWikipediaSearchVisible: false,
     isShowCopied: false,
+    wikipediaSuggestions: null,
+    showWikipediaSuggestions: false,
   }
 
   copyClipBoardInputRef = null
+
+  async componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.showWikipediaSuggestions === false &&
+      this.state.showWikipediaSuggestions
+    ) {
+      if (this.state.wikipediaSuggestions === null)
+        await this.loadWikipediaSuggestions()
+    }
+  }
 
   setAnnotationAndToggleSidebar(color) {
     const {
@@ -44,6 +58,16 @@ class ContextMenu extends React.PureComponent {
     }
 
     toggleSidebar()
+  }
+
+  loadWikipediaSuggestions = async () => {
+    const wikipediaSuggestions = await getWikipediaSuggestions(
+      this.props.selectedText
+    )
+
+    this.setState({
+      wikipediaSuggestions,
+    })
   }
 
   determineVisibility = () => {
@@ -103,6 +127,8 @@ class ContextMenu extends React.PureComponent {
       isCopyToClipboardVisible,
       isSearchVisible,
       isWikipediaSearchVisible,
+      showWikipediaSuggestions,
+      wikipediaSuggestions,
     } = this.state
 
     // TODO: Currently annotations are available only if page is not rotated
@@ -140,6 +166,30 @@ class ContextMenu extends React.PureComponent {
             value={`${selectedText}`}
             onChange={noop}
           />
+          <>
+            {showWikipediaSuggestions && wikipediaSuggestions !== null && (
+              <>
+                <div className="d-flex flex-column mb-1 wiki-suggestions">
+                  {wikipediaSuggestions.slice(0, 3).map(w => (
+                    <a
+                      href={w[0]}
+                      className="mb-1"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <h6 className="m-0">
+                        <Markup content={w[1]} />
+                      </h6>
+                      <div>
+                        <Markup content={`... ${w[2]}`} />
+                      </div>
+                    </a>
+                  ))}
+                </div>
+                <hr className="m-1" />
+              </>
+            )}
+          </>
           <div className="d-flex justify-content-between menu-actions mb-1">
             <button id="add-new-annotation" className="btn p-0" type="button">
               <Tooltip
@@ -186,7 +236,16 @@ class ContextMenu extends React.PureComponent {
               </Tooltip>
               <Icon iconType="copy" isActive={false} />
             </button>
-            <button id="wikification" className="btn p-0" type="button">
+            <button
+              id="wikification"
+              className="btn p-0"
+              type="button"
+              onClick={() =>
+                this.setState(s => ({
+                  showWikipediaSuggestions: !s.showWikipediaSuggestions,
+                }))
+              }
+            >
               <Tooltip
                 placement="top"
                 isOpen={this.state.isWikipediaSearchVisible}
@@ -200,7 +259,7 @@ class ContextMenu extends React.PureComponent {
               >
                 Search Wikipedia
               </Tooltip>
-              <Icon iconType="wiki" isActive={false} />
+              <Icon iconType="wiki" isActive={showWikipediaSuggestions} />
             </button>
             <a
               id="search-web"

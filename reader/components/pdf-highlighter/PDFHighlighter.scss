@@ -26,14 +26,22 @@ $HIGHLIGHT_COLORS: (
   }
 
   .highlight-popup {
-    width: 150px;
+    min-width: 150px;
+    max-width: 400px;
     background: #fafafa;
     padding: 10px;
     box-shadow: 0 0 13px -1px rgba(0,0,0,0.75);
     border-radius: 10px;
     z-index: 150;
 
+    .wiki-suggestions > a {
+      display: block;
+      height: auto;
 
+      .searchmatch {
+        font-weight: 600;
+      }
+    }
 
     > div > button {
       max-height: 27px;
