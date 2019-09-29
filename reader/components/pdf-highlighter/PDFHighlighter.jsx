@@ -22,15 +22,14 @@ class PDFHighlighter extends React.Component {
     selectedText: '',
   }
 
-  componentDidMount() {
-    window.addEventListener('mouseup', this.onAfterSelection.bind(this))
+  onUpdateContextMenu = partialUpdate => {
+    this.setState(state => ({
+      ...state,
+      ...partialUpdate,
+    }))
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('mouseup', this.onAfterSelection)
-  }
-
-  onAfterSelection() {
+  handleOnMouseUp() {
     const {
       state: {
         pdfDocument: { pdfViewer },
@@ -83,13 +82,6 @@ class PDFHighlighter extends React.Component {
     })
   }
 
-  onUpdateContextMenu = partialUpdate => {
-    this.setState(state => ({
-      ...state,
-      ...partialUpdate,
-    }))
-  }
-
   render() {
     const {
       contextRoot,
@@ -102,6 +94,7 @@ class PDFHighlighter extends React.Component {
 
     const children = cloneElement(this.props.children, {
       ...this.props,
+      handleOnMouseUp: this.handleOnMouseUp.bind(this),
     })
 
     const contextMenu =

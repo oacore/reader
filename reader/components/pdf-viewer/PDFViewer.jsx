@@ -103,7 +103,7 @@ class PDFViewer extends React.PureComponent {
   // when particular PDF page is not rendered
   render() {
     const { toolbarEnabled, metadataContainerWidth } = this.state
-    const { pdfMetadata, pdfEventBus } = this.props
+    const { pdfMetadata, pdfEventBus, handleOnMouseUp } = this.props
     const { Metadata, pdfViewer } = this
 
     return (
@@ -114,12 +114,16 @@ class PDFViewer extends React.PureComponent {
         }}
       >
         {metadataContainerWidth && <Metadata pdfMetadata={pdfMetadata} />}
-        <div
-          ref={node => {
-            this.viewerNode = node
-          }}
-          className="pdfViewer"
-        />
+        <div role="dialog">
+          <div
+            role="presentation"
+            ref={node => {
+              this.viewerNode = node
+            }}
+            className="pdfViewer"
+            onMouseUp={handleOnMouseUp}
+          />
+        </div>
         <PDFRecommender containerWidth={metadataContainerWidth} />
         {toolbarEnabled && (
           <PDFToolbar pdfViewer={pdfViewer} pdfEventBus={pdfEventBus} />
