@@ -65,8 +65,9 @@ $HIGHLIGHT_COLORS: (
 }
 
 .highlights-layer {
-  > span {
+  > button {
     position: absolute;
+    border-radius: 0;
   }
 
   .highlight {

@@ -43,6 +43,7 @@ class Highlights extends React.PureComponent {
         },
       },
       updateContextMenu,
+      currentAnnotationId,
     } = this.props
 
     if (!pdfViewer.pageViewsReady) return
@@ -69,6 +70,7 @@ class Highlights extends React.PureComponent {
                 pageNumber={pageNumber}
                 annotationId={annotationId}
                 onUpdateContextMenu={updateContextMenu}
+                isContextMenuAttached={currentAnnotationId === annotationId}
               />
             )),
           ]
@@ -84,6 +86,7 @@ class Highlights extends React.PureComponent {
                 pageNumber={pageNumber}
                 annotationId={annotationId}
                 onUpdateContextMenu={updateContextMenu}
+                isContextMenuAttached={currentAnnotationId === annotationId}
               />
             )),
           ]

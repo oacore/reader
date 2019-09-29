@@ -1,6 +1,5 @@
 import React, { cloneElement } from 'react'
 import ReactDom from 'react-dom'
-import throttle from '../../utils/throttle'
 import { getPageFromRange } from './utils/utils'
 import { groupRectsByPage } from './utils/rects'
 import withAppContext from '../../store/withAppContext'
@@ -17,33 +16,20 @@ class PDFHighlighter extends React.Component {
     position: {
       left: null,
       top: null,
+      height: null,
     },
     annotationId: null,
     selectedText: '',
   }
 
   componentDidMount() {
-    document.addEventListener('selectionchange', this.onSelectionChange)
-    document.addEventListener('mouseup', this.onAfterSelection.bind(this))
+    window.addEventListener('mouseup', this.onAfterSelection.bind(this))
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mouseup', this.onAfterSelection)
+    window.removeEventListener('mouseup', this.onAfterSelection)
   }
 
-  onSelectionChange = () => {
-    const selection = window.getSelection()
-
-    // no text was selected
-    // https://developer.mozilla.org/en-US/docs/Web/API/Selection/isCollapsed
-    if (selection.isCollapsed) {
-      this.setState({
-        isVisible: false,
-      })
-    }
-  }
-
-  @throttle(250)
   onAfterSelection() {
     const {
       state: {
@@ -97,32 +83,11 @@ class PDFHighlighter extends React.Component {
     })
   }
 
-  onUpdateContextMenu = ({
-    isVisible,
-    left,
-    top,
-    annotationId,
-    contextRoot,
-    width,
-    height,
-  }) => {
-    if (!isVisible) {
-      this.setState({ isVisible })
-      return
-    }
-
-    const pdfRect = contextRoot.getBoundingClientRect()
-
-    this.setState({
-      isVisible,
-      position: {
-        left: `${((left + width / 2) * 100) / pdfRect.width}%`,
-        top: `${(top * 100) / pdfRect.height}%`,
-        height: `${height}px`,
-      },
-      annotationId,
-      contextRoot,
-    })
+  onUpdateContextMenu = partialUpdate => {
+    this.setState(state => ({
+      ...state,
+      ...partialUpdate,
+    }))
   }
 
   render() {
@@ -151,6 +116,7 @@ class PDFHighlighter extends React.Component {
           height={height}
           selectedText={selectedText}
           annotationId={annotationId}
+          updateContextMenu={this.onUpdateContextMenu}
         />,
         contextRoot
       )
@@ -158,7 +124,10 @@ class PDFHighlighter extends React.Component {
     return (
       <>
         {contextRoot && contextMenu}
-        <Highlights updateContextMenu={this.onUpdateContextMenu} />
+        <Highlights
+          updateContextMenu={this.onUpdateContextMenu}
+          currentAnnotationId={annotationId}
+        />
         {children}
       </>
     )
