@@ -51,15 +51,18 @@ const WEBPACK_CONFIG = {
         ],
       },
       {
-        test: /\.svg$/,
+        test: ({ issuer, realResource }) =>
+          !/\.(sass|scss|css)$/.test(issuer) && /\.svg$/.test(realResource),
         loader: 'svg-inline-loader',
       },
       {
-        test: /\.(png|jpe?g|gif)$/,
+        test: /\.(svg|png|jpe?g|gif)$/,
         use: [
           {
-            loader: 'file-loader',
-            options: {},
+            loader: 'url-loader',
+            options: {
+              fallback: 'file-loader',
+            },
           },
         ],
       },
