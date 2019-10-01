@@ -1,13 +1,5 @@
 .reader-icon {
   width: auto;
   height: 100%;
-
-  path {
-    fill: #424242;
-  }
-
-  &.active path,
-  &:hover path {
-    fill: #b75526;
-  }
+  fill: currentColor;
 }

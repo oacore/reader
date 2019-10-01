@@ -2,131 +2,50 @@ import React from 'react'
 import SVG from 'react-inlinesvg'
 
 import 'components/icons/Icon.scss'
-import DownloadIcon from 'components/icons/assests/download.svg'
-import OutlineIcon from 'components/icons/assests/outline.svg'
-import ThumbnailsIcon from 'components/icons/assests/thumbnails.svg'
-import PaperInfoIcon from 'components/icons/assests/paper_info.svg'
-import InfoIcon from 'components/icons/assests/info.svg'
-import PrintIcon from 'components/icons/assests/print.svg'
-import ShareIcon from 'components/icons/assests/share.svg'
-import LeftArrowIcon from 'components/icons/assests/left-arrow.svg'
-import RightArrowIcon from 'components/icons/assests/right-arrow.svg'
-import RotateIcon from 'components/icons/assests/rotate.svg'
-import ZoomInIcon from 'components/icons/assests/zoom-in.svg'
-import ZoomOutIcon from 'components/icons/assests/zoom-out.svg'
 
-const Icon = React.memo(({ iconType, isActive = false }) => {
+import DownloadIcon from 'components/icons/assets/download.svg'
+import OutlineIcon from 'components/icons/assets/outline.svg'
+import ThumbnailsIcon from 'components/icons/assets/thumbnails.svg'
+import PaperInfoIcon from 'components/icons/assets/paper_info.svg'
+import InfoIcon from 'components/icons/assets/info.svg'
+import PrintIcon from 'components/icons/assets/print.svg'
+import ShareIcon from 'components/icons/assets/share.svg'
+import LeftArrowIcon from 'components/icons/assets/left-arrow.svg'
+import RightArrowIcon from 'components/icons/assets/right-arrow.svg'
+import RotateIcon from 'components/icons/assets/rotate.svg'
+import ZoomInIcon from 'components/icons/assets/zoom-in.svg'
+import ZoomOutIcon from 'components/icons/assets/zoom-out.svg'
+
+const mapNameToModule = name => {
+  const iconMap = {
+    download: DownloadIcon,
+    outline: OutlineIcon,
+    thumbnails: ThumbnailsIcon,
+    paper_info: PaperInfoIcon,
+    info: InfoIcon,
+    print: PrintIcon,
+    share: ShareIcon,
+    'left-arrow': LeftArrowIcon,
+    'right-arrow': RightArrowIcon,
+    'zoom-in': ZoomInIcon,
+    'zoom-out': ZoomOutIcon,
+    rotate: RotateIcon,
+  }
+
+  if (!(name in iconMap)) throw new Error(`Icon ${name} not found`)
+  return iconMap[name]
+}
+
+const Icon = React.memo(({ iconType, isActive = false }) => (
   // `key` property has to be specified otherwise component
   // won't rerender when isActive changes
   // `react-inlinesvg` rerenders SVG component only
   // when value of `src` is changed
-  const uniqueHash = `${iconType}.reader-icon.${isActive ? 'active' : ''}`
-
-  switch (iconType) {
-    case 'download':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={DownloadIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-    case 'outline':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={OutlineIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-    case 'thumbnails':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={ThumbnailsIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-    case 'paper_info':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={PaperInfoIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-    case 'info':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={InfoIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-    case 'print':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={PrintIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-    case 'share':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={ShareIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-    case 'left-arrow':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={LeftArrowIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-
-    case 'right-arrow':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={RightArrowIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-
-    case 'zoom-in':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={ZoomInIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-
-    case 'zoom-out':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={ZoomOutIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-
-    case 'rotate':
-      return (
-        <SVG
-          key={uniqueHash}
-          src={RotateIcon}
-          className={`reader-icon ${isActive ? 'active' : ''}`}
-        />
-      )
-
-    default:
-      return null
-  }
-})
+  <SVG
+    key={`${iconType}.reader-icon.${isActive ? 'active' : ''}`}
+    src={mapNameToModule(iconType)}
+    className={`reader-icon ${isActive ? 'active' : ''}`}
+  />
+))
 
 export default Icon
