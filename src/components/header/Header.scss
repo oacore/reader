@@ -1,15 +1,46 @@
 @import "../bootstrap/core";
 
 .header {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: $zindex-fixed;
+  display: flex;
+  width: 100%;
+  padding: 0.25rem;
+  background: $gray-100;
   box-shadow: 0 2px 4px rgba($black, 0.1), 0 4px 8px rgba($black, 0.05);
-  height: 7vh;
 
   .item {
     height: 100%;
     flex: 1;
+  }
+}
 
-    button {
-      height: inherit;
-    }
+.header .btn {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.75rem;
+  border: 0;
+  color: $gray-700;
+
+  &:hover,
+  &:focus {
+    color: $primary;
+  }
+
+  &:active,
+  &.active {
+    color: $primary;
+    background: $gray-200;
+  }
+
+  // remove Bootstrap's shadow
+  &:focus,
+  &:active,
+  &.active,
+  &.active:focus {
+    box-shadow: none !important;
   }
 }

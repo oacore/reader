@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Navbar } from 'reactstrap'
+import { Button } from 'reactstrap'
 import Icon from 'components/icons/Icon'
 import GlobalContext from 'store/configureContext'
 import { downloadPDF } from 'components/pdf-downloader/PDFDownloader'
@@ -23,34 +23,33 @@ const Header = () => {
   } = useContext(GlobalContext)
 
   return (
-    <Navbar light color="light" className="header" tag="header">
+    <div className="header">
       <div className="item d-flex justify-content-start">
-        <button
-          type="button"
-          className="btn p-0 mr-3"
+        <Button
+          color="none"
+          active={isOutlineViewVisible}
           onClick={toggleIsOutlineViewVisible}
         >
-          <Icon iconType="outline" isActive={isOutlineViewVisible} />
-        </button>
-        <button
-          type="button"
-          className="btn p-0 mr-3"
+          <Icon iconType="outline" />
+        </Button>
+        <Button
+          color="none"
+          active={isThumbnailViewVisible}
           onClick={toggleIsThumbnailViewVisible}
         >
-          <Icon iconType="thumbnails" isActive={isThumbnailViewVisible} />
-        </button>
-        <button
-          type="button"
-          className="btn p-0"
+          <Icon iconType="thumbnails" />
+        </Button>
+        <Button
+          color="none"
+          active={isEnhancementViewVisible}
           onClick={toggleIsEnhancementViewVisible}
         >
-          <Icon iconType="paper_info" isActive={isEnhancementViewVisible} />
-        </button>
+          <Icon iconType="paper_info" />
+        </Button>
       </div>
       <div className="item d-flex justify-content-center">
-        <button
-          type="button"
-          className="btn p-0"
+        <Button
+          color="none"
           disabled={pdfMetadata.id === null}
           onClick={() => {
             const coreHostname = 'core.ac.uk'
@@ -62,29 +61,24 @@ const Header = () => {
           }}
         >
           <Icon iconType="info" />
-        </button>
+        </Button>
       </div>
       <div className="item d-flex justify-content-end">
-        <button type="button" className="btn p-0">
+        <Button color="none">
           <Icon iconType="share" />
-        </button>
-        <button
-          type="button"
-          className="btn p-0 ml-3"
+        </Button>
+        <Button
+          color="none"
           disabled={!pdfDocumentProxy} // pdf is not loaded yet
           onClick={() => downloadPDF(pdfDocumentProxy, pdfMetadata.url)}
         >
           <Icon iconType="download" />
-        </button>
+        </Button>
         <ReactToPrint
           trigger={() => (
-            <button
-              type="button"
-              className="btn p-0 ml-3"
-              disabled={!pdfPagesLoaded}
-            >
+            <Button color="none" disabled={!pdfPagesLoaded}>
               <Icon iconType="print" />
-            </button>
+            </Button>
           )}
           content={() => {
             return printContainerRef.current.printContainer
@@ -138,7 +132,7 @@ const Header = () => {
           `}
         />
       </div>
-    </Navbar>
+    </div>
   )
 }
 
