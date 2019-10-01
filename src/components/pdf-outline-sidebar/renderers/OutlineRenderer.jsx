@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import { Collapse } from 'reactstrap'
 
-import TreeItemCollapsed from '../assets/treeitem-collapsed.png'
-import TreeItemExpanded from '../assets/treeitem-expanded.png'
-
 const OutlineGroup = ({ outline, pdfLinkService, isExpanded }) => {
   return (
     <Collapse isOpen={isExpanded}>
@@ -36,11 +33,7 @@ const OutlineItem = ({ isExpanded, item, pdfLinkService }) => {
           onClick={() => toggleIsOpen(!isOpen)}
           className="outline-button"
         >
-          <img
-            alt="Outline tree icon"
-            className="outline-tree-icon"
-            src={isOpen ? TreeItemExpanded : TreeItemCollapsed}
-          />
+          <span className="sr-only">{isOpen ? 'Collapse' : 'Expand'} menu</span>
         </button>
       )}
       <a

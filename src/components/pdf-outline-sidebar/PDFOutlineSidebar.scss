@@ -1,28 +1,49 @@
+$expand-icon: url("assets/expand.svg");
+
 .pdf-outline-view {
-  padding-top: 30px;
-  padding-left: 20px;
   position: absolute;
   top: 0;
-  bottom: 0;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
+  left: 0;
   width: 100%;
+  height: 100%;
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
 
-  .outline-button {
-    background: none;
-    border: none;
-  }
-
+  ul,
   ol {
-    list-style-type:none
-  }
-
-  > div > ol {
-    padding-left: 0;
-  }
-
-  .outline-tree-icon {
-    margin-bottom: 5px;
+    list-style-type: none;
+    padding: 0 0 0 1.5rem;
   }
 }
 
+.outline-button {
+  position: relative;
+  top: 0.35rem;
+  margin: -0.5rem 0 0 -1.5rem;
+  padding: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: none;
+  border: none;
+
+  &::before {
+    content: $expand-icon;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: $expand-icon no-repeat center / contain;
+    transition: transform 150ms;
+
+    [aria-expanded="true"] > & {
+      transform: none;
+    }
+
+    [aria-expanded="false"] > & {
+      transform: rotate(-90deg);
+    }
+  }
+}
