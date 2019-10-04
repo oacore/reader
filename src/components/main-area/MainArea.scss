@@ -15,6 +15,7 @@ $sidebar-width: 20rem;
   left: -$sidebar-width;
   bottom: 0;
   width: $sidebar-width;
+  z-index: $zindex-fixed - 5;
   overflow-x: hidden;
   overflow-y: auto;
   background: $gray-200;
