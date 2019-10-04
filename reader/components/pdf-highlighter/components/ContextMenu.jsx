@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tooltip, Input } from 'reactstrap'
+import { Tooltip, Input, Button } from 'reactstrap'
 import { isEmpty, noop } from 'lodash'
 import withAppContext from 'store/withAppContext'
 import { Markup } from 'interweave'
@@ -206,9 +206,9 @@ class ContextMenu extends React.PureComponent {
               )}
             </>
             <div className="d-flex justify-content-between menu-actions mb-1">
-              <button
+              <Button
                 id="add-new-annotation"
-                className="btn p-0"
+                className="context-menu-icon"
                 type="button"
                 onClick={() => {
                   this.setAnnotationAndToggleSidebar('red')
@@ -216,6 +216,7 @@ class ContextMenu extends React.PureComponent {
                     showNewAnnotationInput: !s.showNewAnnotationInput,
                   }))
                 }}
+                color="none"
               >
                 <Tooltip
                   placement="top"
@@ -231,12 +232,13 @@ class ContextMenu extends React.PureComponent {
                   Create new annotation!
                 </Tooltip>
                 <Icon iconType="create-new-annotation" isActive={false} />
-              </button>
-              <button
+              </Button>
+              <Button
                 id="copy-text-to-clipboard"
-                className="btn p-0"
+                className="context-menu-icon"
                 type="button"
                 onClick={this.copyToClipBoard}
+                color="none"
               >
                 <Tooltip
                   placement="top"
@@ -260,11 +262,12 @@ class ContextMenu extends React.PureComponent {
                   Copied!
                 </Tooltip>
                 <Icon iconType="copy" isActive={false} />
-              </button>
-              <button
+              </Button>
+              <Button
                 id="wikification"
-                className="btn p-0"
+                className="context-menu-icon"
                 type="button"
+                color="none"
                 onClick={() =>
                   this.setState(s => ({
                     showWikipediaSuggestions: !s.showWikipediaSuggestions,
@@ -285,10 +288,10 @@ class ContextMenu extends React.PureComponent {
                   Search Wikipedia
                 </Tooltip>
                 <Icon iconType="wiki" isActive={showWikipediaSuggestions} />
-              </button>
+              </Button>
               <a
                 id="search-web"
-                className="btn p-0"
+                className="btn context-menu-icon"
                 href={`http://www.google.com/search?q=${encodeURIComponent(
                   selectedText
                 )}`}
@@ -308,7 +311,9 @@ class ContextMenu extends React.PureComponent {
                 >
                   Search on Google
                 </Tooltip>
-                <Icon iconType="search" isActive={false} />
+                <Button className="context-menu-icon" color="none">
+                  <Icon iconType="search" isActive={false} />
+                </Button>
               </a>
             </div>
             <hr className="m-1" />
