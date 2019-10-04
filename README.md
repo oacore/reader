@@ -12,10 +12,10 @@ As soon as everything is set up, run:
 
 ```sh
 yarn install  # to install all dependencies
-yarn start    # to start simple development server
+yarn dev    # to start simple development server
 ```
 
-Open [localhost:9000](http://localhost:9000) to preview.
+Open [localhost:3000](http://localhost:3000) to preview.
 
 [node-download]: https://nodejs.org/en/download/
 [yarn-install]: https://yarnpkg.com/lang/en/docs/install/
