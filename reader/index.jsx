@@ -8,7 +8,6 @@ import {
   EventBus as _PDFEventBus,
   PDFLinkService as _PDFLinkService,
 } from 'pdfjs-dist/web/pdf_viewer'
-import { Helmet } from 'react-helmet'
 import Header from './components/header/Header'
 import MainArea from './components/main-area/MainArea'
 import GlobalProvider from './store/GlobalProvider'

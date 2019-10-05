@@ -38,7 +38,8 @@ class PDFOutlineSidebar extends React.PureComponent {
       },
     } = this.props
 
-    if (outline.length === 0) return <h5>PDF does not contain any outline</h5>
+    if (!outline || outline.length === 0)
+      return <h5>PDF does not contain any outline</h5>
 
     return (
       <OutlineGroup

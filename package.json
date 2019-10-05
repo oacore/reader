@@ -55,7 +55,6 @@
     "pdfjs-dist": "2.3.200",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-helmet": "^5.2.1",
     "react-inlinesvg": "^1.1.7",
     "react-to-print": "2.4.0",
     "reactstrap": "^8.0.1",
