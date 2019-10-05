@@ -9,13 +9,9 @@ const CoreReader = dynamic(() => import('../reader'), {
 })
 
 class Reader extends React.Component {
-  static async getInitialProps({ query: { id } }) {
+  static async getInitialProps({ query: { pdfId } }) {
     try {
-      const { data } = await getArticleMetadata(id)
-      return {
-        statusCode: 200,
-        ...data,
-      }
+      return await getArticleMetadata(pdfId)
     } catch (e) {
       return { statusCode: e.statusCode }
     }

@@ -9,6 +9,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 if (process.env.CORE_API_KEY === undefined) {
+  // eslint-disable-next-line no-console
   console.error(
     'CORE API key was not provided. Please generate free API key here: https://core.ac.uk/api-keys/register/ and put it in `.env` file.'
   )
@@ -16,6 +17,7 @@ if (process.env.CORE_API_KEY === undefined) {
 }
 
 if (process.env.CORE_RECOMMENDER_API_KEY === undefined) {
+  // eslint-disable-next-line no-console
   console.error(
     'CORE Recommender API key was not provided. Please generate free API key here: https://core.ac.uk/recommender/register/ and put it in `.env` file.'
   )
