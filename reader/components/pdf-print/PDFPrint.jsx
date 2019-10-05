@@ -42,7 +42,6 @@ class PDFPrint extends React.Component {
 
     // Temporary suppress global print function
     window.print = () => {
-      // eslint-disable-next-line no-console
       console.warn('Global print is not allowed')
     }
   }
@@ -62,7 +61,6 @@ class PDFPrint extends React.Component {
       !e.altKey &&
       (!e.shiftKey || window.chrome || window.opera)
     ) {
-      // eslint-disable-next-line no-console
       console.warn('Shortcut for printing is currently not allowed.')
       e.preventDefault()
       if (e.stopImmediatePropagation) e.stopImmediatePropagation()
@@ -85,8 +83,6 @@ class PDFPrint extends React.Component {
     })
 
     if (!pdfViewer.hasEqualPageSizes) {
-      // TODO: Consider to show some warning to user
-      // eslint-disable-next-line no-console
       console.warn(
         'Not all pages have the same size. The printed result may be incorrect!'
       )

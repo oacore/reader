@@ -39,7 +39,6 @@ class PDFThumbnailViewer extends _PDFThumbnailViewer {
         thumbnailView.div.classList.add(THUMBNAIL_SELECTED_CLASS)
       })
       .catch(reason => {
-        // eslint-disable-next-line no-console
         console.error('Unable to initialize thumbnail viewer', reason)
       })
   }

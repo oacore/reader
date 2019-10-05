@@ -296,7 +296,6 @@ class PDFThumbnailView {
 
   draw() {
     if (this.renderingState !== RenderingStates.INITIAL) {
-      // eslint-disable-next-line no-console
       console.error('Must be in new state before drawing')
       return Promise.resolve(undefined)
     }
