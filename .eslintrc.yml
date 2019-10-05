@@ -43,4 +43,5 @@ rules:
 reportUnusedDisableDirectives: true
 globals: {
   CORE_API_KEY: true,
+  CORE_RECOMMENDER_API_KEY: true,
 }

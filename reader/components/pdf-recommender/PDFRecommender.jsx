@@ -7,9 +7,7 @@ const PDFRecommender = ({ containerWidth }) => {
   const [recommenderLoaded, setRecommenderLoaded] = useState(false)
 
   useEffect(() => {
-    // TODO: It has to be set in local storage. This is not a very secure way.
-    //  We should find another way I believe.
-    localStorage.setItem('idRecommender', 'ffffff')
+    localStorage.setItem('idRecommender', CORE_RECOMMENDER_API_KEY)
     localStorage.setItem('userInput', '{}')
 
     load('https://core.ac.uk/recommender/embed.js', () => {
