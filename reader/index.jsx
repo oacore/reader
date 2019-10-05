@@ -17,16 +17,15 @@ import './components/bootstrap/bootstrap.scss'
 import PDFPrint from './components/pdf-print/PDFPrint'
 
 const CoreReader = ({
-  pdfId,
-  pdfUrl,
-  pdfTitle,
-  pdfAbstract,
-  publisher,
+  id,
+  downloadUrl,
+  title,
+  description,
+  repositories,
   year,
-  additionalInfo,
   authors,
-  identifier,
-  subject,
+  oai,
+  subjects,
 }) => {
   // Create shared Queue for rendering pages and thumbnails
   const pdfRenderingQueue = new _PDFRenderingQueue()
@@ -42,14 +41,14 @@ const CoreReader = ({
   return (
     <>
       <Helmet>
-        <title>{pdfTitle} - CORE Reader</title>
+        <title>{title} - CORE Reader</title>
 
-        <meta name="DC.format" content={pdfUrl} />
-        <meta name="citation_pdf_url" content={pdfUrl} />
+        <meta name="DC.format" content={downloadUrl} />
+        <meta name="citation_pdf_url" content={downloadUrl} />
 
-        <meta name="DC.title" content={pdfTitle} />
-        <meta name="citation_title" content={pdfTitle} />
-        <meta name="DCTERMS.abstract" content={pdfAbstract} />
+        <meta name="DC.title" content={title} />
+        <meta name="citation_title" content={title} />
+        <meta name="DCTERMS.abstract" content={description} />
 
         {authors.map(author => (
           <meta key={author} name="citation_author" content={author} />
@@ -61,18 +60,19 @@ const CoreReader = ({
         <meta name="citation_publication_date" content={year} />
         <meta name="DC.issued" content={year} />
 
-        <meta name="DC.identifier" content={identifier} />
-        <meta name="DC.subject" content={subject} />
+        <meta name="DC.identifier" content={oai} />
+        {subjects.map(subject => (
+          <meta name="DC.subject" content={subject} />
+        ))}
       </Helmet>
       <GlobalProvider
         pdfRenderingQueue={pdfRenderingQueue}
         pdfEventBus={pdfEventBus}
         pdfLinkService={pdfLinkService}
-        pdfId={pdfId}
-        pdfUrl={pdfUrl}
-        publisher={publisher}
+        id={id}
+        url={downloadUrl}
+        repositories={repositories}
         year={year}
-        additionalInfo={additionalInfo}
         printContainerRef={printContainerRef}
       >
         <PDFPrint ref={printContainerRef} />

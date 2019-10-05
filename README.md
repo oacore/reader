@@ -8,14 +8,15 @@ CORE Reader is a full-featured PDF viewer with enhancements especially for acade
 The project requires [__Node.js__][node-download] and
 [__Yarn__][yarn-install] package manager.
 
-As soon as everything is set up, run:
+After cloning this repository you need to generate CORE API key [__here__][core-api] and put it in `.env` file.
 
 ```sh
 yarn install  # to install all dependencies
-yarn dev    # to start simple development server
+yarn dev      # to start simple development server
 ```
 
 Open [localhost:3000](http://localhost:3000) to preview.
 
 [node-download]: https://nodejs.org/en/download/
 [yarn-install]: https://yarnpkg.com/lang/en/docs/install/
+[core-api]: https://core.ac.uk/api-keys/register/

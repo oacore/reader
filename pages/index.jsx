@@ -1,23 +1,55 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
+import ErrorPage from 'next/error'
+import getArticleMetadata from '../reader/utils/getArticleMetadata'
 
 const CoreReader = dynamic(() => import('../reader'), {
   ssr: false,
 })
 
-const Reader = () => (
-  <CoreReader
-    pdfId={159107963}
-    pdfUrl="https://core.ac.uk/download/pdf/159107963.pdf"
-    pdfTitle="Mining Scholarly Publications for Research Evaluation"
-    pdfAbstract="Abstract"
-    pubisher="Open University"
-    year="2018"
-    additionalInfo="Proceedings of the 16th ACM/IEEE-CS Joint Conference on Digital Libraries"
-    authors={['Author 1', 'Author 2']}
-    identifier="oai:oro.open.ac.uk:55421"
-    subject="Subject"
-  />
-)
+class Reader extends React.Component {
+  static async getInitialProps({ query: { id } }) {
+    try {
+      const { data } = await getArticleMetadata(id)
+      return {
+        statusCode: 200,
+        ...data,
+      }
+    } catch (e) {
+      return { statusCode: e.statusCode }
+    }
+  }
+
+  render() {
+    const {
+      statusCode,
+      id,
+      downloadUrl,
+      title,
+      description,
+      repositories,
+      year,
+      authors,
+      oai,
+      subjects,
+    } = this.props
+
+    if (statusCode !== 200) return <ErrorPage statusCode={statusCode} />
+
+    return (
+      <CoreReader
+        id={id}
+        downloadUrl={downloadUrl}
+        title={title}
+        description={description}
+        repositories={repositories}
+        year={year}
+        authors={authors}
+        oai={oai}
+        subjects={subjects}
+      />
+    )
+  }
+}
 
 export default Reader

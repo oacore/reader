@@ -41,3 +41,6 @@ rules:
   no-plusplus: off
 
 reportUnusedDisableDirectives: true
+globals: {
+  CORE_API_KEY: true,
+}

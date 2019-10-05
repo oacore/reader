@@ -87,9 +87,12 @@ class PDFViewer extends React.PureComponent {
           width: this.state.metadataContainerWidth,
         }}
       >
-        <div className="pdf-metadata-left">{pdfMetadata.additionalInfo}</div>
+        <div className="pdf-metadata-left">TODO</div>
         <div className="pdf-metadata-right">
-          {pdfMetadata.publisher}, <b>{pdfMetadata.year}</b>
+          {pdfMetadata.repositories.length
+            ? `${pdfMetadata.repositories[0].name},`
+            : ''}{' '}
+          <b>{pdfMetadata.year}</b>
         </div>
       </div>
     )
