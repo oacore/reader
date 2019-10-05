@@ -63,9 +63,6 @@ const Header = () => {
         </Button>
       </div>
       <div className="item d-flex justify-content-end">
-        <Button color="none">
-          <Icon iconType="share" />
-        </Button>
         <Button
           color="none"
           disabled={!pdfDocumentProxy} // pdf is not loaded yet
