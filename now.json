@@ -1,5 +1,11 @@
 {
   "version": 2,
   "name": "next",
+  "build": {
+    "env": {
+      "CORE_API_KEY": "@core_api_key",
+      "CORE_RECOMMENDER_API_KEY": "@core_recommender_api_key"
+    }
+  },
   "builds": [{ "src": "next.config.js", "use": "@now/next" }]
 }
