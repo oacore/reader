@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import PDFViewer from '../pdf-viewer/PDFViewer'
 import PDFLoader from '../pdf-loader/PDFLoader'
-import PDFHighlighter from '../pdf-highlighter/PDFHighlighter'
 import PDFThumbnailSidebar from '../pdf-thumbnails-sidebar/PDFThumbnailSidebar'
 import PDFOutlineSidebar from '../pdf-outline-sidebar/PDFOutlineSidebar'
 import GlobalContext from '../../store/configureContext'
@@ -30,15 +29,13 @@ const MainArea = () => {
         {pdfDocumentProxy && <PDFOutlineSidebar />}
       </div>
       <PDFLoader pdfUrl={pdfMetadata.url} pdfDocumentProxy={pdfDocumentProxy}>
-        <PDFHighlighter>
-          <PDFViewer
-            pdfLinkService={pdfLinkService}
-            pdfEventBus={pdfEventBus}
-            pdfRenderingQueue={pdfRenderingQueue}
-            pdfMetadata={pdfMetadata}
-            setPDFDocument={setPDFDocument}
-          />
-        </PDFHighlighter>
+        <PDFViewer
+          pdfLinkService={pdfLinkService}
+          pdfEventBus={pdfEventBus}
+          pdfRenderingQueue={pdfRenderingQueue}
+          pdfMetadata={pdfMetadata}
+          setPDFDocument={setPDFDocument}
+        />
       </PDFLoader>
     </div>
   )
