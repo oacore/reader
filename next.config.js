@@ -9,7 +9,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 if (process.env.CORE_API_KEY === undefined) {
-  // eslint-disable-next-line no-console
   console.error(
     'CORE API key was not provided. Please generate free API key here: https://core.ac.uk/api-keys/register/ and put it in `.env` file.'
   )
@@ -17,7 +16,6 @@ if (process.env.CORE_API_KEY === undefined) {
 }
 
 if (process.env.CORE_RECOMMENDER_API_KEY === undefined) {
-  // eslint-disable-next-line no-console
   console.error(
     'CORE Recommender API key was not provided. Please generate free API key here: https://core.ac.uk/recommender/register/ and put it in `.env` file.'
   )
@@ -26,6 +24,14 @@ if (process.env.CORE_RECOMMENDER_API_KEY === undefined) {
 
 const nextConfig = {
   webpack: config => {
+    const originalEntry = config.entry
+    config.entry = async () => {
+      const entries = await originalEntry()
+      if (entries['main.js']) entries['main.js'].unshift('./polyfills')
+
+      return entries
+    }
+
     config.plugins.push(
       new webpack.DefinePlugin({
         CORE_API_KEY: JSON.stringify(process.env.CORE_API_KEY),
