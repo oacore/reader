@@ -10,7 +10,16 @@ const PDFLoader = React.memo(({ pdfUrl, children }) => {
   // Load document on mount
   useEffect(() => {
     const loadPDFDocument = async () => {
-      setPdfDocumentProxy(await pdfjs.getDocument(pdfUrl).promise)
+      try {
+        const document = await pdfjs.getDocument(pdfUrl).promise
+        setPdfDocumentProxy(document)
+      } catch (e) {
+        // TODO: log it somewhere, e.g. Sentry
+        console.error(
+          `Unable to load PDF document. Redirecting to default browser view. Error: ${e}`
+        )
+        window.location.replace(pdfUrl)
+      }
     }
     loadPDFDocument()
   }, [])
