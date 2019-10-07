@@ -1,5 +1,8 @@
 language: node_js
 node_js: "12"
+env:
+  - CORE_API_KEY=$CORE_API_KEY
+  - CORE_RECOMMENDER_API_KEY=$CORE_RECOMMENDER_API_KEY
 before_script:
   - yarn build
 script:
