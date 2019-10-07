@@ -50,7 +50,7 @@
     "pdfjs-dist": "https://github.com/Joozty/pdf.js/releases/download/3/custom_pdf_js.tgz",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "react-dom": "^16.10.2",
     "react-helmet": "^5.2.1",
     "react-inlinesvg": "^1.1.7",
     "react-to-print": "2.4.0",
