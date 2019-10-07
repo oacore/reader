@@ -57,7 +57,7 @@ class Reader extends React.Component {
 
           <meta name="DC.identifier" content={oai} />
           {subjects.map(subject => (
-            <meta name="DC.subject" content={subject} />
+            <meta key={subject} name="DC.subject" content={subject} />
           ))}
         </Head>
         <CoreReader
