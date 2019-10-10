@@ -8,16 +8,25 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-if (process.env.CORE_API_KEY === undefined) {
-  console.error(
-    'CORE API key was not provided. Please generate free API key here: https://core.ac.uk/api-keys/register/ and put it in `.env` file.'
-  )
-  process.exit(1)
-}
+const missingEnvVars = [
+  [
+    'CORE_API_KEY',
+    'You can generate free API key here at https://core.ac.uk/api-keys/register/',
+  ],
+  [
+    'CORE_RECOMMENDER_API_KEY',
+    'You can generate free API key here at https://core.ac.uk/recommender/register/',
+  ],
+].filter(
+  ([name]) => process.env[name] === undefined || process.env[name] === ''
+)
 
-if (process.env.CORE_RECOMMENDER_API_KEY === undefined) {
+if (missingEnvVars.length > 0) {
+  const varList = missingEnvVars
+    .map(([name, description]) => `- ${name}\n    ${description}`)
+    .join('\n')
   console.error(
-    'CORE Recommender API key was not provided. Please generate free API key here: https://core.ac.uk/recommender/register/ and put it in `.env` file.'
+    `Following environment variables are missing:\n${varList}\n Please export it or use .env file and try again.`
   )
   process.exit(1)
 }
