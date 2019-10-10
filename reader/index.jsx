@@ -1,17 +1,14 @@
 import React, { useRef } from 'react'
-import Header from './components/header/Header'
-import Layout from './components/layout'
-import MainArea from './components/main-area/MainArea'
-import GlobalProvider from './store/GlobalProvider'
 import { PDFRenderingQueue as _PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
 import {
   EventBus as _PDFEventBus,
   PDFLinkService as _PDFLinkService,
 } from 'pdfjs-dist/web/pdf_viewer'
+import Head from 'next/head'
 import Header from './components/header/Header'
 import MainArea from './components/main-area/MainArea'
 import GlobalProvider from './store/GlobalProvider'
-
+import Layout from './components/layout'
 import './components/bootstrap/bootstrap.scss'
 import PDFPrint from './components/pdf-print/PDFPrint'
 
@@ -39,7 +36,7 @@ const CoreReader = ({
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>{title} - CORE Reader</title>
 
         <meta name="DC.format" content={downloadUrl} />
@@ -61,9 +58,20 @@ const CoreReader = ({
 
         <meta name="DC.identifier" content={oai} />
         {subjects.map(subject => (
-          <meta name="DC.subject" content={subject} />
+          <meta key={subject} name="DC.subject" content={subject} />
         ))}
-      </Helmet>
+
+        <style>
+          {`
+            html,
+            body,
+            #__next {
+              margin: 0;
+              height: 100%;
+            }
+          `}
+        </style>
+      </Head>
       <GlobalProvider
         pdfRenderingQueue={pdfRenderingQueue}
         pdfEventBus={pdfEventBus}
