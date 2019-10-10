@@ -39,10 +39,10 @@ rules:
   no-underscore-dangle: off
   no-bitwise: off
   no-plusplus: off
+  no-console: ["error", { allow: ["warn", "error"] }]
 
 reportUnusedDisableDirectives: true
-
-settings:
-  import/resolver:
-    node:
-      paths: ['src']
+globals: {
+  CORE_API_KEY: true,
+  CORE_RECOMMENDER_API_KEY: true,
+}
