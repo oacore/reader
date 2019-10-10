@@ -13,10 +13,12 @@ const Header = () => {
       pdfMetadata,
       isThumbnailViewVisible,
       isOutlineViewVisible,
+      isEnhancementViewVisible,
       printContainerRef,
     },
     toggleIsThumbnailViewVisible,
     toggleIsOutlineViewVisible,
+    toggleIsEnhancementViewVisible,
   } = useContext(GlobalContext)
 
   return (
