@@ -2,19 +2,13 @@ import { sortBy } from 'lodash'
 
 // TODO: allow to highlight when PDF is rotated
 const normalizeToScale1 = ({ top, left, width, height }, scale) => {
-  if (scale >= 1) {
-    return {
-      top: top / scale,
-      left: left / scale,
-      width: width / scale,
-      height: height / scale,
-    }
-  }
+  const normalizedScale = 1 / scale
+
   return {
-    top: top * scale,
-    left: left * scale,
-    width: width * scale,
-    height: height * scale,
+    top: top * normalizedScale,
+    left: left * normalizedScale,
+    width: width * normalizedScale,
+    height: height * normalizedScale,
   }
 }
 
@@ -31,8 +25,8 @@ export const groupRectsByPage = (rects, pagesRange, pdfViewer) => {
   const rectsByPages = {}
   let pageNumber = pagesRange.selectionStartPage.number
   let pageView = pdfViewer.getPageView(Number(pageNumber) - 1)
-  // eslint-disable-next-line no-restricted-syntax
-  for (const rect of sortedRects) {
+
+  sortedRects.forEach(rect => {
     if (rect.top - shiftPage > pageRect.bottom - shiftPage) {
       pageNumber++
       pageNode = pageNode.nextSibling
@@ -43,8 +37,7 @@ export const groupRectsByPage = (rects, pagesRange, pdfViewer) => {
     // don't want to highlight whole page
     // this happens mostly when selection is between pages
     if (rect.width === pageRect.width || rect.height === pageRect.height)
-      // eslint-disable-next-line no-continue
-      continue
+      return
 
     if (pageNumber in rectsByPages) {
       rectsByPages[pageNumber].push(
@@ -71,7 +64,7 @@ export const groupRectsByPage = (rects, pagesRange, pdfViewer) => {
         ),
       ]
     }
-  }
+  })
 
   return rectsByPages
 }

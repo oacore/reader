@@ -1,3 +1,5 @@
+@import "../bootstrap/core";
+
 $HIGHLIGHT_COLORS: (
   red: #e57373,
   yellow: #fff176,
@@ -21,23 +23,44 @@ $HIGHLIGHT_COLORS: (
   right: 0;
   bottom: 0;
 
+  .context-menu-icon {
+    width: 2rem;
+    height: 2rem;
+    padding: 0.1rem;
+    color: $gray-700;
+
+    &:hover,
+    &:focus {
+      color: $primary;
+    }
+
+    // remove Bootstrap's shadow
+     &.active,
+     &.active:focus {
+       box-shadow: none !important;
+     }
+  }
+
   .highlight-popup-animated {
     animation: tooltip 300ms ease-out forwards;
   }
 
   .highlight-popup {
-    width: 150px;
+    min-width: 150px;
+    max-width: 400px;
     background: #fafafa;
     padding: 10px;
     box-shadow: 0 0 13px -1px rgba(0,0,0,0.75);
     border-radius: 10px;
     z-index: 150;
 
+    .wiki-suggestions > a {
+      display: block;
+      height: auto;
 
-
-    > div > button {
-      max-height: 27px;
-      max-width: 27px;
+      .searchmatch {
+        font-weight: 600;
+      }
     }
 
     .dot {
@@ -57,8 +80,9 @@ $HIGHLIGHT_COLORS: (
 }
 
 .highlights-layer {
-  > section {
+  > button {
     position: absolute;
+    border-radius: 0;
   }
 
   .highlight {

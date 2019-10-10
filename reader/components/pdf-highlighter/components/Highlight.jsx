@@ -8,49 +8,51 @@ const Highlight = ({
   pageNumber,
   annotationId,
   onUpdateContextMenu,
+  isContextMenuAttached,
 }) => {
   const contextMenuLayer = findOrCreateLayerForContextMenu(
     findPageLayer(pageNumber)
   )
 
   return (
-    <>
-      {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
-      <section
-        className={`highlight highlight-${color}`}
-        style={{
-          top,
-          left,
-          width,
-          height,
-          transform: `matrix(${viewPort.transform.join(',')}`,
-          transformOrigin: `-${left}px -${top}px`,
-          zIndex: 100,
-        }}
-        onMouseOver={() => {
+    <button
+      type="button"
+      className={`btn highlight highlight-${color}`}
+      style={{
+        top,
+        left,
+        width,
+        height,
+        transform: `matrix(${viewPort.transform.join(',')}`,
+        transformOrigin: `-${left}px -${top}px`,
+        zIndex: 100,
+      }}
+      onClick={() => {
+        if (isContextMenuAttached) {
           onUpdateContextMenu({
             isVisible: true,
-            left: left * viewPort.scale,
-            top: top * viewPort.scale,
-            annotationId,
-            width: width * viewPort.scale,
-            contextRoot: contextMenuLayer,
-            height: height * viewPort.scale,
           })
-        }}
-        onMouseLeave={() => {
-          onUpdateContextMenu({
-            isVisible: false,
-            left: left * viewPort.scale,
-            top: top * viewPort.scale,
-            annotationId,
-            width: width * viewPort.scale,
-            contextRoot: contextMenuLayer,
-            height: height * viewPort.scale,
-          })
-        }}
-      />
-    </>
+          return
+        }
+
+        const pdfRect = contextMenuLayer.getBoundingClientRect()
+        const leftScaled = left * viewPort.scale
+        const topScaled = top * viewPort.scale
+        const widthScaled = width * viewPort.scale
+        const heightScaled = height * viewPort.scale
+
+        onUpdateContextMenu({
+          isVisible: !isContextMenuAttached,
+          annotationId,
+          contextRoot: contextMenuLayer,
+          position: {
+            left: `${((leftScaled + widthScaled / 2) * 100) / pdfRect.width}%`,
+            top: `${(topScaled * 100) / pdfRect.height}%`,
+            height: `${heightScaled}px`,
+          },
+        })
+      }}
+    />
   )
 }
 
