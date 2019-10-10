@@ -13,7 +13,7 @@
     {
       "src": "/",
       "status": 301,
-      "headers": { "Location": "/159107963" }
+      "headers": { "Location": "/reader-beta/159107963" }
     }
   ]
 }
