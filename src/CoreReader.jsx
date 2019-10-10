@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import Header from 'components/header/Header'
+import Layout from 'components/layout'
 import MainArea from 'components/main-area/MainArea'
 import GlobalProvider from 'store/GlobalProvider'
 import { PDFRenderingQueue as _PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
@@ -72,10 +73,10 @@ const CoreReader = ({
         printContainerRef={printContainerRef}
       >
         <PDFPrint ref={printContainerRef} />
-        <div id="pdf-viewer-container">
+        <Layout id="pdf-viewer-container">
           <Header />
           <MainArea />
-        </div>
+        </Layout>
       </GlobalProvider>
     </>
   )
