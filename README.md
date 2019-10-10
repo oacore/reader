@@ -22,8 +22,8 @@ Open [localhost:3000](http://localhost:3000) to preview.
 For using on production you need to run these commands:
 
 ```sh
-yarn install  # to install all dependencies
-yarn build      # to start simple development server
+yarn install    # to install all dependencies
+yarn build      # to build all files for next server (stored in .next folder)
 yarn start      # to start simple development server
 ```
 
