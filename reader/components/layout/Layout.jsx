@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './layout.scss'
+import './Layout.scss'
 
 const Layout = ({
   children,
