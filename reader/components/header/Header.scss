@@ -10,6 +10,7 @@
   padding: 0.25rem;
   background: $gray-100;
   box-shadow: 0 2px 4px rgba($black, 0.1), 0 4px 8px rgba($black, 0.05);
+  overflow-x: auto;
 
   .item {
     height: 100%;
@@ -42,5 +43,9 @@
   &.active,
   &.active:focus {
     box-shadow: none !important;
+  }
+
+  &.cite-button {
+    min-width: 50px;
   }
 }

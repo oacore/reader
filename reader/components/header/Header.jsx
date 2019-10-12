@@ -57,6 +57,16 @@ const Header = ({ printContainerRef }) => {
       </div>
       <div className="item d-flex justify-content-end">
         <Button
+          title="Open cite modal"
+          color="none"
+          active
+          onClick={() => {}}
+          className="cite-button w-auto"
+        >
+          <Icon iconType="cite" />
+          <Icon iconType="cite" />
+        </Button>
+        <Button
           title="Download document"
           color="none"
           disabled={!document.documentProxy} // pdf is not loaded yet
