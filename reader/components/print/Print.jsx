@@ -1,13 +1,8 @@
 import React from 'react'
 import { CSS_UNITS } from 'pdfjs-dist/lib/web/ui_utils'
-import {
-  Progress,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from 'reactstrap'
+import { Progress, ModalBody } from 'reactstrap'
+import Modal from '../modal/Modal'
+import withAppContext from '../../store/withAppContext'
 
 import './Print.scss'
 import { withGlobalStore } from '../../store'
@@ -31,6 +26,8 @@ class Print extends React.Component {
   state = {
     isPrintModalOpen: false,
     printProgress: 0,
+    currentPage: 0,
+    pageCount: 0,
   }
 
   printRejected = false
@@ -95,6 +92,8 @@ class Print extends React.Component {
     this.setState({
       isPrintModalOpen: false,
       printProgress: 0,
+      currentPage: 0,
+      pageCount: 0,
     })
   }
 
@@ -117,6 +116,8 @@ class Print extends React.Component {
         .then(() => {
           this.setState({
             printProgress: Math.round((100 * currentPage) / pageCount),
+            currentPage: currentPage + 1,
+            pageCount,
           })
           renderNextPage(resolve, reject)
         }, reject)
@@ -191,7 +192,12 @@ class Print extends React.Component {
   }
 
   render() {
-    const { isPrintModalOpen, printProgress } = this.state
+    const {
+      isPrintModalOpen,
+      printProgress,
+      currentPage,
+      pageCount,
+    } = this.state
     return (
       <>
         <div
@@ -201,16 +207,18 @@ class Print extends React.Component {
           }}
         />
         <div>
-          <Modal isOpen={isPrintModalOpen} toggle={this.toggle}>
-            <ModalHeader toggle={this.toggle}>Print in progress</ModalHeader>
+          <Modal
+            isOpen={isPrintModalOpen}
+            toggle={this.toggle}
+            onClose={this.rejectPrinting}
+          >
             <ModalBody>
-              <Progress value={printProgress} />
+              <h6 className="m-0">Print in progress</h6>
+              <Progress value={printProgress} className="rounded-0 mb-1 mt-1" />
+              <p className="text-center">
+                {currentPage} / {pageCount}{' '}
+              </p>
             </ModalBody>
-            <ModalFooter>
-              <Button color="secondary" onClick={this.rejectPrinting}>
-                Cancel
-              </Button>
-            </ModalFooter>
           </Modal>
         </div>
       </>
