@@ -6,6 +6,7 @@ export const uiInitialState = {
   isOutlineSidebarVisible: false,
   isEnhancementSidebarVisible: false,
   isRelatedPapersScrolled: window.location.hash === '#related-papers',
+  isCiteModalOpen: false,
 }
 
 export default (state = uiInitialState, { type }) => {
@@ -46,6 +47,12 @@ export default (state = uiInitialState, { type }) => {
       return {
         ...state,
         isRelatedPapersScrolled: false,
+      }
+
+    case UI_ACTIONS.TOGGLE_CITE_MODAL:
+      return {
+        ...state,
+        isCiteModalOpen: !state.isCiteModalOpen,
       }
 
     default:

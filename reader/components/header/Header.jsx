@@ -6,6 +6,7 @@ import { downloadPDF } from '../downloader/Downloader'
 import './Header.scss'
 import { useGlobalStore } from '../../store'
 import {
+  toggleCiteModal,
   toggleOutlineSidebar,
   toggleThumbnailsSidebar,
 } from '../../store/ui/actions'
@@ -59,8 +60,8 @@ const Header = ({ printContainerRef }) => {
         <Button
           title="Open cite modal"
           color="none"
-          active
-          onClick={() => {}}
+          active={ui.isCiteModalOpen}
+          onClick={() => dispatch(toggleCiteModal())}
           className="cite-button w-auto"
         >
           <Icon iconType="cite" />

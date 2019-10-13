@@ -51,9 +51,10 @@ class Reader extends React.Component {
       authors,
       oai,
       subjects,
+      publisher,
     } = this.props
 
-    if (statusCode !== 200) return <ErrorPage statusCode={200} />
+    if (statusCode !== 200) return <ErrorPage statusCode={statusCode} />
 
     return (
       <>
@@ -117,6 +118,8 @@ class Reader extends React.Component {
           repositories={repositories}
           year={year}
           authors={authors}
+          publisher={publisher}
+          title={title}
         />
       </>
     )

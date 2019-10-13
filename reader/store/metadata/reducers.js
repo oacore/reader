@@ -7,6 +7,8 @@ export const metaDataInitialState = {
   subjects: null,
   description: null,
   title: null,
+  authors: [],
+  publisher: null,
 }
 
 export default (state = metaDataInitialState) => {

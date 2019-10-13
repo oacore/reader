@@ -6,6 +6,7 @@ export const UI_ACTIONS = {
   UNSET_RELATED_PAPERS: 'ui/UNSET_RELATED_PAPERS',
   SCROLL_TO_LAST_READ_POSITION: 'ui/SCROLL_TO_LAST_READ_POSITION',
   SET_LAST_READ_POSITION: 'ui/SET_LAST_READ_POSITION',
+  TOGGLE_CITE_MODAL: 'ui/TOGGLE_CITE_MODAL',
 }
 
 export const toggleThumbnailsSidebar = () => ({
@@ -26,4 +27,8 @@ export const scrollToRelatedPapers = () => ({
 
 export const unsetRelatedPapers = () => ({
   type: UI_ACTIONS.UNSET_RELATED_PAPERS,
+})
+
+export const toggleCiteModal = () => ({
+  type: UI_ACTIONS.TOGGLE_CITE_MODAL,
 })

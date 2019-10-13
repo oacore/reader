@@ -1,0 +1,32 @@
+@import "../bootstrap/variables";
+
+.cite-modal {
+  width: 100%;
+  @media (min-width: 1200px) {
+    width: 700px;
+    max-width: 700px;
+  }
+
+  .cite-row {
+    display: flex;
+
+    .cite-norm-name {
+      flex-grow: 1;
+      text-align: right;
+      color: $gray-600;
+      flex-basis: 10rem;
+    }
+
+    .cite-norm-text {
+      flex-grow: 5;
+      align-self: start;
+      margin-left: 2rem;
+    }
+  }
+
+  .cite-export-button {
+    color: $primary;
+    border: currentColor 2px solid;
+    border-radius: 0;
+  }
+}

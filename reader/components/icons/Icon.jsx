@@ -12,6 +12,7 @@ import RightArrowIcon from './assets/right-arrow.svg'
 import RotateIcon from './assets/rotate.svg'
 import ZoomInIcon from './assets/zoom-in.svg'
 import ZoomOutIcon from './assets/zoom-out.svg'
+import CiteIcon from './assets/cite.svg'
 import CoreSymbolIcon from './assets/core-symbol.svg'
 
 const mapNameToModule = name => {
@@ -28,13 +29,14 @@ const mapNameToModule = name => {
     'zoom-in': ZoomInIcon,
     'zoom-out': ZoomOutIcon,
     rotate: RotateIcon,
+    cite: CiteIcon,
   }
 
   if (!(name in iconMap)) throw new Error(`Icon ${name} not found`)
   return iconMap[name]
 }
 
-const Icon = React.memo(({ iconType, isActive = false }) => (
+const Icon = React.memo(({ iconType, isActive = false, className = '' }) => (
   // `key` property has to be specified otherwise component
   // won't rerender when isActive changes
   // `react-inlinesvg` rerenders SVG component only
@@ -42,7 +44,7 @@ const Icon = React.memo(({ iconType, isActive = false }) => (
   <SVG
     key={`${iconType}.reader-icon.${isActive ? 'active' : ''}`}
     src={mapNameToModule(iconType)}
-    className={`reader-icon ${isActive ? 'active' : ''}`}
+    className={`reader-icon ${isActive ? 'active' : ''} ${className}`}
   />
 ))
 

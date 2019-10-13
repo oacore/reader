@@ -7,8 +7,17 @@ import Layout from './components/layout/Layout'
 import './components/bootstrap/bootstrap.scss'
 import Print from './components/print/Print'
 import GlobalStore from './store'
+import CiteModal from './components/cite-modal/CiteModal'
 
-const CoreReader = ({ id, downloadUrl, repositories, year }) => {
+const CoreReader = ({
+  id,
+  downloadUrl,
+  repositories,
+  year,
+  publisher,
+  authors,
+  title,
+}) => {
   // Create shared Queue for rendering pages and thumbnails
   const renderingQueue = new PDFRenderingQueue()
 
@@ -28,6 +37,9 @@ const CoreReader = ({ id, downloadUrl, repositories, year }) => {
           url: downloadUrl,
           repositories,
           year,
+          publisher,
+          authors,
+          title,
         }}
         document={{
           eventBus,
@@ -35,6 +47,7 @@ const CoreReader = ({ id, downloadUrl, repositories, year }) => {
           renderingQueue,
         }}
       >
+        <CiteModal />
         <Print ref={printContainerRef} />
         <Layout id="pdf-viewer-container">
           <Header printContainerRef={printContainerRef} />
