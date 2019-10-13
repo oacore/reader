@@ -1,18 +1,36 @@
 import React from 'react'
-import { sortBy } from 'lodash'
 import './EnhancementSidebar.scss'
 import { useGlobalStore } from '../../store'
 
 const EnhancementSidebar = () => {
   const [{ ui, document }] = useGlobalStore()
 
-  const sortedAnnotations = sortBy(document.annotations, [
-    annotation => sortBy(Object.keys(annotation.rects))[0],
-    annotation =>
-      annotation.rects[sortBy(Object.keys(annotation.rects))[0]][0].top,
-    annotation =>
-      annotation.rects[sortBy(Object.keys(annotation.rects))[0]][0].left,
-  ])
+  const sortedAnnotations = Object.keys(document.annotations)
+    .map(annotationId => [annotationId, annotations[annotationId]])
+    .sort(([, firstAnnotation], [, secondAnnotation]) => {
+      const firstAnnotationId = Object.keys(firstAnnotation.rects).sort()[0]
+      const secondAnnotationId = Object.keys(secondAnnotation.rects).sort()[0]
+
+      if (firstAnnotationId < secondAnnotationId) return -1
+      if (firstAnnotationId > secondAnnotationId) return 1
+
+      const firstAnnotationsSorted = firstAnnotation.rects[firstAnnotationId]
+        .map(f => [f.top, f.left])
+        .sort()
+      const secondAnnotationsSorted = secondAnnotation.rects[secondAnnotationId]
+        .map(f => [f.top, f.left])
+        .sort()
+
+      if (firstAnnotationsSorted[0][0] < secondAnnotationsSorted[0][0])
+        return -1
+      if (firstAnnotationsSorted[0][0] > secondAnnotationsSorted[0][0]) return 1
+
+      if (firstAnnotationsSorted[0][1] < secondAnnotationsSorted[0][1])
+        return -1
+      if (firstAnnotationsSorted[0][1] > secondAnnotationsSorted[0][1]) return 1
+
+      return 0
+    })
 
   return (
     <div
@@ -21,16 +39,14 @@ const EnhancementSidebar = () => {
         visibility: ui.isEnhancementSidebarVisible ? 'visible' : 'hidden',
       }}
     >
-      {Object.entries(sortedAnnotations).map(
-        ([annotationId, annotationContent]) => (
-          <div
-            key={annotationId}
-            className={`info-box info-box-${annotationContent.color} p-2`}
-          >
-            {annotationContent.selectedText}
-          </div>
-        )
-      )}
+      {sortedAnnotations.map(([annotationId, annotationContent]) => (
+        <div
+          key={annotationId}
+          className={`info-box info-box-${annotationContent.color} p-2`}
+        >
+          {annotationContent.selectedText}
+        </div>
+      ))}
     </div>
   )
 }

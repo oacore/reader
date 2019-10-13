@@ -1,5 +1,3 @@
-import { sortBy } from 'lodash'
-
 // TODO: allow to highlight when PDF is rotated
 const normalizeToScale1 = ({ top, left, width, height }, scale) => {
   if (scale >= 1) {
@@ -26,13 +24,19 @@ export const groupRectsByPage = (rects, pagesRange, pdfViewer) => {
 
   // seems like it's already sorted but I couldn't verify it in API doc
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/getClientRects
-  const sortedRects = sortBy(Array.from(rects), [r => r.top])
+  rects.sort((firstElement, secondElement) => {
+    if (firstElement.top < secondElement.top) return -1
+
+    if (firstElement.top > secondElement.top) return 1
+
+    return 0
+  })
 
   const rectsByPages = {}
   let pageNumber = pagesRange.selectionStartPage.number
   let pageView = pdfViewer.getPageView(Number(pageNumber) - 1)
   // eslint-disable-next-line no-restricted-syntax
-  for (const rect of sortedRects) {
+  for (const rect of rects) {
     if (rect.top - shiftPage > pageRect.bottom - shiftPage) {
       pageNumber++
       pageNode = pageNode.nextSibling

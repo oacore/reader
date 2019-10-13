@@ -1,5 +1,5 @@
 import React from 'react'
-import { isEmpty, noop, debounce } from 'lodash'
+import withAppContext from '../../../store/withAppContext'
 import { withGlobalStore } from '../../../store'
 import { toggleEnhancementSidebar } from '../../../store/ui/actions'
 import { setAnnotation } from '../../../store/document/actions'
@@ -17,8 +17,8 @@ class ContextMenu extends React.PureComponent {
       dispatch,
     } = this.props
     const { rects, selectedText, annotationId } = this.props
-    let toggleSidebar = noop
-    if (!ui.isEnhancementSidebarVisible && isEmpty(document.annotations))
+    let toggleSidebar = () => {}
+    if (!ui.isEnhancementViewVisible && Object.entries(document.annotations).length === 0)
       toggleSidebar = () => dispatch(toggleEnhancementSidebar)
 
     if (annotationId !== null) {
@@ -82,10 +82,10 @@ class ContextMenu extends React.PureComponent {
           if (!this.state.isInnerVisible)
             this.setState({ isInnerVisible: true })
         }}
-        onMouseLeave={debounce(() => {
+        onMouseLeave={() => {
           if (this.state.isInnerVisible)
             this.setState({ isInnerVisible: false })
-        }, 100)}
+        }}
       >
         <div className="highlight-popup">
           <div className="d-flex justify-content-between">
