@@ -8168,10 +8168,10 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-web-streams-polyfill@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-2.0.4.tgz#67ba73e42ae7c1d6dd64498e6e0a7952fb3993eb"
-  integrity sha512-hsLbiIZou2pZoht4VxfITEbCUz09YhZaaYFNICaZo7SOJrtW3/35LsJoAXeB8HITOlKpuWU0tFvtItOS2PpbsA==
+web-streams-polyfill@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-2.0.5.tgz#63defc04cd3b56d6f8bf2c6cdf996b626f812821"
+  integrity sha512-jECu/7ilpv3Q3bRP9yVtC+/DkEKM4imnIJMT7DD5Dx0TB9ylWpPtanpnQSxf4x2q1iyMr6kYEYD9hGipbRhh5w==
 
 webpack-dev-middleware@3.7.0:
   version "3.7.0"
