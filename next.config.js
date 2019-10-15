@@ -31,7 +31,9 @@ if (missingEnvVars.length > 0) {
   process.exit(1)
 }
 
+const isExpress = process.env.EXPRESS_SERVER
 const nextConfig = {
+  assetPrefix: isExpress ? '/reader-beta' : '',
   webpack: config => {
     const originalEntry = config.entry
     config.entry = async () => {
