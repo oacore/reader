@@ -3,9 +3,9 @@
   "name": "reader",
   "build": {
     "env": {
+      "BUILD_TARGET": "now",
       "CORE_API_KEY": "@core_api_key",
-      "CORE_RECOMMENDER_API_KEY": "@core_recommender_api_key",
-      "NOW_DEPLOYMENT": "@now_deployment"
+      "CORE_RECOMMENDER_API_KEY": "@core_recommender_api_key"
     }
   },
   "builds": [{ "src": "next.config.js", "use": "@now/next" }],
