@@ -2,9 +2,9 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import ErrorPage from 'next/error'
-import getArticleMetadata from '../../reader/utils/getArticleMetadata'
+import getArticleMetadata from '../reader/utils/getArticleMetadata'
 
-const CoreReader = dynamic(() => import('../../reader'), {
+const CoreReader = dynamic(() => import('../reader'), {
   ssr: false,
 })
 
