@@ -1,10 +1,10 @@
-import withCss from '@zeit/next-css'
-import withSass from '@zeit/next-sass'
-import withImages from 'next-images'
-import withWorkers from '@zeit/next-workers'
-import withTM from 'next-transpile-modules'
-import webpack from 'webpack'
-import dotenv from 'dotenv'
+const withCss = require('@zeit/next-css')
+const withSass = require('@zeit/next-sass')
+const withImages = require('next-images')
+const withWorkers = require('@zeit/next-workers')
+const withTM = require('next-transpile-modules')
+const webpack = require('webpack')
+const dotenv = require('dotenv')
 
 dotenv.config()
 
@@ -31,9 +31,18 @@ if (missingEnvVars.length > 0) {
   process.exit(1)
 }
 
-const isExpress = process.env.EXPRESS_SERVER
+/** Build Target
+ *
+ * Supports the following values:
+ * - 'aws' – Amazon Web Services, production
+ * - 'now' – ZEIT Now, testing
+ *
+ * If not set or empty, means development environment.
+ */
+const { BUILD_TARGET } = process.env
+
 const nextConfig = {
-  assetPrefix: isExpress ? '/reader-beta' : '',
+  assetPrefix: BUILD_TARGET === 'aws' ? '/reader-beta' : '',
   webpack: config => {
     const originalEntry = config.entry
     config.entry = async () => {
@@ -57,9 +66,11 @@ const nextConfig = {
     return config
   },
   transpileModules: ['pdfjs-dist/external', 'pdfjs-dist/lib'],
-  workerLoaderOptions: {
-    name: 'static/[hash].worker.js',
-  },
+}
+
+nextConfig.workerLoaderOptions = {
+  publicPath: `${nextConfig.assetPrefix}/_next/`,
+  name: 'static/[hash].worker.js',
 }
 
 module.exports = withTM(withWorkers(withImages(withSass(withCss(nextConfig)))))
