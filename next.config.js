@@ -57,6 +57,9 @@ const nextConfig = {
     return config
   },
   transpileModules: ['pdfjs-dist/external', 'pdfjs-dist/lib'],
+  workerLoaderOptions: {
+    name: 'static/[hash].worker.js',
+  },
 }
 
 module.exports = withTM(withWorkers(withImages(withSass(withCss(nextConfig)))))
