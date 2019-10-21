@@ -55,7 +55,7 @@
     "react-dom": "^16.9.0",
     "react-inlinesvg": "^1.1.7",
     "react-to-print": "2.4.0",
-    "reactstrap": "^8.0.1",
+    "reactstrap": "^8.1.1",
     "web-streams-polyfill": "^2.0.5",
     "webpack": "^4.41.1",
     "worker-loader": "^2.0.0"
