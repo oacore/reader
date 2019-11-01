@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import ErrorPage from 'next/error'
 import getArticleMetadata from '../reader/utils/getArticleMetadata'
+import withGoogleAnalytics from '../utils/withGoogleAnalytics'
 
 const CoreReader = dynamic(() => import('../reader'), {
   ssr: false,
@@ -76,4 +77,4 @@ class Reader extends React.Component {
   }
 }
 
-export default Reader
+export default withGoogleAnalytics(Reader)

@@ -58,6 +58,7 @@ const nextConfig = {
         CORE_RECOMMENDER_API_KEY: JSON.stringify(
           process.env.CORE_RECOMMENDER_API_KEY
         ),
+        GA_TRACKING_CODE: JSON.stringify(process.env.GA_TRACKING_CODE),
       })
     )
 
