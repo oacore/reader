@@ -5,6 +5,7 @@ import Icon from '../icons/Icon'
 import GlobalContext from '../../store/configureContext'
 import { downloadPDF } from '../pdf-downloader/PDFDownloader'
 import './Header.scss'
+import Logo from '../logo/Logo'
 
 const Header = () => {
   const {
@@ -52,8 +53,9 @@ const Header = () => {
             else
               window.location = `https://${coreHostname}/${pdfMetadataSuffix}`
           }}
+          className="w-auto"
         >
-          <Icon iconType="info" />
+          <Logo />
         </Button>
       </div>
       <div className="item d-flex justify-content-end">
