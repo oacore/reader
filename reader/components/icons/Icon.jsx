@@ -5,7 +5,6 @@ import DownloadIcon from './assets/download.svg'
 import OutlineIcon from './assets/outline.svg'
 import ThumbnailsIcon from './assets/thumbnails.svg'
 import PaperInfoIcon from './assets/paper_info.svg'
-import InfoIcon from './assets/info.svg'
 import PrintIcon from './assets/print.svg'
 import ShareIcon from './assets/share.svg'
 import LeftArrowIcon from './assets/left-arrow.svg'
@@ -20,7 +19,6 @@ const mapNameToModule = name => {
     outline: OutlineIcon,
     thumbnails: ThumbnailsIcon,
     paper_info: PaperInfoIcon,
-    info: InfoIcon,
     print: PrintIcon,
     share: ShareIcon,
     'left-arrow': LeftArrowIcon,
