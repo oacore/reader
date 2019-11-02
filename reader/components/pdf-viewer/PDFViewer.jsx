@@ -20,11 +20,11 @@ class PDFViewer extends React.PureComponent {
 
   componentDidMount() {
     const {
-      pdfLinkService,
-      pdfEventBus,
-      pdfRenderingQueue,
-      setPDFDocument,
-      pdfDocumentProxy,
+      linkService,
+      eventBus,
+      renderingQueue,
+      setDocument,
+      documentProxy,
     } = this.props
 
     // PDFViewer allows to render pages on demand,
@@ -34,42 +34,42 @@ class PDFViewer extends React.PureComponent {
       container: this.containerNode,
       viewer: this.viewerNode,
       enhanceTextSelection: true,
-      renderingQueue: pdfRenderingQueue,
-      eventBus: pdfEventBus,
-      linkService: pdfLinkService,
+      renderingQueue,
+      eventBus,
+      linkService,
     })
 
-    pdfEventBus.on('pagesinit', this.onPagesInit)
-    pdfEventBus.on('pagesloaded', this.onPagesLoaded)
+    eventBus.on('pagesinit', this.onPagesInit)
+    eventBus.on('pagesloaded', this.onPagesLoaded)
 
-    pdfRenderingQueue.setViewer(this.pdfViewer)
-    pdfLinkService.setViewer(this.pdfViewer)
+    renderingQueue.setViewer(this.pdfViewer)
+    linkService.setViewer(this.pdfViewer)
 
-    this.pdfViewer.setDocument(pdfDocumentProxy)
-    pdfLinkService.setDocument(pdfDocumentProxy)
+    this.pdfViewer.setDocument(documentProxy)
+    linkService.setDocument(documentProxy)
 
-    setPDFDocument({
-      pdfViewer: this.pdfViewer,
-      pdfDocumentProxy,
+    setDocument({
+      viewer: this.pdfViewer,
+      documentProxy,
     })
   }
 
   componentWillUnmount() {
-    const { pdfEventBus } = this.props
+    const { eventBus } = this.props
 
     // unregister all event listeners
-    pdfEventBus.off('pagesinit', this.onPagesInit)
-    pdfEventBus.off('pagesloaded', this.onPagesLoaded)
+    eventBus.off('pagesinit', this.onPagesInit)
+    eventBus.off('pagesloaded', this.onPagesLoaded)
   }
 
   onPagesLoaded = () => {
-    const { setPDFDocument } = this.props
+    const { setDocument } = this.props
 
     this.setState({
       metadataContainerWidth: this.pdfViewer.getPageView(0).width,
     })
-    setPDFDocument({
-      pdfPagesLoaded: true,
+    setDocument({
+      pagesLoaded: true,
     })
   }
 
@@ -79,7 +79,7 @@ class PDFViewer extends React.PureComponent {
     this.setState({ toolbarEnabled: true })
   }
 
-  Metadata = ({ pdfMetadata }) => {
+  Metadata = ({ metadata }) => {
     return (
       <div
         className="pdf-metadata d-flex justify-content-between pt-2"
@@ -89,10 +89,10 @@ class PDFViewer extends React.PureComponent {
       >
         <div className="pdf-metadata-left" />
         <div className="pdf-metadata-right">
-          {pdfMetadata.repositories.length
-            ? `${pdfMetadata.repositories[0].name},`
+          {metadata.repositories.length
+            ? `${metadata.repositories[0].name},`
             : ''}{' '}
-          <b>{pdfMetadata.year}</b>
+          <b>{metadata.year}</b>
         </div>
       </div>
     )
@@ -103,7 +103,7 @@ class PDFViewer extends React.PureComponent {
   // when particular PDF page is not rendered
   render() {
     const { toolbarEnabled, metadataContainerWidth } = this.state
-    const { pdfMetadata, pdfEventBus } = this.props
+    const { metadata, eventBus } = this.props
     const { Metadata, pdfViewer } = this
 
     return (
@@ -113,7 +113,7 @@ class PDFViewer extends React.PureComponent {
           this.containerNode = node
         }}
       >
-        {metadataContainerWidth && <Metadata pdfMetadata={pdfMetadata} />}
+        {metadataContainerWidth && <Metadata metadata={metadata} />}
         <div
           ref={node => {
             this.viewerNode = node
@@ -122,7 +122,7 @@ class PDFViewer extends React.PureComponent {
         />
         <PDFRecommender containerWidth={metadataContainerWidth} />
         {toolbarEnabled && (
-          <PDFToolbar pdfViewer={pdfViewer} pdfEventBus={pdfEventBus} />
+          <PDFToolbar viewer={pdfViewer} eventBus={eventBus} />
         )}
       </div>
     )

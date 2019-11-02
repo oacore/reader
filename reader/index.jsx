@@ -1,16 +1,13 @@
 import React, { useRef } from 'react'
-import { PDFRenderingQueue as _PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
-import {
-  EventBus as _PDFEventBus,
-  PDFLinkService as _PDFLinkService,
-} from 'pdfjs-dist/web/pdf_viewer'
+import { PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
+import { EventBus, PDFLinkService } from 'pdfjs-dist/web/pdf_viewer'
 import Head from 'next/head'
 import Header from './components/header/Header'
 import MainArea from './components/main-area/MainArea'
-import GlobalProvider from './store/GlobalProvider'
 import Layout from './components/layout'
 import './components/bootstrap/bootstrap.scss'
 import PDFPrint from './components/pdf-print/PDFPrint'
+import GlobalStore from './store'
 
 const CoreReader = ({
   id,
@@ -24,13 +21,13 @@ const CoreReader = ({
   subjects,
 }) => {
   // Create shared Queue for rendering pages and thumbnails
-  const pdfRenderingQueue = new _PDFRenderingQueue()
+  const renderingQueue = new PDFRenderingQueue()
 
   // Bus used for catching all events from PDF.js
-  const pdfEventBus = new _PDFEventBus({ dispatchToDOM: false })
+  const eventBus = new EventBus({ dispatchToDOM: false })
 
   // Link service allows to clicking on internal links in PDF
-  const pdfLinkService = new _PDFLinkService(pdfEventBus)
+  const linkService = new PDFLinkService(eventBus)
 
   const printContainerRef = useRef()
 
@@ -72,22 +69,25 @@ const CoreReader = ({
           `}
         </style>
       </Head>
-      <GlobalProvider
-        pdfRenderingQueue={pdfRenderingQueue}
-        pdfEventBus={pdfEventBus}
-        pdfLinkService={pdfLinkService}
-        id={id}
-        url={downloadUrl}
-        repositories={repositories}
-        year={year}
-        printContainerRef={printContainerRef}
+      <GlobalStore
+        metadata={{
+          id,
+          url: downloadUrl,
+          repositories,
+          year,
+        }}
+        document={{
+          eventBus,
+          linkService,
+          renderingQueue,
+        }}
       >
         <PDFPrint ref={printContainerRef} />
         <Layout id="pdf-viewer-container">
-          <Header />
+          <Header printContainerRef={printContainerRef} />
           <MainArea />
         </Layout>
-      </GlobalProvider>
+      </GlobalStore>
     </>
   )
 }

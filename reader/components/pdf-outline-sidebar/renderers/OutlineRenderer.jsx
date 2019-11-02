@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Collapse } from 'reactstrap'
 
-const OutlineGroup = ({ outline, pdfLinkService, isExpanded }) => {
+const OutlineGroup = ({ outline, linkService, isExpanded }) => {
   return (
     <Collapse isOpen={isExpanded}>
       <ol>
@@ -11,7 +11,7 @@ const OutlineGroup = ({ outline, pdfLinkService, isExpanded }) => {
             <OutlineItem
               key={`${index}${isExpanded}`}
               item={item}
-              pdfLinkService={pdfLinkService}
+              pdfLinkService={linkService}
               isExpanded={isExpanded}
             />
           )
@@ -22,7 +22,7 @@ const OutlineGroup = ({ outline, pdfLinkService, isExpanded }) => {
   )
 }
 
-const OutlineItem = ({ isExpanded, item, pdfLinkService }) => {
+const OutlineItem = ({ isExpanded, item, linkService }) => {
   const [isOpen, toggleIsOpen] = useState(isExpanded)
 
   return (
@@ -38,16 +38,16 @@ const OutlineItem = ({ isExpanded, item, pdfLinkService }) => {
       )}
       <a
         onClick={() => {
-          if (item.dest) pdfLinkService.navigateTo(item.dest)
+          if (item.dest) linkService.navigateTo(item.dest)
           return false
         }}
-        href={pdfLinkService.getDestinationHash(item.dest)}
+        href={linkService.getDestinationHash(item.dest)}
       >
         {item.title}
       </a>
       {Boolean(item.items.length) && (
         <OutlineGroup
-          pdfLinkService={pdfLinkService}
+          linkService={linkService}
           outline={item.items}
           isExpanded={isOpen}
         />

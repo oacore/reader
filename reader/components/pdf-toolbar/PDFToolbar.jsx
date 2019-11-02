@@ -7,33 +7,33 @@ const MIN_SCALE = 0.1
 const MAX_SCALE = 10.0
 const DEFAULT_SCALE_DELTA = 1.1
 
-const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
+const PDFToolbar = ({ viewer, eventBus }) => {
   const [, currPageChange] = useState(1)
   const [, scaleChange] = useState(0)
 
   const zoomIn = () => {
-    let newScale = pdfViewer.currentScale
+    let newScale = viewer.currentScale
     newScale = (newScale * DEFAULT_SCALE_DELTA).toFixed(2)
     newScale = Math.ceil(newScale * 10) / 10
     newScale = Math.min(MAX_SCALE, newScale)
-    pdfViewer.currentScaleValue = newScale
+    viewer.currentScaleValue = newScale
   }
 
   const zoomOut = () => {
-    let newScale = pdfViewer.currentScale
+    let newScale = viewer.currentScale
     newScale = (newScale / DEFAULT_SCALE_DELTA).toFixed(2)
     newScale = Math.floor(newScale * 10) / 10
     newScale = Math.max(MIN_SCALE, newScale)
-    pdfViewer.currentScaleValue = newScale
+    viewer.currentScaleValue = newScale
   }
 
   useEffect(() => {
     // component didMount
     const onPageChange = e => currPageChange(e.pageNumber)
-    pdfEventBus.on('pagechanging', onPageChange)
+    eventBus.on('pagechanging', onPageChange)
 
     // component will unmount
-    return () => pdfEventBus.off('pagechanging', onPageChange)
+    return () => eventBus.off('pagechanging', onPageChange)
   }, [])
 
   return (
@@ -45,12 +45,11 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
           className="btn p-2"
           onClick={() => {
             const delta = 90
-            pdfViewer.pagesRotation =
-              (pdfViewer.pagesRotation + 360 + delta) % 360
+            viewer.pagesRotation = (viewer.pagesRotation + 360 + delta) % 360
 
             // important to rerender otherwise page becomes slightly
             // blurred until scroll event occurs
-            pdfViewer.update()
+            viewer.update()
           }}
         >
           <Icon iconType="rotate" />
@@ -59,11 +58,11 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
           title="Zoom in"
           type="button"
           className="btn p-2"
-          disabled={pdfViewer.currentScaleValue >= MAX_SCALE}
+          disabled={viewer.currentScaleValue >= MAX_SCALE}
           onClick={() => {
             zoomIn()
-            scaleChange(pdfViewer.currentScaleValue)
-            pdfViewer.update()
+            scaleChange(viewer.currentScaleValue)
+            viewer.update()
           }}
         >
           <Icon iconType="zoom-in" />
@@ -72,11 +71,11 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
           title="Zoom out"
           type="button"
           className="btn p-2"
-          disabled={pdfViewer.currentScaleValue <= MIN_SCALE}
+          disabled={viewer.currentScaleValue <= MIN_SCALE}
           onClick={() => {
             zoomOut()
-            scaleChange(pdfViewer.currentScaleValue)
-            pdfViewer.update()
+            scaleChange(viewer.currentScaleValue)
+            viewer.update()
           }}
         >
           <Icon iconType="zoom-out" />
@@ -87,20 +86,20 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
           title="Previous page"
           type="button"
           className="btn p-2"
-          disabled={pdfViewer.currentPageNumber <= 1}
-          onClick={() => --pdfViewer.currentPageNumber}
+          disabled={viewer.currentPageNumber <= 1}
+          onClick={() => --viewer.currentPageNumber}
         >
           <Icon iconType="left-arrow" />
         </button>
         <div>
-          {pdfViewer.currentPageNumber} / {pdfViewer.pagesCount}
+          {viewer.currentPageNumber} / {viewer.pagesCount}
         </div>
         <button
           title="Next page"
           type="button"
           className="btn p-2"
-          disabled={pdfViewer.currentPageNumber >= pdfViewer.pagesCount}
-          onClick={() => pdfViewer.currentPageNumber++}
+          disabled={viewer.currentPageNumber >= viewer.pagesCount}
+          onClick={() => viewer.currentPageNumber++}
         >
           <Icon iconType="right-arrow" />
         </button>

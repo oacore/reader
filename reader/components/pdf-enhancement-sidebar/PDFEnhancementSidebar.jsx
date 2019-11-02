@@ -1,14 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { sortBy } from 'lodash'
 import './PDFEnhancementSidebar.scss'
-import GlobalContext from '../../store/configureContext'
+import { useGlobalStore } from '../../store'
 
 const PDFEnhancementSidebar = () => {
-  const {
-    state: { isEnhancementViewVisible, annotations },
-  } = useContext(GlobalContext)
+  const [{ ui, document }] = useGlobalStore()
 
-  const sortedAnnotations = sortBy(annotations, [
+  const sortedAnnotations = sortBy(document.annotations, [
     annotation => sortBy(Object.keys(annotation.rects))[0],
     annotation =>
       annotation.rects[sortBy(Object.keys(annotation.rects))[0]][0].top,
@@ -19,7 +17,9 @@ const PDFEnhancementSidebar = () => {
   return (
     <div
       className="pdf-enhancement-sidebar"
-      style={{ visibility: isEnhancementViewVisible ? 'visible' : 'hidden' }}
+      style={{
+        visibility: ui.isEnhancementSidebarVisible ? 'visible' : 'hidden',
+      }}
     >
       {Object.entries(sortedAnnotations).map(
         ([annotationId, annotationContent]) => (
