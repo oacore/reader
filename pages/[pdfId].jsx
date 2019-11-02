@@ -39,6 +39,22 @@ class Reader extends React.Component {
         <Head>
           <title>{title} - CORE Reader</title>
 
+          {['64', '128', '256', '512'].map(size => (
+            <link
+              rel="icon"
+              type="image/png"
+              sizes={`${size}x${size}`}
+              href={`/static/favicon/favicon-${size}px.png`}
+            />
+          ))}
+
+          <link
+            rel="icon"
+            sizes="any"
+            type="image/svg+xml"
+            href="/static/favicon/favicon.svg"
+          />
+
           <meta name="DC.format" content={downloadUrl} />
           <meta name="citation_pdf_url" content={downloadUrl} />
 
