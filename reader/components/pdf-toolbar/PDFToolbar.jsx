@@ -40,6 +40,7 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
     <div className="pdf-toolbar d-flex flex-row justify-content-end align-items-center">
       <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-5">
         <button
+          title="Rotate"
           type="button"
           className="btn p-2"
           onClick={() => {
@@ -55,6 +56,7 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
           <Icon iconType="rotate" />
         </button>
         <button
+          title="Zoom In"
           type="button"
           className="btn p-2"
           disabled={pdfViewer.currentScaleValue >= MAX_SCALE}
@@ -67,6 +69,7 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
           <Icon iconType="zoom-in" />
         </button>
         <button
+          title="Zoom Out"
           type="button"
           className="btn p-2"
           disabled={pdfViewer.currentScaleValue <= MIN_SCALE}
@@ -81,6 +84,7 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
       </div>
       <div className="pdf-pagination d-flex flex-row align-items-center justify-content-between mr-5">
         <button
+          title="Previous Page"
           type="button"
           className="btn p-2"
           disabled={pdfViewer.currentPageNumber <= 1}
@@ -92,6 +96,7 @@ const PDFToolbar = ({ pdfViewer, pdfEventBus }) => {
           {pdfViewer.currentPageNumber} / {pdfViewer.pagesCount}
         </div>
         <button
+          title="Next Page"
           type="button"
           className="btn p-2"
           disabled={pdfViewer.currentPageNumber >= pdfViewer.pagesCount}
