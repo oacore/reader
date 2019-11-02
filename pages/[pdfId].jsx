@@ -55,6 +55,7 @@ class Reader extends React.Component {
             href="/static/favicon/favicon.svg"
           />
 
+          <meta name="referrer" content="origin" />
           <meta name="DC.format" content={downloadUrl} />
           <meta name="citation_pdf_url" content={downloadUrl} />
 
