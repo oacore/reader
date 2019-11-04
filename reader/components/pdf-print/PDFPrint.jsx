@@ -8,9 +8,9 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap'
-import withAppContext from '../../store/withAppContext'
 
 import './PDFPrint.scss'
+import { withGlobalStore } from '../../store'
 
 // The size of the canvas in pixels for printing.
 const PRINT_RESOLUTION = 150
@@ -70,25 +70,21 @@ class PDFPrint extends React.Component {
 
   onBeforePrint = () => {
     const {
-      context: {
-        state: {
-          pdfDocument: { pdfViewer },
-        },
-      },
-    } = this.props
+      document: { viewer },
+    } = this.props.store
 
     this.printRejected = false
     this.setState({
       isPrintModalOpen: true,
     })
 
-    if (!pdfViewer.hasEqualPageSizes) {
+    if (!viewer.hasEqualPageSizes) {
       console.warn(
         'Not all pages have the same size. The printed result may be incorrect!'
       )
     }
 
-    this.pagesOverview = pdfViewer.getPagesOverview()
+    this.pagesOverview = viewer.getPagesOverview()
     return this._renderPages()
   }
 
@@ -131,11 +127,7 @@ class PDFPrint extends React.Component {
 
   _renderPage = (pageNumber, size) => {
     const {
-      context: {
-        state: {
-          pdfDocument: { pdfDocumentProxy },
-        },
-      },
+      store: { document },
     } = this.props
 
     this.scratchCanvas.width = Math.floor(size.width * PRINT_UNITS)
@@ -151,7 +143,7 @@ class PDFPrint extends React.Component {
     ctx.fillRect(0, 0, this.scratchCanvas.width, this.scratchCanvas.height)
     ctx.restore()
 
-    return pdfDocumentProxy
+    return document.documentProxy
       .getPage(pageNumber)
       .then(pdfPage => {
         const renderContext = {
@@ -226,4 +218,4 @@ class PDFPrint extends React.Component {
   }
 }
 
-export default withAppContext(PDFPrint)
+export default withGlobalStore(PDFPrint)

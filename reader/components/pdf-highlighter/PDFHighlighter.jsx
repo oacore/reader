@@ -3,12 +3,12 @@ import ReactDom from 'react-dom'
 import throttle from '../../utils/throttle'
 import { getPageFromRange } from './utils/utils'
 import { groupRectsByPage } from './utils/rects'
-import withAppContext from '../../store/withAppContext'
 import ContextMenu from './components/ContextMenu'
 import { findOrCreateLayerForContextMenu } from './utils/layer'
 import Highlights from './components/Highlights'
 
 import './PDFHighlighter.scss'
+import { withGlobalStore } from '../../store'
 
 class PDFHighlighter extends React.Component {
   state = {
@@ -46,19 +46,13 @@ class PDFHighlighter extends React.Component {
   @throttle(250)
   onAfterSelection() {
     const {
-      state: {
-        pdfDocument: { pdfViewer },
-      },
-    } = this.props.context
+      document: { viewer },
+    } = this.props.store
     const selection = window.getSelection()
 
     // no text was selected
     // https://developer.mozilla.org/en-US/docs/Web/API/Selection/isCollapsed
-    if (
-      selection.isCollapsed ||
-      selection.rangeCount <= 0 ||
-      pdfViewer === null
-    ) {
+    if (selection.isCollapsed || selection.rangeCount <= 0 || viewer === null) {
       this.setState({ isVisible: false })
       return
     }
@@ -76,7 +70,7 @@ class PDFHighlighter extends React.Component {
 
     if (!pagesRange.selectionStartPage || !pagesRange.selectionEndPage) return
 
-    const rectsByPage = groupRectsByPage(rects, pagesRange, pdfViewer)
+    const rectsByPage = groupRectsByPage(rects, pagesRange, viewer)
     const firstRect = rects[0]
     const pdfRect = pagesRange.selectionStartPage.node.getBoundingClientRect()
 
@@ -158,4 +152,4 @@ class PDFHighlighter extends React.Component {
   }
 }
 
-export default withAppContext(PDFHighlighter)
+export default withGlobalStore(PDFHighlighter)

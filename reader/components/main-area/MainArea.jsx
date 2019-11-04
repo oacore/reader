@@ -1,40 +1,29 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import PDFViewer from '../pdf-viewer/PDFViewer'
 import PDFLoader from '../pdf-loader/PDFLoader'
 import PDFThumbnailSidebar from '../pdf-thumbnails-sidebar/PDFThumbnailSidebar'
 import PDFOutlineSidebar from '../pdf-outline-sidebar/PDFOutlineSidebar'
-import GlobalContext from '../../store/configureContext'
 
 import './MainArea.scss'
+import { useGlobalStore } from '../../store'
+import { setDocument } from '../../store/document/actions'
 
 const MainArea = () => {
-  const {
-    state: {
-      pdfDocument: {
-        pdfDocumentProxy,
-        pdfRenderingQueue,
-        pdfEventBus,
-        pdfLinkService,
-      },
-      pdfMetadata,
-    },
-    isSidebarOpen,
-    setPDFDocument,
-  } = useContext(GlobalContext)
+  const [{ metadata, ui, document }, dispatch] = useGlobalStore()
 
   return (
-    <div className={`main-area ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+    <div className={`main-area ${ui.isSidebarOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar">
-        {pdfDocumentProxy && <PDFThumbnailSidebar />}
-        {pdfDocumentProxy && <PDFOutlineSidebar />}
+        {document.documentProxy && <PDFThumbnailSidebar />}
+        {document.documentProxy && <PDFOutlineSidebar />}
       </div>
-      <PDFLoader pdfUrl={pdfMetadata.url} pdfDocumentProxy={pdfDocumentProxy}>
+      <PDFLoader url={metadata.url}>
         <PDFViewer
-          pdfLinkService={pdfLinkService}
-          pdfEventBus={pdfEventBus}
-          pdfRenderingQueue={pdfRenderingQueue}
-          pdfMetadata={pdfMetadata}
-          setPDFDocument={setPDFDocument}
+          linkService={document.linkService}
+          eventBus={document.eventBus}
+          renderingQueue={document.renderingQueue}
+          metadata={metadata}
+          setDocument={d => dispatch(setDocument(d))}
         />
       </PDFLoader>
     </div>

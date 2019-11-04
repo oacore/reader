@@ -1,6 +1,8 @@
 import React from 'react'
 import { isEmpty, noop, debounce } from 'lodash'
-import withAppContext from '../../../store/withAppContext'
+import { withGlobalStore } from '../../../store'
+import { toggleEnhancementSidebar } from '../../../store/ui/actions'
+import { setAnnotation } from '../../../store/document/actions'
 
 const HIGHLIGHTS_COLORS = ['red', 'yellow', 'green', 'blue']
 
@@ -11,26 +13,35 @@ class ContextMenu extends React.PureComponent {
 
   setAnnotationAndToggleSidebar(color) {
     const {
-      state: { annotations, isEnhancementViewVisible },
-      setAnnotation,
-      toggleIsEnhancementViewVisible,
-    } = this.props.context
+      store: { document, ui },
+      dispatch,
+    } = this.props
     const { rects, selectedText, annotationId } = this.props
     let toggleSidebar = noop
-    if (!isEnhancementViewVisible && isEmpty(annotations))
-      toggleSidebar = toggleIsEnhancementViewVisible
+    if (!ui.isEnhancementSidebarVisible && isEmpty(document.annotations))
+      toggleSidebar = () => dispatch(toggleEnhancementSidebar)
 
     if (annotationId !== null) {
-      setAnnotation(annotationId, {
-        color,
-      })
+      dispatch(
+        setAnnotation({
+          annotationId,
+          annotationContent: {
+            color,
+          },
+        })
+      )
     } else {
-      const annotationIndex = Object.keys(annotations).length + 1
-      setAnnotation(annotationIndex, {
-        color,
-        rects,
-        selectedText,
-      })
+      const annotationIndex = Object.keys(document.annotations).length + 1
+      dispatch(
+        setAnnotation({
+          annotationId: annotationIndex,
+          annotationContent: {
+            color,
+            rects,
+            selectedText,
+          },
+        })
+      )
       window.getSelection().removeAllRanges()
     }
 
@@ -48,17 +59,12 @@ class ContextMenu extends React.PureComponent {
   }
 
   render() {
-    if (!this.props.context.state) return null
-    const {
-      state: {
-        pdfDocument: { pdfViewer },
-      },
-    } = this.props.context
+    const { document } = this.props.store
     const { left, top, height } = this.props
 
     // TODO: Currently annotations are available only if page is not rotated
     const isMenuVisible =
-      pdfViewer.pagesRotation === 0 && this.determineVisibility()
+      document.viewer.pagesRotation === 0 && this.determineVisibility()
 
     return (
       <div
@@ -100,4 +106,4 @@ class ContextMenu extends React.PureComponent {
   }
 }
 
-export default withAppContext(ContextMenu)
+export default withGlobalStore(ContextMenu)

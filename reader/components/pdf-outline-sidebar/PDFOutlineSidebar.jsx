@@ -1,8 +1,8 @@
 import React from 'react'
 import { Spinner } from 'reactstrap'
-import withAppContext from '../../store/withAppContext'
 import OutlineGroup from './renderers/OutlineRenderer'
 import './PDFOutlineSidebar.scss'
+import { withGlobalStore } from '../../store'
 
 class PDFOutlineSidebar extends React.PureComponent {
   containerNode = null
@@ -14,14 +14,10 @@ class PDFOutlineSidebar extends React.PureComponent {
 
   componentDidMount() {
     const {
-      context: {
-        state: {
-          pdfDocument: { pdfDocumentProxy },
-        },
-      },
+      store: { document },
     } = this.props
 
-    pdfDocumentProxy.getOutline().then(outline => {
+    document.documentProxy.getOutline().then(outline => {
       this.setState({
         isOutlineLoading: false,
         outline,
@@ -31,10 +27,8 @@ class PDFOutlineSidebar extends React.PureComponent {
 
   Outline = ({ outline }) => {
     const {
-      context: {
-        state: {
-          pdfDocument: { pdfLinkService },
-        },
+      store: {
+        document: { linkService },
       },
     } = this.props
 
@@ -42,19 +36,13 @@ class PDFOutlineSidebar extends React.PureComponent {
       return <h5>PDF does not contain any outline</h5>
 
     return (
-      <OutlineGroup
-        isExpanded
-        pdfLinkService={pdfLinkService}
-        outline={outline}
-      />
+      <OutlineGroup isExpanded linkService={linkService} outline={outline} />
     )
   }
 
   render() {
     const {
-      context: {
-        state: { isOutlineViewVisible },
-      },
+      store: { ui },
     } = this.props
     const { isOutlineLoading, outline } = this.state
     const { Outline } = this
@@ -65,7 +53,9 @@ class PDFOutlineSidebar extends React.PureComponent {
           this.containerNode = node
         }}
         className="pdf-outline-view"
-        style={{ visibility: isOutlineViewVisible ? 'visible' : 'hidden' }}
+        style={{
+          visibility: ui.isOutlineSidebarVisible ? 'visible' : 'hidden',
+        }}
       >
         {isOutlineLoading ? (
           <div className="d-flex flex-column justify-content-center">
@@ -80,4 +70,4 @@ class PDFOutlineSidebar extends React.PureComponent {
   }
 }
 
-export default withAppContext(PDFOutlineSidebar)
+export default withGlobalStore(PDFOutlineSidebar)

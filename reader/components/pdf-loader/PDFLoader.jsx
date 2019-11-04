@@ -4,27 +4,27 @@ import pdfjs from '../../lib/pdf-js/webpack'
 
 import './PDFLoader.scss'
 
-const PDFLoader = React.memo(({ pdfUrl, children }) => {
-  const [pdfDocumentProxy, setPdfDocumentProxy] = useState(null)
+const PDFLoader = React.memo(({ url, children }) => {
+  const [documentProxy, setDocumentProxy] = useState(null)
 
   // Load document on mount
   useEffect(() => {
     const loadPDFDocument = async () => {
       try {
-        const document = await pdfjs.getDocument(pdfUrl).promise
-        setPdfDocumentProxy(document)
+        const document = await pdfjs.getDocument(url).promise
+        setDocumentProxy(document)
       } catch (e) {
         // TODO: log it somewhere, e.g. Sentry
         console.error(
           `Unable to load PDF document. Redirecting to default browser view. Error: ${e}`
         )
-        window.location.replace(pdfUrl)
+        window.location.replace(url)
       }
     }
     loadPDFDocument()
   }, [])
 
-  if (pdfDocumentProxy) return cloneElement(children, { pdfDocumentProxy })
+  if (documentProxy) return cloneElement(children, { documentProxy })
 
   return (
     <div className="pdf-loader">

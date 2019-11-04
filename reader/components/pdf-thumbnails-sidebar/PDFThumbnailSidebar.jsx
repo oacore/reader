@@ -1,54 +1,43 @@
 import React from 'react'
 import PDFThumbnailViewer from '../../lib/pdf-js/PDFThumbnailViewer'
-import withAppContext from '../../store/withAppContext'
 
 import './PDFThumbnailSidebar.scss'
+import { withGlobalStore } from '../../store'
 
 class PDFThumbnailSidebar extends React.PureComponent {
   containerNode = null
 
   componentDidMount() {
     const {
-      context: {
-        state: {
-          pdfDocument: {
-            pdfDocumentProxy,
-            pdfLinkService,
-            pdfRenderingQueue,
-            pdfEventBus,
-          },
-        },
-      },
+      store: { document },
     } = this.props
+
+    const { renderingQueue, linkService, documentProxy, eventBus } = document
 
     this.thumbnailViewer = new PDFThumbnailViewer({
       container: this.containerNode,
-      linkService: pdfLinkService,
-      renderingQueue: pdfRenderingQueue,
+      linkService,
+      renderingQueue,
     })
 
-    pdfRenderingQueue.setThumbnailViewer(this.thumbnailViewer)
+    renderingQueue.setThumbnailViewer(this.thumbnailViewer)
 
     // When all visible pages are rendered we want to also render thumbnails
-    pdfRenderingQueue.isThumbnailViewEnabled = true
+    renderingQueue.isThumbnailViewEnabled = true
 
-    this.thumbnailViewer.setDocument(pdfDocumentProxy)
+    this.thumbnailViewer.setDocument(documentProxy)
 
-    pdfEventBus.on('pagechanging', this.onPageChanging)
-    pdfEventBus.on('rotationchanging', this.onRotationChanging)
+    eventBus.on('pagechanging', this.onPageChanging)
+    eventBus.on('rotationchanging', this.onRotationChanging)
   }
 
   componentWillUnmount() {
     const {
-      context: {
-        state: {
-          pdfDocument: { pdfEventBus },
-        },
-      },
+      store: { document },
     } = this.props
 
-    pdfEventBus.off('pagechanging', this.onPageChanging)
-    pdfEventBus.off('rotationchanging', this.onRotationChanging)
+    document.eventBus.off('pagechanging', this.onPageChanging)
+    document.eventBus.off('rotationchanging', this.onRotationChanging)
   }
 
   onPageChanging = e => {
@@ -58,24 +47,20 @@ class PDFThumbnailSidebar extends React.PureComponent {
 
   onRotationChanging = e => {
     const {
-      context: {
-        state: {
-          pdfDocument: { pdfViewer, pdfRenderingQueue },
-        },
-      },
+      store: { document },
     } = this.props
+
+    const { renderingQueue, viewer } = document
     this.thumbnailViewer.pagesRotation = e.pagesRotation
 
-    pdfRenderingQueue.renderHighestPriority()
+    renderingQueue.renderHighestPriority()
     // Ensure that the active page doesn't change during rotation.
-    pdfViewer.currentPageNumber = e.pageNumber
+    viewer.currentPageNumber = e.pageNumber
   }
 
   render() {
     const {
-      context: {
-        state: { isThumbnailViewVisible },
-      },
+      store: { ui },
     } = this.props
 
     return (
@@ -84,10 +69,12 @@ class PDFThumbnailSidebar extends React.PureComponent {
           this.containerNode = node
         }}
         className="pdf-thumbnails-view"
-        style={{ visibility: isThumbnailViewVisible ? 'visible' : 'hidden' }}
+        style={{
+          visibility: ui.isThumbnailSidebarVisible ? 'visible' : 'hidden',
+        }}
       />
     )
   }
 }
 
-export default withAppContext(PDFThumbnailSidebar)
+export default withGlobalStore(PDFThumbnailSidebar)

@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import ReactDom from 'react-dom'
-import withAppContext from '../../../store/withAppContext'
 import Highlight from './Highlight'
 import { findOrCreateLayerForHighlights, findPageLayer } from '../utils/layer'
+import { withGlobalStore } from '../../../store'
 
 class Highlights extends React.PureComponent {
   state = {
@@ -11,17 +11,13 @@ class Highlights extends React.PureComponent {
 
   componentDidMount() {
     const {
-      context: {
-        state: {
-          pdfDocument: { pdfEventBus },
-        },
-      },
+      store: { document },
     } = this.props
 
-    pdfEventBus.on('pagesloaded', () => {
+    document.eventBus.on('pagesloaded', () => {
       this.preparePortals()
     })
-    pdfEventBus.on('updateviewarea', () => {
+    document.eventBus.on('updateviewarea', () => {
       this.preparePortals()
     })
   }
@@ -37,25 +33,20 @@ class Highlights extends React.PureComponent {
   /* eslint-disable react/no-array-index-key,no-restricted-syntax */
   preparePortals() {
     const {
-      context: {
-        state: {
-          pdfDocument: { pdfViewer },
-          annotations,
-        },
-      },
+      context: { document },
       updateContextMenu,
     } = this.props
 
-    if (!pdfViewer.pageViewsReady) return
+    if (!document.viewer.pageViewsReady) return
 
     const annotationsByPage = {}
     for (const [annotationId, annotationContent] of Object.entries(
-      annotations
+      document.annotations
     )) {
       for (const [pageNumber, rects] of Object.entries(
         annotationContent.rects
       )) {
-        const pageViewport = pdfViewer
+        const pageViewport = document.viewer
           .getPageView(Number(pageNumber) - 1)
           .viewport.clone({
             dontFlip: true,
@@ -117,4 +108,4 @@ class Highlights extends React.PureComponent {
   }
 }
 
-export default withAppContext(Highlights)
+export default withGlobalStore(Highlights)

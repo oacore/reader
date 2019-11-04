@@ -1,23 +1,25 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Button } from 'reactstrap'
 import ReactToPrint from 'react-to-print'
 import Icon from '../icons/Icon'
-import GlobalContext from '../../store/configureContext'
 import { downloadPDF } from '../pdf-downloader/PDFDownloader'
 import './Header.scss'
+import { useGlobalStore } from '../../store'
+import {
+  toggleOutlineSidebar,
+  toggleThumbnailsSidebar,
+} from '../../store/ui/actions'
 
-const Header = () => {
-  const {
-    state: {
-      pdfDocument: { pdfDocumentProxy, pdfPagesLoaded },
-      pdfMetadata,
-      isThumbnailViewVisible,
-      isOutlineViewVisible,
-      printContainerRef,
-    },
-    toggleIsThumbnailViewVisible,
-    toggleIsOutlineViewVisible,
-  } = useContext(GlobalContext)
+const Header = ({ printContainerRef }) => {
+  const [{ metadata, ui, document }, dispatch] = useGlobalStore()
+
+  const handleRedirection = () => {
+    const coreHostname = 'core.ac.uk'
+    const pdfSuffix = `display/${metadata.id}`
+    if (window.location.hostname === coreHostname)
+      window.location.pathname = pdfSuffix
+    else window.location = `https://${coreHostname}/${pdfSuffix}`
+  }
 
   return (
     <div className="header">
@@ -25,16 +27,16 @@ const Header = () => {
         <Button
           title="Show outline"
           color="none"
-          active={isOutlineViewVisible}
-          onClick={toggleIsOutlineViewVisible}
+          active={ui.isOutlineSidebarVisible}
+          onClick={() => dispatch(toggleOutlineSidebar())}
         >
           <Icon iconType="outline" />
         </Button>
         <Button
           title="Show thumbnails"
           color="none"
-          active={isThumbnailViewVisible}
-          onClick={toggleIsThumbnailViewVisible}
+          active={ui.isThumbnailSidebarVisible}
+          onClick={() => dispatch(toggleThumbnailsSidebar())}
         >
           <Icon iconType="thumbnails" />
         </Button>
@@ -43,15 +45,8 @@ const Header = () => {
         <Button
           title="Redirect to CORE metadata page"
           color="none"
-          disabled={pdfMetadata.id === null}
-          onClick={() => {
-            const coreHostname = 'core.ac.uk'
-            const pdfMetadataSuffix = `display/${pdfMetadata.id}`
-            if (window.location.hostname === coreHostname)
-              window.location.pathname = pdfMetadataSuffix
-            else
-              window.location = `https://${coreHostname}/${pdfMetadataSuffix}`
-          }}
+          disabled={metadata.id === null}
+          onClick={handleRedirection}
           className="w-auto"
         >
           <Icon iconType="core-symbol" />
@@ -64,8 +59,8 @@ const Header = () => {
         <Button
           title="Download document"
           color="none"
-          disabled={!pdfDocumentProxy} // pdf is not loaded yet
-          onClick={() => downloadPDF(pdfDocumentProxy, pdfMetadata.url)}
+          disabled={!document.documentProxy} // pdf is not loaded yet
+          onClick={() => downloadPDF(document.documentProxy, metadata.url)}
         >
           <Icon iconType="download" />
         </Button>
@@ -74,7 +69,7 @@ const Header = () => {
             <Button
               title="Print document"
               color="none"
-              disabled={!pdfPagesLoaded}
+              disabled={!document.pagesLoaded}
             >
               <Icon iconType="print" />
             </Button>
