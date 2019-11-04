@@ -5,7 +5,6 @@ import Icon from '../icons/Icon'
 import GlobalContext from '../../store/configureContext'
 import { downloadPDF } from '../pdf-downloader/PDFDownloader'
 import './Header.scss'
-import Logo from '../logo/Logo'
 
 const Header = () => {
   const {
@@ -24,7 +23,7 @@ const Header = () => {
     <div className="header">
       <div className="item d-flex justify-content-start">
         <Button
-          title="Show Document Outline"
+          title="Show outline"
           color="none"
           active={isOutlineViewVisible}
           onClick={toggleIsOutlineViewVisible}
@@ -32,7 +31,7 @@ const Header = () => {
           <Icon iconType="outline" />
         </Button>
         <Button
-          title="Show Document Thumbnails"
+          title="Show thumbnails"
           color="none"
           active={isThumbnailViewVisible}
           onClick={toggleIsThumbnailViewVisible}
@@ -55,7 +54,10 @@ const Header = () => {
           }}
           className="w-auto"
         >
-          <Logo />
+          <Icon iconType="core-symbol" />
+          <span className="sr-only" style={{ left: '50%' }}>
+            CORE
+          </span>
         </Button>
       </div>
       <div className="item d-flex justify-content-end">

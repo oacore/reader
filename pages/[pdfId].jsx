@@ -41,6 +41,7 @@ class Reader extends React.Component {
 
           {['64', '128', '256', '512'].map(size => (
             <link
+              key={size}
               rel="icon"
               type="image/png"
               sizes={`${size}x${size}`}

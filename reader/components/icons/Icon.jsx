@@ -12,13 +12,15 @@ import RightArrowIcon from './assets/right-arrow.svg'
 import RotateIcon from './assets/rotate.svg'
 import ZoomInIcon from './assets/zoom-in.svg'
 import ZoomOutIcon from './assets/zoom-out.svg'
+import CoreSymbolIcon from './assets/core-symbol.svg'
 
 const mapNameToModule = name => {
   const iconMap = {
+    'core-symbol': CoreSymbolIcon,
     download: DownloadIcon,
     outline: OutlineIcon,
     thumbnails: ThumbnailsIcon,
-    paper_info: PaperInfoIcon,
+    'paper-info': PaperInfoIcon,
     print: PrintIcon,
     share: ShareIcon,
     'left-arrow': LeftArrowIcon,
