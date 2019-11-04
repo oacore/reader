@@ -71,7 +71,7 @@ const nextConfig = {
 
 nextConfig.workerLoaderOptions = {
   publicPath: `${nextConfig.assetPrefix}/_next/`,
-  name: 'public/[hash].worker.js',
+  name: 'static/[hash].worker.js',
 }
 
 module.exports = withTM(withWorkers(withImages(withSass(withCss(nextConfig)))))
