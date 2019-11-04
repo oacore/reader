@@ -23,6 +23,7 @@ const Header = () => {
     <div className="header">
       <div className="item d-flex justify-content-start">
         <Button
+          title="Show outline"
           color="none"
           active={isOutlineViewVisible}
           onClick={toggleIsOutlineViewVisible}
@@ -30,6 +31,7 @@ const Header = () => {
           <Icon iconType="outline" />
         </Button>
         <Button
+          title="Show thumbnails"
           color="none"
           active={isThumbnailViewVisible}
           onClick={toggleIsThumbnailViewVisible}
@@ -39,6 +41,7 @@ const Header = () => {
       </div>
       <div className="item d-flex justify-content-center">
         <Button
+          title="Redirect to CORE metadata page"
           color="none"
           disabled={pdfMetadata.id === null}
           onClick={() => {
@@ -49,12 +52,17 @@ const Header = () => {
             else
               window.location = `https://${coreHostname}/${pdfMetadataSuffix}`
           }}
+          className="w-auto"
         >
-          <Icon iconType="info" />
+          <Icon iconType="core-symbol" />
+          <span className="sr-only" style={{ left: '50%' }}>
+            CORE
+          </span>
         </Button>
       </div>
       <div className="item d-flex justify-content-end">
         <Button
+          title="Download document"
           color="none"
           disabled={!pdfDocumentProxy} // pdf is not loaded yet
           onClick={() => downloadPDF(pdfDocumentProxy, pdfMetadata.url)}
@@ -63,7 +71,11 @@ const Header = () => {
         </Button>
         <ReactToPrint
           trigger={() => (
-            <Button color="none" disabled={!pdfPagesLoaded}>
+            <Button
+              title="Print document"
+              color="none"
+              disabled={!pdfPagesLoaded}
+            >
               <Icon iconType="print" />
             </Button>
           )}
