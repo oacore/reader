@@ -11,7 +11,7 @@ const OutlineGroup = ({ outline, linkService, isExpanded }) => {
             <OutlineItem
               key={`${index}${isExpanded}`}
               item={item}
-              pdfLinkService={linkService}
+              linkService={linkService}
               isExpanded={isExpanded}
             />
           )

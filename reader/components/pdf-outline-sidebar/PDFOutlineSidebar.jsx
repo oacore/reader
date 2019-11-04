@@ -27,7 +27,9 @@ class PDFOutlineSidebar extends React.PureComponent {
 
   Outline = ({ outline }) => {
     const {
-      store: { linkService },
+      store: {
+        document: { linkService },
+      },
     } = this.props
 
     if (!outline || outline.length === 0)
