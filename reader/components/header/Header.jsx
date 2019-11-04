@@ -13,6 +13,14 @@ import {
 const Header = ({ printContainerRef }) => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()
 
+  const handleRedirection = () => {
+    const coreHostname = 'core.ac.uk'
+    const pdfSuffix = `display/${metadata.id}`
+    if (window.location.hostname === coreHostname)
+      window.location.pathname = pdfSuffix
+    else window.location = `https://${coreHostname}/${pdfSuffix}`
+  }
+
   return (
     <div className="header">
       <div className="item d-flex justify-content-start">
@@ -38,13 +46,7 @@ const Header = ({ printContainerRef }) => {
           title="Redirect to CORE metadata page"
           color="none"
           disabled={metadata.id === null}
-          onClick={() => {
-            const coreHostname = 'core.ac.uk'
-            const pdfSuffix = `display/${metadata.id}`
-            if (window.location.hostname === coreHostname)
-              window.location.pathname = pdfSuffix
-            else window.location = `https://${coreHostname}/${pdfSuffix}`
-          }}
+          onClick={handleRedirection}
           className="w-auto"
         >
           <Icon iconType="core-symbol" />
