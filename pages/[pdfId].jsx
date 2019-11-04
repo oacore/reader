@@ -45,7 +45,7 @@ class Reader extends React.Component {
               rel="icon"
               type="image/png"
               sizes={`${size}x${size}`}
-              href={`/static/favicon/favicon-${size}px.png`}
+              href={`/public/favicon/favicon-${size}px.png`}
             />
           ))}
 
@@ -53,7 +53,7 @@ class Reader extends React.Component {
             rel="icon"
             sizes="any"
             type="image/svg+xml"
-            href="/static/favicon/favicon.svg"
+            href="/public/favicon/favicon.svg"
           />
 
           <meta name="referrer" content="origin" />
