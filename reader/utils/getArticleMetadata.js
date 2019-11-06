@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const CORE_API = 'https://core.ac.uk:443/api-v2/articles/get'
+export const CORE_API = 'https://api.core.ac.uk/internal/articles'
 
 const apiRequest = async (url, params = {}, method = 'GET') => {
   try {
@@ -10,34 +10,10 @@ const apiRequest = async (url, params = {}, method = 'GET') => {
       params,
       headers: {
         'Content-Type': 'application/json',
-        apiKey: CORE_API_KEY,
       },
     })
 
-    let { data } = response.data
-    // TODO: These codes should return API
-    // status (string) = ['OK' or 'Not found' or 'Too many queries' or
-    // 'Missing parameter' or 'Invalid parameter' or 'Parameter out of bounds']
-    switch (response.data.status) {
-      case 'Not found':
-        data = {
-          statusCode: 404,
-        }
-        break
-      case 'Missing parameter':
-        data = {
-          statusCode: 404,
-        }
-        break
-      case 'Parameter out of bounds':
-        data = {
-          statusCode: 404,
-        }
-        break
-      default:
-        data.statusCode = response.status
-    }
-    return data
+    return { ...response.data, statusCode: response.status }
   } catch (e) {
     const { response, message } = e
     let customError
@@ -60,15 +36,7 @@ const apiRequest = async (url, params = {}, method = 'GET') => {
 }
 
 const getArticleMetadata = id => {
-  return apiRequest(`${CORE_API}/${id}`, {
-    metadata: true,
-    fulltext: false,
-    citations: false,
-    similar: false,
-    duplicate: false,
-    urls: false,
-    faithfulMetadata: false,
-  })
+  return apiRequest(`${CORE_API}/${id}`)
 }
 
 export default getArticleMetadata
