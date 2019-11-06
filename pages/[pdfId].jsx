@@ -22,9 +22,9 @@ class Reader extends React.Component {
     const {
       statusCode,
       id,
-      downloadUrl,
+      downloadLink,
       title,
-      description,
+      abstract,
       repositories,
       year,
       authors,
@@ -32,7 +32,7 @@ class Reader extends React.Component {
       subjects,
     } = this.props
 
-    if (statusCode !== 200) return <ErrorPage statusCode={statusCode} />
+    if (statusCode !== 200) return <ErrorPage statusCode={200} />
 
     return (
       <>
@@ -57,12 +57,12 @@ class Reader extends React.Component {
           />
 
           <meta name="referrer" content="origin" />
-          <meta name="DC.format" content={downloadUrl} />
-          <meta name="citation_pdf_url" content={downloadUrl} />
+          <meta name="DC.format" content={downloadLink} />
+          <meta name="citation_pdf_url" content={downloadLink} />
 
           <meta name="DC.title" content={title} />
           <meta name="citation_title" content={title} />
-          <meta name="DCTERMS.abstract" content={description} />
+          <meta name="DCTERMS.abstract" content={abstract} />
 
           {authors.map(author => (
             <meta key={author} name="citation_author" content={author} />
@@ -78,17 +78,24 @@ class Reader extends React.Component {
           {subjects.map(subject => (
             <meta key={subject} name="DC.subject" content={subject} />
           ))}
+
+          <style>
+            {`
+            html,
+            body,
+            #__next {
+              margin: 0;
+              height: 100%;
+            }
+          `}
+          </style>
         </Head>
         <CoreReader
           id={id}
-          downloadUrl={downloadUrl}
-          title={title}
-          description={description}
+          downloadUrl={downloadLink}
           repositories={repositories}
           year={year}
           authors={authors}
-          oai={oai}
-          subjects={subjects}
         />
       </>
     )
