@@ -339,6 +339,7 @@ class PDFThumbnailView {
       canvasContext: ctx,
       viewport: drawViewport,
     }
+
     // eslint-disable-next-line no-multi-assign
     let renderTask = (this.renderTask = this.pdfPage.render(renderContext))
     renderTask.onContinue = renderContinueCallback
