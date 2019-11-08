@@ -120,7 +120,9 @@ class PDFViewer extends React.PureComponent {
           }}
           className="pdfViewer"
         />
-        <PDFRecommender containerWidth={metadataContainerWidth} />
+        {metadataContainerWidth && (
+          <PDFRecommender containerWidth={metadataContainerWidth} />
+        )}
         {toolbarEnabled && (
           <PDFToolbar viewer={pdfViewer} eventBus={eventBus} />
         )}

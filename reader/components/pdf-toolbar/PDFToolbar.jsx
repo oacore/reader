@@ -1,15 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Icon from '../icons/Icon'
 
 import './PDFToolbar.scss'
+import { useGlobalStore } from '../../store'
+import {
+  scrollToRelatedPapers,
+  unsetRelatedPapers,
+} from '../../store/ui/actions'
 
 const MIN_SCALE = 0.1
 const MAX_SCALE = 10.0
 const DEFAULT_SCALE_DELTA = 1.1
 
 const PDFToolbar = ({ viewer, eventBus }) => {
+  const [{ ui }, dispatch] = useGlobalStore()
+  const [readPosition, setReadPosition] = useState(0)
+  const [relatedPapersClicked, setRelatedPapersClicked] = useState(null)
+  const [isVisible, changeVisibility] = useState(false)
   const [, currPageChange] = useState(1)
   const [, scaleChange] = useState(0)
+  const toolbarRef = useRef()
 
   const zoomIn = () => {
     let newScale = viewer.currentScale
@@ -29,15 +39,72 @@ const PDFToolbar = ({ viewer, eventBus }) => {
 
   useEffect(() => {
     // component didMount
-    const onPageChange = e => currPageChange(e.pageNumber)
+    const setTimeoutVisibility = () =>
+      setTimeout(() => {
+        changeVisibility(false)
+      }, 1000)
+
+    let timeoutId
+
+    const onPageChange = e => {
+      if (ui.isRelatedPapersScrolled && timeoutId)
+        dispatch(unsetRelatedPapers())
+      if (timeoutId) clearTimeout(timeoutId)
+      timeoutId = setTimeoutVisibility()
+      changeVisibility(true)
+
+      currPageChange(e.pageNumber)
+    }
     eventBus.on('pagechanging', onPageChange)
 
     // component will unmount
     return () => eventBus.off('pagechanging', onPageChange)
   }, [])
 
+  useEffect(() => {
+    if (relatedPapersClicked === null) return
+
+    if (relatedPapersClicked) {
+      setReadPosition(toolbarRef.current.parentNode.scrollTop)
+      dispatch(scrollToRelatedPapers())
+    } else {
+      toolbarRef.current.parentNode.scroll({
+        left: 0,
+        top: readPosition + 1000,
+        behavior: 'auto',
+      })
+
+      // needs to be within timeout otherwise events
+      // get merged and everything is scrolled smoothly not only last 900px
+      setTimeout(
+        () =>
+          toolbarRef.current.parentNode.scroll({
+            left: 0,
+            top: readPosition,
+            behavior: 'smooth',
+          }),
+        50
+      )
+      dispatch(unsetRelatedPapers())
+    }
+  }, [relatedPapersClicked])
+
   return (
-    <div className="pdf-toolbar d-flex flex-row justify-content-end align-items-center">
+    <div
+      className={`pdf-toolbar d-flex flex-row justify-content-end align-items-center ${isVisible &&
+        'pdf-toolbar-visible'}`}
+      ref={toolbarRef}
+    >
+      <div className="pdf-related-papers d-flex flex-row align-items-center justify-content-between mr-5">
+        <button
+          title="Show related papers"
+          type="button"
+          className="btn p-2 m-auto"
+          onClick={() => setRelatedPapersClicked(!relatedPapersClicked)}
+        >
+          {!relatedPapersClicked ? 'Related papers' : 'Back to reading'}
+        </button>
+      </div>
       <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-5">
         <button
           title="Rotate"

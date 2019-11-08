@@ -3,6 +3,7 @@ import { Spinner } from 'reactstrap'
 import OutlineGroup from './renderers/OutlineRenderer'
 import './PDFOutlineSidebar.scss'
 import { withGlobalStore } from '../../store'
+import { scrollToRelatedPapers } from '../../store/ui/actions'
 
 class PDFOutlineSidebar extends React.PureComponent {
   containerNode = null
@@ -30,13 +31,26 @@ class PDFOutlineSidebar extends React.PureComponent {
       store: {
         document: { linkService },
       },
+      dispatch,
     } = this.props
 
-    if (!outline || outline.length === 0)
-      return <h5>PDF does not contain any outline</h5>
+    const finalOutline = [
+      ...(outline || []),
+      {
+        onClick: () => {
+          dispatch(scrollToRelatedPapers())
+        },
+        title: 'Related papers',
+        items: [],
+      },
+    ]
 
     return (
-      <OutlineGroup isExpanded linkService={linkService} outline={outline} />
+      <OutlineGroup
+        isExpanded
+        linkService={linkService}
+        outline={finalOutline}
+      />
     )
   }
 
