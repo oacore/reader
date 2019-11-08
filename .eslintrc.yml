@@ -46,4 +46,5 @@ globals: {
   CORE_API_KEY: true,
   CORE_RECOMMENDER_API_KEY: true,
   GA_TRACKING_CODE: true,
+  BUILD_TARGET: true,
 }
