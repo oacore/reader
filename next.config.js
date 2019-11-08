@@ -5,6 +5,7 @@ const withWorkers = require('@zeit/next-workers')
 const withTM = require('next-transpile-modules')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
+const helpers = require('./utils/helpers')
 
 dotenv.config()
 
@@ -39,10 +40,9 @@ if (missingEnvVars.length > 0) {
  *
  * If not set or empty, means development environment.
  */
-const { BUILD_TARGET } = process.env
 
 const nextConfig = {
-  assetPrefix: BUILD_TARGET === 'aws' ? '/reader-beta' : '',
+  assetPrefix: helpers.getAssetPath('', process.env.BUILD_TARGET),
   webpack: config => {
     const originalEntry = config.entry
     config.entry = async () => {
@@ -59,6 +59,7 @@ const nextConfig = {
           process.env.CORE_RECOMMENDER_API_KEY
         ),
         GA_TRACKING_CODE: JSON.stringify(process.env.GA_TRACKING_CODE),
+        BUILD_TARGET: JSON.stringify(process.env.BUILD_TARGET),
       })
     )
 

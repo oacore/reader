@@ -4,6 +4,7 @@ import Head from 'next/head'
 import ErrorPage from 'next/error'
 import getArticleMetadata from '../reader/utils/getArticleMetadata'
 import withGoogleAnalytics from '../utils/withGoogleAnalytics'
+import { getAssetPath } from '../utils/helpers'
 
 const CoreReader = dynamic(() => import('../reader'), {
   ssr: false,
@@ -45,7 +46,7 @@ class Reader extends React.Component {
               rel="icon"
               type="image/png"
               sizes={`${size}x${size}`}
-              href={`/static/favicon/favicon-${size}px.png`}
+              href={getAssetPath(`/static/favicon/favicon-${size}px.png`)}
             />
           ))}
 
@@ -53,7 +54,7 @@ class Reader extends React.Component {
             rel="icon"
             sizes="any"
             type="image/svg+xml"
-            href="/static/favicon/favicon.svg"
+            href={getAssetPath('/static/favicon/favicon.svg')}
           />
 
           <meta name="referrer" content="origin" />
