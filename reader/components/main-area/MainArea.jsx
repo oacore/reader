@@ -1,7 +1,7 @@
 import React from 'react'
 import Viewer from '../viewer/Viewer'
 import PDFLoader from '../pdf-loader/PDFLoader'
-import PDFThumbnailSidebar from '../pdf-thumbnails-sidebar/PDFThumbnailSidebar'
+import ThumbnailSidebar from '../thumbnails-sidebar/ThumbnailSidebar'
 import PDFOutlineSidebar from '../pdf-outline-sidebar/PDFOutlineSidebar'
 
 import './MainArea.scss'
@@ -14,7 +14,7 @@ const MainArea = () => {
   return (
     <div className={`main-area ${ui.isSidebarOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar">
-        {document.documentProxy && <PDFThumbnailSidebar />}
+        {document.documentProxy && <ThumbnailSidebar />}
         {document.documentProxy && <PDFOutlineSidebar />}
       </div>
       <PDFLoader url={metadata.url}>
