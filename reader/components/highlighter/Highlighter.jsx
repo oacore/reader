@@ -7,10 +7,10 @@ import ContextMenu from './components/ContextMenu'
 import { findOrCreateLayerForContextMenu } from './utils/layer'
 import Highlights from './components/Highlights'
 
-import './PDFHighlighter.scss'
+import './Highlighter.scss'
 import { withGlobalStore } from '../../store'
 
-class PDFHighlighter extends React.Component {
+class Highlighter extends React.Component {
   state = {
     isVisible: false,
     contextRoot: null,
@@ -152,4 +152,4 @@ class PDFHighlighter extends React.Component {
   }
 }
 
-export default withGlobalStore(PDFHighlighter)
+export default withGlobalStore(Highlighter)
