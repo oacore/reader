@@ -1,11 +1,11 @@
 import React from 'react'
 import { Spinner } from 'reactstrap'
 import OutlineGroup from './renderers/OutlineRenderer'
-import './PDFOutlineSidebar.scss'
+import './OutlineSidebar.scss'
 import { withGlobalStore } from '../../store'
 import { scrollToRelatedPapers } from '../../store/ui/actions'
 
-class PDFOutlineSidebar extends React.PureComponent {
+class OutlineSidebar extends React.PureComponent {
   containerNode = null
 
   state = {
@@ -66,7 +66,7 @@ class PDFOutlineSidebar extends React.PureComponent {
         ref={node => {
           this.containerNode = node
         }}
-        className="pdf-outline-view"
+        className="outline-view"
         style={{
           visibility: ui.isOutlineSidebarVisible ? 'visible' : 'hidden',
         }}
@@ -84,4 +84,4 @@ class PDFOutlineSidebar extends React.PureComponent {
   }
 }
 
-export default withGlobalStore(PDFOutlineSidebar)
+export default withGlobalStore(OutlineSidebar)

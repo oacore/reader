@@ -2,7 +2,7 @@ import React from 'react'
 import Viewer from '../viewer/Viewer'
 import PDFLoader from '../pdf-loader/PDFLoader'
 import ThumbnailSidebar from '../thumbnails-sidebar/ThumbnailSidebar'
-import PDFOutlineSidebar from '../pdf-outline-sidebar/PDFOutlineSidebar'
+import OutlineSidebar from '../outline-sidebar/OutlineSidebar'
 
 import './MainArea.scss'
 import { useGlobalStore } from '../../store'
@@ -15,7 +15,7 @@ const MainArea = () => {
     <div className={`main-area ${ui.isSidebarOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar">
         {document.documentProxy && <ThumbnailSidebar />}
-        {document.documentProxy && <PDFOutlineSidebar />}
+        {document.documentProxy && <OutlineSidebar />}
       </div>
       <PDFLoader url={metadata.url}>
         <Viewer
