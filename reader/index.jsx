@@ -5,7 +5,7 @@ import Header from './components/header/Header'
 import MainArea from './components/main-area/MainArea'
 import Layout from './components/layout'
 import './components/bootstrap/bootstrap.scss'
-import PDFPrint from './components/pdf-print/PDFPrint'
+import Print from './components/print/Print'
 import GlobalStore from './store'
 
 const CoreReader = ({ id, downloadUrl, repositories, year }) => {
@@ -35,7 +35,7 @@ const CoreReader = ({ id, downloadUrl, repositories, year }) => {
           renderingQueue,
         }}
       >
-        <PDFPrint ref={printContainerRef} />
+        <Print ref={printContainerRef} />
         <Layout id="pdf-viewer-container">
           <Header printContainerRef={printContainerRef} />
           <MainArea />

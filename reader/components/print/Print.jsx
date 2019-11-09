@@ -9,14 +9,14 @@ import {
   ModalFooter,
 } from 'reactstrap'
 
-import './PDFPrint.scss'
+import './Print.scss'
 import { withGlobalStore } from '../../store'
 
 // The size of the canvas in pixels for printing.
 const PRINT_RESOLUTION = 150
 const PRINT_UNITS = PRINT_RESOLUTION / 72.0
 
-class PDFPrint extends React.Component {
+class Print extends React.Component {
   originalPrintFunction = window.print
 
   // canvas used for temporary rendering of individual PDF pages
@@ -218,4 +218,4 @@ class PDFPrint extends React.Component {
   }
 }
 
-export default withGlobalStore(PDFPrint)
+export default withGlobalStore(Print)
