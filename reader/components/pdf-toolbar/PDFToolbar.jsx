@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Icon from '../icons/Icon'
-
 import './PDFToolbar.scss'
 import { useGlobalStore } from '../../store'
 import {
@@ -91,25 +90,26 @@ const PDFToolbar = ({ viewer, eventBus }) => {
 
   return (
     <div
-      className={`pdf-toolbar d-flex flex-row justify-content-end align-items-center ${isVisible &&
-        'pdf-toolbar-visible'}`}
+      className={`pdf-toolbar d-flex flex-wrap justify-content-end align-items-center ${
+        isVisible ? 'pdf-toolbar-visible' : ''
+      }`}
       ref={toolbarRef}
     >
-      <div className="pdf-related-papers d-flex flex-row align-items-center justify-content-between mr-5">
+      <div className="pdf-related-papers d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2 order-3">
         <button
           title="Show related papers"
           type="button"
-          className="btn p-2 m-auto"
+          className="btn m-auto"
           onClick={() => setRelatedPapersClicked(!relatedPapersClicked)}
         >
           {!relatedPapersClicked ? 'Related papers' : 'Back to reading'}
         </button>
       </div>
-      <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-5">
+      <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2">
         <button
           title="Rotate"
           type="button"
-          className="btn p-2"
+          className="btn"
           onClick={() => {
             const delta = 90
             viewer.pagesRotation = (viewer.pagesRotation + 360 + delta) % 360
@@ -124,7 +124,7 @@ const PDFToolbar = ({ viewer, eventBus }) => {
         <button
           title="Zoom in"
           type="button"
-          className="btn p-2"
+          className="btn"
           disabled={viewer.currentScaleValue >= MAX_SCALE}
           onClick={() => {
             zoomIn()
@@ -137,7 +137,7 @@ const PDFToolbar = ({ viewer, eventBus }) => {
         <button
           title="Zoom out"
           type="button"
-          className="btn p-2"
+          className="btn"
           disabled={viewer.currentScaleValue <= MIN_SCALE}
           onClick={() => {
             zoomOut()
@@ -148,11 +148,11 @@ const PDFToolbar = ({ viewer, eventBus }) => {
           <Icon iconType="zoom-out" />
         </button>
       </div>
-      <div className="pdf-pagination d-flex flex-row align-items-center justify-content-between mr-5">
+      <div className="pdf-pagination d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2">
         <button
           title="Previous page"
           type="button"
-          className="btn p-2"
+          className="btn"
           disabled={viewer.currentPageNumber <= 1}
           onClick={() => --viewer.currentPageNumber}
         >
@@ -164,7 +164,7 @@ const PDFToolbar = ({ viewer, eventBus }) => {
         <button
           title="Next page"
           type="button"
-          className="btn p-2"
+          className="btn"
           disabled={viewer.currentPageNumber >= viewer.pagesCount}
           onClick={() => viewer.currentPageNumber++}
         >
