@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import load from 'little-loader'
-import './PDFRecommender.scss'
+import './Recommender.scss'
 import { useGlobalStore } from '../../store'
 
-const PDFRecommender = ({ containerWidth }) => {
+const Recommender = ({ containerWidth }) => {
   const [{ ui }] = useGlobalStore()
   const [recommenderLoaded, setRecommenderLoaded] = useState(false)
   const recommenderRef = useRef()
@@ -58,4 +58,4 @@ const PDFRecommender = ({ containerWidth }) => {
   )
 }
 
-export default PDFRecommender
+export default Recommender
