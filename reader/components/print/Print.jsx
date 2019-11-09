@@ -2,7 +2,6 @@ import React from 'react'
 import { CSS_UNITS } from 'pdfjs-dist/lib/web/ui_utils'
 import { Progress, ModalBody } from 'reactstrap'
 import Modal from '../modal/Modal'
-import withAppContext from '../../store/withAppContext'
 
 import './Print.scss'
 import { withGlobalStore } from '../../store'

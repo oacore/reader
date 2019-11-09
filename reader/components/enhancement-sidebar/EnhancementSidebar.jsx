@@ -6,7 +6,7 @@ const EnhancementSidebar = () => {
   const [{ ui, document }] = useGlobalStore()
 
   const sortedAnnotations = Object.keys(document.annotations)
-    .map(annotationId => [annotationId, annotations[annotationId]])
+    .map(annotationId => [annotationId, document.annotations[annotationId]])
     .sort(([, firstAnnotation], [, secondAnnotation]) => {
       const firstAnnotationId = Object.keys(firstAnnotation.rects).sort()[0]
       const secondAnnotationId = Object.keys(secondAnnotation.rects).sort()[0]

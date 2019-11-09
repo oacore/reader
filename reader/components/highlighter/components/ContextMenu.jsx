@@ -1,5 +1,4 @@
 import React from 'react'
-import withAppContext from '../../../store/withAppContext'
 import { withGlobalStore } from '../../../store'
 import { toggleEnhancementSidebar } from '../../../store/ui/actions'
 import { setAnnotation } from '../../../store/document/actions'
@@ -18,7 +17,10 @@ class ContextMenu extends React.PureComponent {
     } = this.props
     const { rects, selectedText, annotationId } = this.props
     let toggleSidebar = () => {}
-    if (!ui.isEnhancementViewVisible && Object.entries(document.annotations).length === 0)
+    if (
+      !ui.isEnhancementViewVisible &&
+      Object.entries(document.annotations).length === 0
+    )
       toggleSidebar = () => dispatch(toggleEnhancementSidebar)
 
     if (annotationId !== null) {
