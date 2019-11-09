@@ -1,3 +1,5 @@
+@import "../bootstrap/core";
+
 .pdf-toolbar {
   position: sticky;
   height: 148px;
@@ -5,6 +7,10 @@
   left: 0;
   bottom: 0;
   z-index: 30;
+
+  @include media-breakpoint-down(xs) {
+    height: 80px;
+  }
 
   &.pdf-toolbar-visible,
   &:hover {
@@ -23,8 +29,11 @@
     background: #FAFAFA;
     border-radius: 4px;
     height: 60px;
-    min-width: 150px;
     visibility: hidden;
+
+    @include media-breakpoint-down(xs) {
+      height: 35px;
+    }
   }
 
   .pdf-pagination,
@@ -32,6 +41,12 @@
     > button {
       width: 60px;
       height: 100%;
+      padding: 0.75rem;
+
+      @include media-breakpoint-down(xs) {
+        width: 35px;
+        padding: 0.30rem;
+      }
     }
   }
 }
