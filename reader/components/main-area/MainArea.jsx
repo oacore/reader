@@ -1,5 +1,5 @@
 import React from 'react'
-import PDFViewer from '../pdf-viewer/PDFViewer'
+import Viewer from '../viewer/Viewer'
 import PDFLoader from '../pdf-loader/PDFLoader'
 import PDFThumbnailSidebar from '../pdf-thumbnails-sidebar/PDFThumbnailSidebar'
 import PDFOutlineSidebar from '../pdf-outline-sidebar/PDFOutlineSidebar'
@@ -18,7 +18,7 @@ const MainArea = () => {
         {document.documentProxy && <PDFOutlineSidebar />}
       </div>
       <PDFLoader url={metadata.url}>
-        <PDFViewer
+        <Viewer
           linkService={document.linkService}
           eventBus={document.eventBus}
           renderingQueue={document.renderingQueue}

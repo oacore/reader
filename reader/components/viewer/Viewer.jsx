@@ -2,11 +2,11 @@ import React from 'react'
 import { PDFViewer as _PDFViewer } from 'pdfjs-dist/web/pdf_viewer'
 
 import 'pdfjs-dist/web/pdf_viewer.css'
-import './PDFViewer.scss'
+import './Viewer.scss'
 import PDFToolbar from '../pdf-toolbar/PDFToolbar'
 import PDFRecommender from '../pdf-recommender/PDFRecommender'
 
-class PDFViewer extends React.PureComponent {
+class Viewer extends React.PureComponent {
   containerNode = null
 
   viewerNode = null
@@ -131,4 +131,4 @@ class PDFViewer extends React.PureComponent {
   }
 }
 
-export default PDFViewer
+export default Viewer
