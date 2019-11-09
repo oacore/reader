@@ -38,7 +38,9 @@ $sidebar-width: 20rem;
   transition: left 200ms ease;
   will-change: left;
 
-  .sidebar-open & {
-    left: $sidebar-width;
+  @include media-breakpoint-up(md) {
+    .sidebar-open & {
+      left: $sidebar-width;
+    }
   }
 }
