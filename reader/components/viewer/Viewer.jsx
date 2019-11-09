@@ -3,7 +3,7 @@ import { PDFViewer as _PDFViewer } from 'pdfjs-dist/web/pdf_viewer'
 
 import 'pdfjs-dist/web/pdf_viewer.css'
 import './Viewer.scss'
-import PDFToolbar from '../pdf-toolbar/PDFToolbar'
+import Toolbar from '../toolbar/Toolbar'
 import PDFRecommender from '../pdf-recommender/PDFRecommender'
 
 class Viewer extends React.PureComponent {
@@ -123,9 +123,7 @@ class Viewer extends React.PureComponent {
         {metadataContainerWidth && (
           <PDFRecommender containerWidth={metadataContainerWidth} />
         )}
-        {toolbarEnabled && (
-          <PDFToolbar viewer={pdfViewer} eventBus={eventBus} />
-        )}
+        {toolbarEnabled && <Toolbar viewer={pdfViewer} eventBus={eventBus} />}
       </div>
     )
   }

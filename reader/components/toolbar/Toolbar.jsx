@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Icon from '../icons/Icon'
-import './PDFToolbar.scss'
+import './Toolbar.scss'
 import { useGlobalStore } from '../../store'
 import {
   scrollToRelatedPapers,
@@ -11,7 +11,7 @@ const MIN_SCALE = 0.1
 const MAX_SCALE = 10.0
 const DEFAULT_SCALE_DELTA = 1.1
 
-const PDFToolbar = ({ viewer, eventBus }) => {
+const Toolbar = ({ viewer, eventBus }) => {
   const [{ ui }, dispatch] = useGlobalStore()
   const [readPosition, setReadPosition] = useState(0)
   const [relatedPapersClicked, setRelatedPapersClicked] = useState(null)
@@ -175,4 +175,4 @@ const PDFToolbar = ({ viewer, eventBus }) => {
   )
 }
 
-export default PDFToolbar
+export default Toolbar
