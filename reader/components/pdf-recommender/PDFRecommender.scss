@@ -1,3 +1,5 @@
+@import "../bootstrap/core";
+
 .pdf-recommender {
   margin: 0 auto;
 
@@ -20,9 +22,12 @@
       justify-content: space-between;
 
       > li {
-        max-width: 49%;
         flex-grow: 1;
         margin-bottom: 20px;
+
+        @include media-breakpoint-up(lg) {
+            max-width: 49%;
+        }
 
         .dropdown {
           display: none;
