@@ -57,7 +57,7 @@
     "react-inlinesvg": "^1.1.7",
     "react-to-print": "2.5.0",
     "reactstrap": "^8.1.1",
-    "web-streams-polyfill": "^2.0.5",
+    "web-streams-polyfill": "^2.0.6",
     "webpack": "^4.41.2",
     "worker-loader": "^2.0.0"
   }
