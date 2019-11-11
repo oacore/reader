@@ -99,7 +99,7 @@ const PDFToolbar = ({ viewer, eventBus }) => {
         <button
           title="Show related papers"
           type="button"
-          className="btn m-auto"
+          className="btn m-auto h-100"
           onClick={() => setRelatedPapersClicked(!relatedPapersClicked)}
         >
           {!relatedPapersClicked ? 'Related papers' : 'Back to reading'}
