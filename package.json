@@ -35,7 +35,7 @@
     "prettier": "^1.18.2"
   },
   "dependencies": {
-    "@sentry/browser": "^5.7.1",
+    "@sentry/browser": "^5.8.0",
     "@sentry/node": "^5.8.0",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
