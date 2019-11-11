@@ -3,24 +3,22 @@ import { Collapse } from 'reactstrap'
 
 const OutlineGroup = ({ outline, linkService, isExpanded }) => {
   return (
-    <>
-      <Collapse isOpen={isExpanded}>
-        <ol>
-          {outline.map((item, index) => {
-            /* eslint-disable react/no-array-index-key */
-            return (
-              <OutlineItem
-                key={`${index}${isExpanded}`}
-                item={item}
-                linkService={linkService}
-                isExpanded={isExpanded}
-              />
-            )
-            /* eslint-enable */
-          })}
-        </ol>
-      </Collapse>
-    </>
+    <Collapse isOpen={isExpanded}>
+      <ol>
+        {outline.map((item, index) => {
+          /* eslint-disable react/no-array-index-key */
+          return (
+            <OutlineItem
+              key={`${index}`}
+              item={item}
+              linkService={linkService}
+              isExpanded={isExpanded}
+            />
+          )
+          /* eslint-enable */
+        })}
+      </ol>
+    </Collapse>
   )
 }
 
