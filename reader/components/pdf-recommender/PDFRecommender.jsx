@@ -52,7 +52,7 @@ const PDFRecommender = ({ containerWidth }) => {
       }}
       ref={recommenderRef}
     >
-      <h3>Related Articles</h3>
+      <h3>Related papers</h3>
       <div id="coreRecommenderOutput" />
     </div>
   )
