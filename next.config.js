@@ -5,6 +5,7 @@ const withWorkers = require('@zeit/next-workers')
 const withTM = require('next-transpile-modules')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
+const withSourceMaps = require('@zeit/next-source-maps')
 const helpers = require('./utils/helpers')
 
 dotenv.config()
@@ -52,6 +53,9 @@ const nextConfig = {
       return entries
     }
 
+    if (!config.isServer)
+      config.resolve.alias['@sentry/node'] = '@sentry/browser'
+
     config.plugins.push(
       new webpack.DefinePlugin({
         CORE_API_KEY: JSON.stringify(process.env.CORE_API_KEY),
@@ -60,6 +64,7 @@ const nextConfig = {
         ),
         GA_TRACKING_CODE: JSON.stringify(process.env.GA_TRACKING_CODE),
         BUILD_TARGET: JSON.stringify(process.env.BUILD_TARGET),
+        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
       })
     )
 
@@ -75,4 +80,6 @@ nextConfig.workerLoaderOptions = {
   name: 'static/[hash].worker.js',
 }
 
-module.exports = withTM(withWorkers(withImages(withSass(withCss(nextConfig)))))
+module.exports = withSourceMaps(
+  withTM(withWorkers(withImages(withSass(withCss(nextConfig)))))
+)

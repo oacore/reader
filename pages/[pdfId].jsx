@@ -5,6 +5,15 @@ import ErrorPage from 'next/error'
 import getArticleMetadata from '../reader/utils/getArticleMetadata'
 import withGoogleAnalytics from '../utils/withGoogleAnalytics'
 import { getAssetPath } from '../utils/helpers'
+import { Sentry } from '../utils/sentry'
+
+process.on('unhandledRejection', err => {
+  Sentry.captureException(err)
+})
+
+process.on('uncaughtException', err => {
+  Sentry.captureException(err)
+})
 
 const CoreReader = dynamic(() => import('../reader'), {
   ssr: false,
@@ -17,6 +26,17 @@ class Reader extends React.Component {
     } catch (e) {
       return { statusCode: e.statusCode }
     }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope(scope => {
+      Object.keys(errorInfo).forEach(key => {
+        scope.setExtra(key, errorInfo[key])
+        scope.setExtra('ssr', false)
+      })
+
+      Sentry.captureException(error)
+    })
   }
 
   render() {
