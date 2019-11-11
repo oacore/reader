@@ -1,9 +1,9 @@
 import React from 'react'
 import { sortBy } from 'lodash'
-import './PDFEnhancementSidebar.scss'
+import './EnhancementSidebar.scss'
 import { useGlobalStore } from '../../store'
 
-const PDFEnhancementSidebar = () => {
+const EnhancementSidebar = () => {
   const [{ ui, document }] = useGlobalStore()
 
   const sortedAnnotations = sortBy(document.annotations, [
@@ -16,7 +16,7 @@ const PDFEnhancementSidebar = () => {
 
   return (
     <div
-      className="pdf-enhancement-sidebar"
+      className="enhancement-sidebar"
       style={{
         visibility: ui.isEnhancementSidebarVisible ? 'visible' : 'hidden',
       }}
@@ -35,4 +35,4 @@ const PDFEnhancementSidebar = () => {
   )
 }
 
-export default PDFEnhancementSidebar
+export default EnhancementSidebar

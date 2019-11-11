@@ -1,10 +1,10 @@
 import React from 'react'
 import PDFThumbnailViewer from '../../lib/pdf-js/PDFThumbnailViewer'
 
-import './PDFThumbnailSidebar.scss'
+import './ThumbnailSidebar.scss'
 import { withGlobalStore } from '../../store'
 
-class PDFThumbnailSidebar extends React.PureComponent {
+class ThumbnailSidebar extends React.PureComponent {
   containerNode = null
 
   componentDidMount() {
@@ -68,7 +68,7 @@ class PDFThumbnailSidebar extends React.PureComponent {
         ref={node => {
           this.containerNode = node
         }}
-        className="pdf-thumbnails-view"
+        className="thumbnails-view"
         style={{
           visibility: ui.isThumbnailSidebarVisible ? 'visible' : 'hidden',
         }}
@@ -77,4 +77,4 @@ class PDFThumbnailSidebar extends React.PureComponent {
   }
 }
 
-export default withGlobalStore(PDFThumbnailSidebar)
+export default withGlobalStore(ThumbnailSidebar)

@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'reactstrap'
 import ReactToPrint from 'react-to-print'
 import Icon from '../icons/Icon'
-import { downloadPDF } from '../pdf-downloader/PDFDownloader'
+import { downloadPDF } from '../downloader/Downloader'
 import './Header.scss'
 import { useGlobalStore } from '../../store'
 import {

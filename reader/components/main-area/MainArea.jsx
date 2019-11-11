@@ -1,8 +1,8 @@
 import React from 'react'
-import PDFViewer from '../pdf-viewer/PDFViewer'
+import Viewer from '../viewer/Viewer'
 import PDFLoader from '../pdf-loader/PDFLoader'
-import PDFThumbnailSidebar from '../pdf-thumbnails-sidebar/PDFThumbnailSidebar'
-import PDFOutlineSidebar from '../pdf-outline-sidebar/PDFOutlineSidebar'
+import ThumbnailSidebar from '../thumbnails-sidebar/ThumbnailSidebar'
+import OutlineSidebar from '../outline-sidebar/OutlineSidebar'
 
 import './MainArea.scss'
 import { useGlobalStore } from '../../store'
@@ -14,11 +14,11 @@ const MainArea = () => {
   return (
     <div className={`main-area ${ui.isSidebarOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar">
-        {document.documentProxy && <PDFThumbnailSidebar />}
-        {document.documentProxy && <PDFOutlineSidebar />}
+        {document.documentProxy && <ThumbnailSidebar />}
+        {document.documentProxy && <OutlineSidebar />}
       </div>
       <PDFLoader url={metadata.url}>
-        <PDFViewer
+        <Viewer
           linkService={document.linkService}
           eventBus={document.eventBus}
           renderingQueue={document.renderingQueue}
