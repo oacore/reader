@@ -1,3 +1,5 @@
+@import "../bootstrap/core";
+
 .pdf-toolbar {
   position: sticky;
   height: 148px;
@@ -6,26 +8,45 @@
   bottom: 0;
   z-index: 30;
 
+  @include media-breakpoint-down(xs) {
+    height: 80px;
+  }
+
+  &.pdf-toolbar-visible,
   &:hover {
     background: linear-gradient(360deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
 
+    .pdf-related-papers,
     .pdf-pagination,
     .pdf-preferences {
       visibility: visible;
     }
   }
 
+  .pdf-related-papers,
   .pdf-pagination,
   .pdf-preferences {
-    visibility: hidden;
     background: #FAFAFA;
     border-radius: 4px;
     height: 60px;
-    min-width: 150px;
+    visibility: hidden;
 
+    @include media-breakpoint-down(xs) {
+      height: 35px;
+    }
+  }
+
+  .pdf-pagination,
+  .pdf-preferences {
     > button {
       width: 60px;
       height: 100%;
+      padding: 0.75rem;
+
+      @include media-breakpoint-down(xs) {
+        width: 35px;
+        padding: 0.30rem;
+      }
     }
   }
 }

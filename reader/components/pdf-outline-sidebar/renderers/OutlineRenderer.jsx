@@ -9,7 +9,7 @@ const OutlineGroup = ({ outline, linkService, isExpanded }) => {
           /* eslint-disable react/no-array-index-key */
           return (
             <OutlineItem
-              key={`${index}${isExpanded}`}
+              key={`${index}`}
               item={item}
               linkService={linkService}
               isExpanded={isExpanded}
@@ -37,8 +37,10 @@ const OutlineItem = ({ isExpanded, item, linkService }) => {
         </button>
       )}
       <a
-        onClick={() => {
-          if (item.dest) linkService.navigateTo(item.dest)
+        onClick={e => {
+          e.preventDefault()
+          if (item.onClick) item.onClick()
+          else if (item.dest) linkService.navigateTo(item.dest)
           return false
         }}
         href={linkService.getDestinationHash(item.dest)}
