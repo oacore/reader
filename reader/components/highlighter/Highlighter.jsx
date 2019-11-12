@@ -1,6 +1,5 @@
 import React, { cloneElement } from 'react'
 import ReactDom from 'react-dom'
-import throttle from '../../utils/throttle'
 import { getPageFromRange } from './utils/utils'
 import { groupRectsByPage } from './utils/rects'
 import ContextMenu from './components/ContextMenu'
@@ -43,7 +42,6 @@ class Highlighter extends React.Component {
     }
   }
 
-  @throttle(250)
   onAfterSelection() {
     const {
       document: { viewer },
