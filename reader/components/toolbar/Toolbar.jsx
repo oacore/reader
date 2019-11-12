@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useReducer } from 'react'
 import Icon from '../icons/Icon'
 import './Toolbar.scss'
 import { useGlobalStore } from '../../store'
@@ -11,15 +11,45 @@ const MIN_SCALE = 0.1
 const MAX_SCALE = 10.0
 const DEFAULT_SCALE_DELTA = 1.1
 
-const Toolbar = ({ viewer, eventBus }) => {
-  const [{ ui }, dispatch] = useGlobalStore()
-  const [readPosition, setReadPosition] = useState(0)
-  const [relatedPapersClicked, setRelatedPapersClicked] = useState(null)
-  const [isVisible, changeVisibility] = useState(false)
-  const [, currPageChange] = useState(1)
-  const [, scaleChange] = useState(0)
-  const [inputNumber, changeInputNumber] = useState(1)
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case 'set_read_position':
+      return {
+        ...state,
+        readPosition: payload.position,
+      }
 
+    case 'toggle_related_papers':
+      return {
+        ...state,
+        relatedPapersClicked: !state.relatedPapersClicked,
+      }
+
+    case 'toggle_visibility':
+      return {
+        ...state,
+        isVisible: payload.visibility,
+      }
+
+    case 'change_input_number':
+      return {
+        ...state,
+        inputNumber: payload.pageNumber,
+      }
+    default:
+      return state
+  }
+}
+
+const Toolbar = ({ viewer, eventBus }) => {
+  const [{ ui }, globalDispatch] = useGlobalStore()
+
+  const [state, dispatch] = useReducer(reducer, {
+    readPosition: 0,
+    relatedPapersClicked: null,
+    isVisible: false,
+    inputNumber: 1,
+  })
   const toolbarRef = useRef()
 
   const zoomIn = () => {
@@ -42,19 +72,23 @@ const Toolbar = ({ viewer, eventBus }) => {
     // component didMount
     const setTimeoutVisibility = () =>
       setTimeout(() => {
-        changeVisibility(false)
+        dispatch({
+          type: 'change_visibility',
+          payload: { visibility: false },
+        })
       }, 1000)
 
     let timeoutId
 
-    const onPageChange = e => {
+    const onPageChange = () => {
       if (ui.isRelatedPapersScrolled && timeoutId)
-        dispatch(unsetRelatedPapers())
+        globalDispatch(unsetRelatedPapers())
       if (timeoutId) clearTimeout(timeoutId)
       timeoutId = setTimeoutVisibility()
-      changeVisibility(true)
-
-      currPageChange(e.pageNumber)
+      dispatch({
+        type: 'change_visibility',
+        payload: { visibility: true },
+      })
     }
     eventBus.on('pagechanging', onPageChange)
 
@@ -63,15 +97,20 @@ const Toolbar = ({ viewer, eventBus }) => {
   }, [])
 
   useEffect(() => {
-    if (relatedPapersClicked === null) return
+    if (state.relatedPapersClicked === null) return
 
-    if (relatedPapersClicked) {
-      setReadPosition(toolbarRef.current.parentNode.scrollTop)
-      dispatch(scrollToRelatedPapers())
+    if (state.relatedPapersClicked) {
+      dispatch({
+        type: 'set_read_position',
+        payload: {
+          position: toolbarRef.current.parentNode.scrollTop,
+        },
+      })
+      globalDispatch(scrollToRelatedPapers())
     } else {
       toolbarRef.current.parentNode.scroll({
         left: 0,
-        top: readPosition + 1000,
+        top: state.readPosition + 1000,
         behavior: 'auto',
       })
 
@@ -81,19 +120,19 @@ const Toolbar = ({ viewer, eventBus }) => {
         () =>
           toolbarRef.current.parentNode.scroll({
             left: 0,
-            top: readPosition,
+            top: state.readPosition,
             behavior: 'smooth',
           }),
         50
       )
-      dispatch(unsetRelatedPapers())
+      globalDispatch(unsetRelatedPapers())
     }
-  }, [relatedPapersClicked])
+  }, [state.relatedPapersClicked])
 
   return (
     <div
       className={`pdf-toolbar d-flex flex-wrap justify-content-end align-items-center ${
-        isVisible ? 'pdf-toolbar-visible' : ''
+        state.isVisible ? 'pdf-toolbar-visible' : ''
       }`}
       ref={toolbarRef}
     >
@@ -102,9 +141,13 @@ const Toolbar = ({ viewer, eventBus }) => {
           title="Show related papers"
           type="button"
           className="btn m-auto h-100"
-          onClick={() => setRelatedPapersClicked(!relatedPapersClicked)}
+          onClick={() =>
+            dispatch({
+              type: 'toggle_related_papers',
+            })
+          }
         >
-          {!relatedPapersClicked ? 'Related papers' : 'Back to reading'}
+          {!state.relatedPapersClicked ? 'Related papers' : 'Back to reading'}
         </button>
       </div>
       <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2">
@@ -130,7 +173,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           disabled={viewer.currentScaleValue >= MAX_SCALE}
           onClick={() => {
             zoomIn()
-            scaleChange(viewer.currentScaleValue)
+            dispatch({ type: 'noop' })
             viewer.update()
           }}
         >
@@ -143,7 +186,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           disabled={viewer.currentScaleValue <= MIN_SCALE}
           onClick={() => {
             zoomOut()
-            scaleChange(viewer.currentScaleValue)
+            dispatch({ type: 'noop' })
             viewer.update()
           }}
         >
@@ -164,11 +207,24 @@ const Toolbar = ({ viewer, eventBus }) => {
           <input
             type="text"
             className="form-control input-change-page-number"
-            value={inputNumber}
-            onBlur={() => changeInputNumber(viewer.currentPageNumber)}
+            value={state.inputNumber}
+            onBlur={() =>
+              dispatch({
+                type: 'change_input_number',
+                payload: {
+                  pageNumber: viewer.currentPageNumber,
+                },
+              })
+            }
             onChange={e => {
-              if (e.target.value === '') changeInputNumber('')
-
+              if (e.target.value === '') {
+                dispatch({
+                  type: 'change_input_number',
+                  payload: {
+                    pageNumber: '',
+                  },
+                })
+              }
               const pageNumber = parseInt(e.target.value, 10)
               if (
                 Number.isNaN(pageNumber) ||
@@ -177,7 +233,12 @@ const Toolbar = ({ viewer, eventBus }) => {
               )
                 return
               viewer.currentPageNumber = pageNumber
-              changeInputNumber(pageNumber)
+              dispatch({
+                type: 'change_input_number',
+                payload: {
+                  pageNumber,
+                },
+              })
             }}
           />{' '}
           / {viewer.pagesCount}
