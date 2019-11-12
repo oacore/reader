@@ -12,10 +12,6 @@ dotenv.config()
 
 const missingEnvVars = [
   [
-    'CORE_API_KEY',
-    'You can generate free API key here at https://core.ac.uk/api-keys/register/',
-  ],
-  [
     'CORE_RECOMMENDER_API_KEY',
     'You can generate free API key here at https://core.ac.uk/recommender/register/',
   ],
@@ -58,7 +54,6 @@ const nextConfig = {
 
     config.plugins.push(
       new webpack.DefinePlugin({
-        CORE_API_KEY: JSON.stringify(process.env.CORE_API_KEY),
         CORE_RECOMMENDER_API_KEY: JSON.stringify(
           process.env.CORE_RECOMMENDER_API_KEY
         ),
