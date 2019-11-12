@@ -204,44 +204,48 @@ const Toolbar = ({ viewer, eventBus }) => {
           <Icon iconType="left-arrow" />
         </button>
         <div>
-          <input
-            type="text"
-            className="form-control input-change-page-number"
-            value={state.inputNumber}
-            onBlur={() =>
-              dispatch({
-                type: 'change_input_number',
-                payload: {
-                  pageNumber: viewer.currentPageNumber,
-                },
-              })
-            }
-            onChange={e => {
-              if (e.target.value === '') {
+          <label className="m-0" htmlFor="page-number">
+            <span className="sr-only">Page number</span>
+            <input
+              type="text"
+              className="form-control input-change-page-number"
+              name="page-number"
+              value={state.inputNumber}
+              onBlur={() =>
                 dispatch({
                   type: 'change_input_number',
                   payload: {
-                    pageNumber: '',
+                    pageNumber: viewer.currentPageNumber,
                   },
                 })
               }
-              const pageNumber = parseInt(e.target.value, 10)
-              if (
-                Number.isNaN(pageNumber) ||
-                pageNumber < 1 ||
-                pageNumber > viewer.pagesCount
-              )
-                return
-              viewer.currentPageNumber = pageNumber
-              dispatch({
-                type: 'change_input_number',
-                payload: {
-                  pageNumber,
-                },
-              })
-            }}
-          />{' '}
-          / {viewer.pagesCount}
+              onChange={e => {
+                if (e.target.value === '') {
+                  dispatch({
+                    type: 'change_input_number',
+                    payload: {
+                      pageNumber: '',
+                    },
+                  })
+                }
+                const pageNumber = parseInt(e.target.value, 10)
+                if (
+                  Number.isNaN(pageNumber) ||
+                  pageNumber < 1 ||
+                  pageNumber > viewer.pagesCount
+                )
+                  return
+                viewer.currentPageNumber = pageNumber
+                dispatch({
+                  type: 'change_input_number',
+                  payload: {
+                    pageNumber,
+                  },
+                })
+              }}
+            />{' '}
+            / {viewer.pagesCount}
+          </label>
         </div>
         <button
           title="Next page"
