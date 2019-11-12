@@ -5,9 +5,8 @@ import { useGlobalStore } from '../../store'
 const EnhancementSidebar = () => {
   const [{ ui, document }] = useGlobalStore()
 
-  const sortedAnnotations = Object.keys(document.annotations)
-    .map(annotationId => [annotationId, document.annotations[annotationId]])
-    .sort(([, firstAnnotation], [, secondAnnotation]) => {
+  const sortedAnnotations = Object.entries(document.annotations).sort(
+    ([, firstAnnotation], [, secondAnnotation]) => {
       const firstAnnotationId = Object.keys(firstAnnotation.rects).sort()[0]
       const secondAnnotationId = Object.keys(secondAnnotation.rects).sort()[0]
 
@@ -30,7 +29,8 @@ const EnhancementSidebar = () => {
       if (firstAnnotationsSorted[0][1] > secondAnnotationsSorted[0][1]) return 1
 
       return 0
-    })
+    }
+  )
 
   return (
     <div

@@ -19,7 +19,7 @@ class ContextMenu extends React.PureComponent {
     let toggleSidebar = () => {}
     if (
       !ui.isEnhancementViewVisible &&
-      Object.entries(document.annotations).length === 0
+      Object.keys(document.annotations).length === 0
     )
       toggleSidebar = () => dispatch(toggleEnhancementSidebar)
 
