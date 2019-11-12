@@ -18,6 +18,8 @@ const Toolbar = ({ viewer, eventBus }) => {
   const [isVisible, changeVisibility] = useState(false)
   const [, currPageChange] = useState(1)
   const [, scaleChange] = useState(0)
+  const [inputNumber, changeInputNumber] = useState(1)
+
   const toolbarRef = useRef()
 
   const zoomIn = () => {
@@ -159,7 +161,26 @@ const Toolbar = ({ viewer, eventBus }) => {
           <Icon iconType="left-arrow" />
         </button>
         <div>
-          {viewer.currentPageNumber} / {viewer.pagesCount}
+          <input
+            type="text"
+            className="form-control input-change-page-number"
+            value={inputNumber}
+            onBlur={() => changeInputNumber(viewer.currentPageNumber)}
+            onChange={e => {
+              if (e.target.value === '') changeInputNumber('')
+
+              const pageNumber = parseInt(e.target.value, 10)
+              if (
+                Number.isNaN(pageNumber) ||
+                pageNumber < 1 ||
+                pageNumber > viewer.pagesCount
+              )
+                return
+              viewer.currentPageNumber = pageNumber
+              changeInputNumber(pageNumber)
+            }}
+          />{' '}
+          / {viewer.pagesCount}
         </div>
         <button
           title="Next page"
