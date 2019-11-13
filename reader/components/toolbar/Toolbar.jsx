@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useReducer } from 'react'
 import Icon from '../icons/Icon'
 import './Toolbar.scss'
 import { useGlobalStore } from '../../store'
 import {
+  changeCurrentPageNumber,
   scrollToRelatedPapers,
   unsetRelatedPapers,
 } from '../../store/ui/actions'
@@ -11,14 +12,41 @@ const MIN_SCALE = 0.1
 const MAX_SCALE = 10.0
 const DEFAULT_SCALE_DELTA = 1.1
 
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case 'set_read_position':
+      return {
+        ...state,
+        readPosition: payload.position,
+      }
+
+    case 'toggle_related_papers':
+      return {
+        ...state,
+        relatedPapersClicked: !state.relatedPapersClicked,
+      }
+
+    case 'toggle_visibility':
+      return {
+        ...state,
+        isVisible: payload.visibility,
+      }
+
+    default:
+      return state
+  }
+}
+
 const Toolbar = ({ viewer, eventBus }) => {
-  const [{ ui }, dispatch] = useGlobalStore()
-  const [readPosition, setReadPosition] = useState(0)
-  const [relatedPapersClicked, setRelatedPapersClicked] = useState(null)
-  const [isVisible, changeVisibility] = useState(false)
-  const [, currPageChange] = useState(1)
-  const [, scaleChange] = useState(0)
+  const [{ ui }, globalDispatch] = useGlobalStore()
+
+  const [state, dispatch] = useReducer(reducer, {
+    readPosition: 0,
+    relatedPapersClicked: null,
+    isVisible: false,
+  })
   const toolbarRef = useRef()
+  const inputPageNumber = useRef()
 
   const zoomIn = () => {
     let newScale = viewer.currentScale
@@ -40,19 +68,23 @@ const Toolbar = ({ viewer, eventBus }) => {
     // component didMount
     const setTimeoutVisibility = () =>
       setTimeout(() => {
-        changeVisibility(false)
+        dispatch({
+          type: 'change_visibility',
+          payload: { visibility: false },
+        })
       }, 1000)
 
     let timeoutId
 
-    const onPageChange = e => {
+    const onPageChange = () => {
       if (ui.isRelatedPapersScrolled && timeoutId)
-        dispatch(unsetRelatedPapers())
+        globalDispatch(unsetRelatedPapers())
       if (timeoutId) clearTimeout(timeoutId)
       timeoutId = setTimeoutVisibility()
-      changeVisibility(true)
-
-      currPageChange(e.pageNumber)
+      dispatch({
+        type: 'change_visibility',
+        payload: { visibility: true },
+      })
     }
     eventBus.on('pagechanging', onPageChange)
 
@@ -61,15 +93,20 @@ const Toolbar = ({ viewer, eventBus }) => {
   }, [])
 
   useEffect(() => {
-    if (relatedPapersClicked === null) return
+    if (state.relatedPapersClicked === null) return
 
-    if (relatedPapersClicked) {
-      setReadPosition(toolbarRef.current.parentNode.scrollTop)
-      dispatch(scrollToRelatedPapers())
+    if (state.relatedPapersClicked) {
+      dispatch({
+        type: 'set_read_position',
+        payload: {
+          position: toolbarRef.current.parentNode.scrollTop,
+        },
+      })
+      globalDispatch(scrollToRelatedPapers())
     } else {
       toolbarRef.current.parentNode.scroll({
         left: 0,
-        top: readPosition + 1000,
+        top: state.readPosition + 1000,
         behavior: 'auto',
       })
 
@@ -79,19 +116,31 @@ const Toolbar = ({ viewer, eventBus }) => {
         () =>
           toolbarRef.current.parentNode.scroll({
             left: 0,
-            top: readPosition,
+            top: state.readPosition,
             behavior: 'smooth',
           }),
         50
       )
-      dispatch(unsetRelatedPapers())
+      globalDispatch(unsetRelatedPapers())
     }
-  }, [relatedPapersClicked])
+  }, [state.relatedPapersClicked])
+
+  const handleBlurInput = () => {
+    const pageNumber =
+      Number.parseInt(inputPageNumber.current.value, 10) ||
+      viewer.currentPageNumber
+
+    if (pageNumber < 1 || pageNumber > viewer.pagesCount)
+      globalDispatch(changeCurrentPageNumber(viewer.currentPageNumber))
+
+    viewer.currentPageNumber = pageNumber
+    globalDispatch(changeCurrentPageNumber(pageNumber))
+  }
 
   return (
     <div
       className={`pdf-toolbar d-flex flex-wrap justify-content-end align-items-center ${
-        isVisible ? 'pdf-toolbar-visible' : ''
+        state.isVisible ? 'pdf-toolbar-visible' : ''
       }`}
       ref={toolbarRef}
     >
@@ -100,9 +149,13 @@ const Toolbar = ({ viewer, eventBus }) => {
           title="Show related papers"
           type="button"
           className="btn m-auto h-100"
-          onClick={() => setRelatedPapersClicked(!relatedPapersClicked)}
+          onClick={() =>
+            dispatch({
+              type: 'toggle_related_papers',
+            })
+          }
         >
-          {!relatedPapersClicked ? 'Related papers' : 'Back to reading'}
+          {!state.relatedPapersClicked ? 'Related papers' : 'Back to reading'}
         </button>
       </div>
       <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2">
@@ -128,7 +181,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           disabled={viewer.currentScaleValue >= MAX_SCALE}
           onClick={() => {
             zoomIn()
-            scaleChange(viewer.currentScaleValue)
+            dispatch({ type: 'noop' })
             viewer.update()
           }}
         >
@@ -141,7 +194,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           disabled={viewer.currentScaleValue <= MIN_SCALE}
           onClick={() => {
             zoomOut()
-            scaleChange(viewer.currentScaleValue)
+            dispatch({ type: 'noop' })
             viewer.update()
           }}
         >
@@ -154,19 +207,43 @@ const Toolbar = ({ viewer, eventBus }) => {
           type="button"
           className="btn"
           disabled={viewer.currentPageNumber <= 1}
-          onClick={() => --viewer.currentPageNumber}
+          onClick={() =>
+            globalDispatch(changeCurrentPageNumber(--viewer.currentPageNumber))
+          }
         >
           <Icon iconType="left-arrow" />
         </button>
-        <div>
-          {viewer.currentPageNumber} / {viewer.pagesCount}
+        <div className="page-number-navigation">
+          <label className="m-0" htmlFor="page-number">
+            <span className="sr-only">Page number</span>
+            <input
+              ref={inputPageNumber}
+              type="text"
+              className="form-control input-change-page-number"
+              name="page-number"
+              value={ui.currentPageNumber}
+              onChange={e => {
+                if (e.target.value === '') return
+                const pageNumber = Number(e.target.value)
+                if (Number.isNaN(pageNumber) || pageNumber > viewer.pagesCount)
+                  return
+
+                globalDispatch(changeCurrentPageNumber(pageNumber))
+              }}
+              onFocus={e => e.target.select()}
+              onBlur={handleBlurInput}
+            />{' '}
+            / <span className="pages-count">{viewer.pagesCount}</span>
+          </label>
         </div>
         <button
           title="Next page"
           type="button"
           className="btn"
           disabled={viewer.currentPageNumber >= viewer.pagesCount}
-          onClick={() => viewer.currentPageNumber++}
+          onClick={() =>
+            globalDispatch(changeCurrentPageNumber(++viewer.currentPageNumber))
+          }
         >
           <Icon iconType="right-arrow" />
         </button>

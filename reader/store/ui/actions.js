@@ -6,6 +6,7 @@ export const UI_ACTIONS = {
   UNSET_RELATED_PAPERS: 'ui/UNSET_RELATED_PAPERS',
   SCROLL_TO_LAST_READ_POSITION: 'ui/SCROLL_TO_LAST_READ_POSITION',
   SET_LAST_READ_POSITION: 'ui/SET_LAST_READ_POSITION',
+  CHANGE_CURRENT_PAGE_NUMBER: 'ui/CHANGE_CURRENT_PAGE_NUMBER',
 }
 
 export const toggleThumbnailsSidebar = () => ({
@@ -26,4 +27,11 @@ export const scrollToRelatedPapers = () => ({
 
 export const unsetRelatedPapers = () => ({
   type: UI_ACTIONS.UNSET_RELATED_PAPERS,
+})
+
+export const changeCurrentPageNumber = currentPageNumber => ({
+  type: UI_ACTIONS.CHANGE_CURRENT_PAGE_NUMBER,
+  payload: {
+    currentPageNumber,
+  },
 })

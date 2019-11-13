@@ -24,6 +24,7 @@ const MainArea = () => {
           renderingQueue={document.renderingQueue}
           metadata={metadata}
           setDocument={d => dispatch(setDocument(d))}
+          globalDispatch={dispatch}
         />
       </PDFLoader>
     </div>

@@ -5,6 +5,7 @@ import 'pdfjs-dist/web/pdf_viewer.css'
 import './Viewer.scss'
 import Toolbar from '../toolbar/Toolbar'
 import Recommender from '../recommender/Recommender'
+import { changeCurrentPageNumber } from '../../store/ui/actions'
 
 class Viewer extends React.PureComponent {
   containerNode = null
@@ -41,6 +42,7 @@ class Viewer extends React.PureComponent {
 
     eventBus.on('pagesinit', this.onPagesInit)
     eventBus.on('pagesloaded', this.onPagesLoaded)
+    eventBus.on('pagechanging', this.onPageChanging)
 
     renderingQueue.setViewer(this.pdfViewer)
     linkService.setViewer(this.pdfViewer)
@@ -77,6 +79,11 @@ class Viewer extends React.PureComponent {
     this.pdfViewer._setScale('auto', /* no_scroll */ true)
     this.pdfViewer.update()
     this.setState({ toolbarEnabled: true })
+  }
+
+  onPageChanging = e => {
+    const { globalDispatch } = this.props
+    globalDispatch(changeCurrentPageNumber(e.pageNumber))
   }
 
   Metadata = ({ metadata }) => {

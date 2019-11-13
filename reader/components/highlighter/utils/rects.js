@@ -24,13 +24,7 @@ export const groupRectsByPage = (rects, pagesRange, pdfViewer) => {
 
   // seems like it's already sorted but I couldn't verify it in API doc
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/getClientRects
-  rects.sort((firstElement, secondElement) => {
-    if (firstElement.top < secondElement.top) return -1
-
-    if (firstElement.top > secondElement.top) return 1
-
-    return 0
-  })
+  rects.sort((a, b) => a.top - b.top)
 
   const rectsByPages = {}
   let pageNumber = pagesRange.selectionStartPage.number
