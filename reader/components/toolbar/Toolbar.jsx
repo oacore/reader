@@ -252,6 +252,7 @@ const Toolbar = ({ viewer, eventBus }) => {
                   },
                 })
               }}
+              onFocus={e => e.target.select()}
               onBlur={handleBlurInput}
             />{' '}
             / <span className="pages-count">{viewer.pagesCount}</span>
