@@ -50,8 +50,28 @@
     }
   }
 
-  .input-change-page-number {
-    max-width: 50px;
+  .page-number-navigation {
+    margin-left: -1rem;
+    margin-right: -0.75rem;
+
+    .input-change-page-number,
+    .pages-count {
+      display: inline-block;
+      width: 35px;
+      text-align: center;
+    }
+
+    .input-change-page-number {
+      background-color: inherit;
+      border: 0;
+      box-shadow: none;
+
+      &:hover,
+      &:focus {
+        border: 1px solid $gray-300;
+      }
+    }
   }
+
 }
 

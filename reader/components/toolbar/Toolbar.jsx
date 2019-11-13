@@ -34,7 +34,7 @@ const reducer = (state, { type, payload }) => {
     case 'change_input_number':
       return {
         ...state,
-        inputNumber: payload.pageNumber,
+        inputNumber: payload.inputNumber,
       }
     default:
       return state
@@ -48,7 +48,7 @@ const Toolbar = ({ viewer, eventBus }) => {
     readPosition: 0,
     relatedPapersClicked: null,
     isVisible: false,
-    inputNumber: 1,
+    inputNumber: viewer.currentPageNumber,
   })
   const toolbarRef = useRef()
 
@@ -129,10 +129,32 @@ const Toolbar = ({ viewer, eventBus }) => {
     }
   }, [state.relatedPapersClicked])
 
+  const handleBlurInput = () => {
+    const pageNumber =
+      Number.parseInt(state.inputNumber, 10) || viewer.currentPageNumber
+
+    if (pageNumber < 1 || pageNumber > viewer.pagesCount) {
+      dispatch({
+        type: 'change_input_number',
+        payload: {
+          inputNumber: viewer.currentPageNumber,
+        },
+      })
+    }
+
+    viewer.currentPageNumber = pageNumber
+    dispatch({
+      type: 'change_input_number',
+      payload: {
+        inputNumber: pageNumber,
+      },
+    })
+  }
+
   return (
     <div
       className={`pdf-toolbar d-flex flex-wrap justify-content-end align-items-center ${
-        state.isVisible ? 'pdf-toolbar-visible' : ''
+        state.isVisible ? 'pdf-toolbar-visible' : 'pdf-toolbar-visible'
       }`}
       ref={toolbarRef}
     >
@@ -199,11 +221,18 @@ const Toolbar = ({ viewer, eventBus }) => {
           type="button"
           className="btn"
           disabled={viewer.currentPageNumber <= 1}
-          onClick={() => --viewer.currentPageNumber}
+          onClick={() =>
+            dispatch({
+              type: 'change_input_number',
+              payload: {
+                inputNumber: --viewer.currentPageNumber,
+              },
+            })
+          }
         >
           <Icon iconType="left-arrow" />
         </button>
-        <div>
+        <div className="page-number-navigation">
           <label className="m-0" htmlFor="page-number">
             <span className="sr-only">Page number</span>
             <input
@@ -211,40 +240,21 @@ const Toolbar = ({ viewer, eventBus }) => {
               className="form-control input-change-page-number"
               name="page-number"
               value={state.inputNumber}
-              onBlur={() =>
-                dispatch({
-                  type: 'change_input_number',
-                  payload: {
-                    pageNumber: viewer.currentPageNumber,
-                  },
-                })
-              }
               onChange={e => {
-                if (e.target.value === '') {
-                  dispatch({
-                    type: 'change_input_number',
-                    payload: {
-                      pageNumber: '',
-                    },
-                  })
-                }
-                const pageNumber = parseInt(e.target.value, 10)
-                if (
-                  Number.isNaN(pageNumber) ||
-                  pageNumber < 1 ||
-                  pageNumber > viewer.pagesCount
-                )
+                const pageNumber = Number(e.target.value)
+                if (Number.isNaN(pageNumber) || pageNumber > viewer.pagesCount)
                   return
-                viewer.currentPageNumber = pageNumber
+
                 dispatch({
                   type: 'change_input_number',
                   payload: {
-                    pageNumber,
+                    inputNumber: e.target.value,
                   },
                 })
               }}
+              onBlur={handleBlurInput}
             />{' '}
-            / {viewer.pagesCount}
+            / <span className="pages-count">{viewer.pagesCount}</span>
           </label>
         </div>
         <button
@@ -252,7 +262,14 @@ const Toolbar = ({ viewer, eventBus }) => {
           type="button"
           className="btn"
           disabled={viewer.currentPageNumber >= viewer.pagesCount}
-          onClick={() => viewer.currentPageNumber++}
+          onClick={() =>
+            dispatch({
+              type: 'change_input_number',
+              payload: {
+                inputNumber: ++viewer.currentPageNumber,
+              },
+            })
+          }
         >
           <Icon iconType="right-arrow" />
         </button>
