@@ -18,7 +18,7 @@ const PDFLoader = React.memo(({ url, children }) => {
         console.error(
           `Unable to load PDF document. Redirecting to default browser view. Error: ${e}`
         )
-        window.location.replace(url)
+        if (url) window.location.replace(url)
       }
     }
     loadPDFDocument()
