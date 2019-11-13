@@ -3,6 +3,7 @@ import Icon from '../icons/Icon'
 import './Toolbar.scss'
 import { useGlobalStore } from '../../store'
 import {
+  changeCurrentPageNumber,
   scrollToRelatedPapers,
   unsetRelatedPapers,
 } from '../../store/ui/actions'
@@ -31,11 +32,6 @@ const reducer = (state, { type, payload }) => {
         isVisible: payload.visibility,
       }
 
-    case 'change_input_number':
-      return {
-        ...state,
-        inputNumber: payload.inputNumber,
-      }
     default:
       return state
   }
@@ -48,9 +44,9 @@ const Toolbar = ({ viewer, eventBus }) => {
     readPosition: 0,
     relatedPapersClicked: null,
     isVisible: false,
-    inputNumber: viewer.currentPageNumber,
   })
   const toolbarRef = useRef()
+  const inputPageNumber = useRef()
 
   const zoomIn = () => {
     let newScale = viewer.currentScale
@@ -131,30 +127,20 @@ const Toolbar = ({ viewer, eventBus }) => {
 
   const handleBlurInput = () => {
     const pageNumber =
-      Number.parseInt(state.inputNumber, 10) || viewer.currentPageNumber
+      Number.parseInt(inputPageNumber.current.value, 10) ||
+      viewer.currentPageNumber
 
-    if (pageNumber < 1 || pageNumber > viewer.pagesCount) {
-      dispatch({
-        type: 'change_input_number',
-        payload: {
-          inputNumber: viewer.currentPageNumber,
-        },
-      })
-    }
+    if (pageNumber < 1 || pageNumber > viewer.pagesCount)
+      globalDispatch(changeCurrentPageNumber(viewer.currentPageNumber))
 
     viewer.currentPageNumber = pageNumber
-    dispatch({
-      type: 'change_input_number',
-      payload: {
-        inputNumber: pageNumber,
-      },
-    })
+    globalDispatch(changeCurrentPageNumber(pageNumber))
   }
 
   return (
     <div
       className={`pdf-toolbar d-flex flex-wrap justify-content-end align-items-center ${
-        state.isVisible ? 'pdf-toolbar-visible' : 'pdf-toolbar-visible'
+        state.isVisible ? 'pdf-toolbar-visible' : ''
       }`}
       ref={toolbarRef}
     >
@@ -222,12 +208,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           className="btn"
           disabled={viewer.currentPageNumber <= 1}
           onClick={() =>
-            dispatch({
-              type: 'change_input_number',
-              payload: {
-                inputNumber: --viewer.currentPageNumber,
-              },
-            })
+            globalDispatch(changeCurrentPageNumber(--viewer.currentPageNumber))
           }
         >
           <Icon iconType="left-arrow" />
@@ -236,21 +217,18 @@ const Toolbar = ({ viewer, eventBus }) => {
           <label className="m-0" htmlFor="page-number">
             <span className="sr-only">Page number</span>
             <input
+              ref={inputPageNumber}
               type="text"
               className="form-control input-change-page-number"
               name="page-number"
-              value={state.inputNumber}
+              value={ui.currentPageNumber}
               onChange={e => {
+                if (e.target.value === '') return
                 const pageNumber = Number(e.target.value)
                 if (Number.isNaN(pageNumber) || pageNumber > viewer.pagesCount)
                   return
 
-                dispatch({
-                  type: 'change_input_number',
-                  payload: {
-                    inputNumber: e.target.value,
-                  },
-                })
+                globalDispatch(changeCurrentPageNumber(pageNumber))
               }}
               onFocus={e => e.target.select()}
               onBlur={handleBlurInput}
@@ -264,12 +242,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           className="btn"
           disabled={viewer.currentPageNumber >= viewer.pagesCount}
           onClick={() =>
-            dispatch({
-              type: 'change_input_number',
-              payload: {
-                inputNumber: ++viewer.currentPageNumber,
-              },
-            })
+            globalDispatch(changeCurrentPageNumber(++viewer.currentPageNumber))
           }
         >
           <Icon iconType="right-arrow" />

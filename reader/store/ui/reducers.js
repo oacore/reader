@@ -6,9 +6,10 @@ export const uiInitialState = {
   isOutlineSidebarVisible: false,
   isEnhancementSidebarVisible: false,
   isRelatedPapersScrolled: window.location.hash === '#related-papers',
+  currentPageNumber: 1,
 }
 
-export default (state = uiInitialState, { type }) => {
+export default (state = uiInitialState, { type, payload }) => {
   switch (type) {
     case UI_ACTIONS.TOGGLE_THUMBNAILS_SIDEBAR:
       return {
@@ -48,6 +49,11 @@ export default (state = uiInitialState, { type }) => {
         isRelatedPapersScrolled: false,
       }
 
+    case UI_ACTIONS.CHANGE_CURRENT_PAGE_NUMBER:
+      return {
+        ...state,
+        currentPageNumber: payload.currentPageNumber,
+      }
     default:
       return state
   }

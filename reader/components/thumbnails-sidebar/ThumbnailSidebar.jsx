@@ -27,8 +27,16 @@ class ThumbnailSidebar extends React.PureComponent {
 
     this.thumbnailViewer.setDocument(documentProxy)
 
-    eventBus.on('pagechanging', this.onPageChanging)
     eventBus.on('rotationchanging', this.onRotationChanging)
+  }
+
+  componentDidUpdate(prevProps) {
+    const { currentPageNumber } = this.props.store.ui
+    if (
+      prevProps.store.ui.currentPageNumber !==
+      this.props.store.ui.currentPageNumber
+    )
+      this.thumbnailViewer.scrollThumbnailIntoView(currentPageNumber)
   }
 
   componentWillUnmount() {
@@ -36,13 +44,7 @@ class ThumbnailSidebar extends React.PureComponent {
       store: { document },
     } = this.props
 
-    document.eventBus.off('pagechanging', this.onPageChanging)
     document.eventBus.off('rotationchanging', this.onRotationChanging)
-  }
-
-  onPageChanging = e => {
-    const page = e.pageNumber
-    this.thumbnailViewer.scrollThumbnailIntoView(page)
   }
 
   onRotationChanging = e => {
