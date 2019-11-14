@@ -35,6 +35,7 @@
     "prettier": "^1.18.2"
   },
   "dependencies": {
+    "@oacore/api": "^1.0.0",
     "@sentry/browser": "^5.8.0",
     "@sentry/node": "^5.8.0",
     "@zeit/next-css": "^1.0.1",
