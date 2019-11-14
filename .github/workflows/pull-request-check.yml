@@ -1,0 +1,20 @@
+name: Pull request check
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: yarn install, build, and test
+        run: |
+          yarn install
+          yarn build
+          yarn lint
+        env:
+          CORE_RECOMMENDER_API_KEY: ${{ secrets.CORE_RECOMMENDER_API_KEY }}
