@@ -47,7 +47,7 @@ class OutlineSidebar extends React.PureComponent {
 
     return (
       <>
-        {(!outline || outline.length) && (
+        {(!outline || outline.length === 0) && (
           <div className="missing-outline">
             Document outline is not available for this moment.
           </div>
