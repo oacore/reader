@@ -47,11 +47,9 @@ class OutlineSidebar extends React.PureComponent {
 
     return (
       <>
-        {!outline && (
+        {(!outline || outline.length) && (
           <div className="missing-outline">
-            Document outline is not available for this moment. We are working
-            hard to bring this feature to bring this feature to majority of
-            works as soon as possible.
+            Document outline is not available for this moment.
           </div>
         )}
         <OutlineGroup
