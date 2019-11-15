@@ -6,13 +6,17 @@ CORE Reader is a full-featured PDF viewer with enhancements especially for acade
 ## Installation & Preview
 
 The project requires [__Node.js__][node-download] and
-[__Yarn__][yarn-install] package manager.
+[__NPM__][npm-install] package manager.
 
 After cloning this repository you need rename  [__.env.example__][env-file] file and provide CORE API key [__here__][core-api] and CORE Recommender API key [__here__][recommender-api].
 
+Also you will need to generate Github Token with package read permission [here][github-token] in order to download our @oacore packages from Github NPM registry.
+
+
 ```sh
-yarn install  # to install all dependencies
-yarn dev      # to start simple development server
+export NPM_TOKEN=<github_token_with_packages_read_permission>
+npm install      # to install all dependencies
+npm run dev      # to start simple development server
 ```
 
 Open [localhost:3000](http://localhost:3000) to preview.
@@ -22,15 +26,16 @@ Open [localhost:3000](http://localhost:3000) to preview.
 For using on production you need to run these commands:
 
 ```sh
-yarn install    # to install all dependencies
-yarn build      # to build all files for next server (stored in .next folder)
-yarn start      # to start simple development server
+npm install        # to install all dependencies
+npm run build      # to build all files for next server (stored in .next folder)
+npm run start      # to start simple development server
 ```
 
 Server starts listen on `0.0.0.0:3000`
 
+[github-token]: https://github.com/settings/tokens
 [node-download]: https://nodejs.org/en/download/
-[yarn-install]: https://yarnpkg.com/lang/en/docs/install/
+[npm-install]: https://www.npmjs.com/get-npm
 [core-api]: https://core.ac.uk/api-keys/register/
 [env-file]: https://github.com/oacore/reader/blob/master/.env.example
 [recommender-api]: https://core.ac.uk/recommender/register/
