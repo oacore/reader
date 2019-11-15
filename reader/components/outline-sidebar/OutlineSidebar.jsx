@@ -46,11 +46,18 @@ class OutlineSidebar extends React.PureComponent {
     ]
 
     return (
-      <OutlineGroup
-        isExpanded
-        linkService={linkService}
-        outline={finalOutline}
-      />
+      <>
+        {(!outline || outline.length) && (
+          <div className="missing-outline">
+            Document outline is not available for this moment.
+          </div>
+        )}
+        <OutlineGroup
+          isExpanded
+          linkService={linkService}
+          outline={finalOutline}
+        />
+      </>
     )
   }
 
