@@ -24,6 +24,7 @@ class Reader extends React.Component {
     try {
       return await getArticleMetadata(pdfId)
     } catch (e) {
+      Sentry.captureException(e)
       return { statusCode: e.statusCode }
     }
   }
