@@ -30,13 +30,11 @@ $green: #28a745;
 $primary: $orange-dark;
 $primary-dark: $orange-darker;
 
-
 // Options
 //
 // Quickly modify global styling by enabling or disabling optional features.
 
 $enable-shadows: true;
-
 
 // Spacing
 //
@@ -59,19 +57,17 @@ $spacers: (
   section-sm: $section-sm-spacer,
   section-md: $section-md-spacer,
   section-lg: $section-lg-spacer,
-  section: $section-spacer
+  section: $section-spacer,
 );
-
 
 // Links
 //
 // Style anchor elements.
 
-$link-color:                $primary;
-$link-decoration:           none;
-$link-hover-color:          $primary;
-$link-hover-decoration:     underline;
-
+$link-color: $primary;
+$link-decoration: none;
+$link-hover-color: $primary;
+$link-hover-decoration: underline;
 
 // Grid breakpoints
 //
@@ -82,9 +78,8 @@ $grid-breakpoints: (
   xs: 0,
   sm: 576px,
   md: 768px,
-  lg: 992px
+  lg: 992px,
 );
-
 
 // Grid containers
 //
@@ -93,9 +88,8 @@ $grid-breakpoints: (
 $container-max-widths: (
   sm: 540px,
   md: 720px,
-  lg: 960px
+  lg: 960px,
 );
-
 
 // Grid columns
 //
@@ -104,97 +98,89 @@ $container-max-widths: (
 $grid-columns: 12;
 $grid-gutter-width: 32px;
 
-
 // Fonts
 //
 // Font, line-height, and color for body text, headings, and more.
 
 // stylelint-disable value-keyword-case
-$font-family-sans-serif:
-  Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI",
-  "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
-  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-sans-serif: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+  'Segoe UI Symbol', 'Noto Color Emoji';
 // stylelint-enable value-keyword-case
 
-$font-size-base:              1rem; // browser default, typically 16px
-$font-size-lg:                ($font-size-base * 1.125); // 18px
-$font-size-sm:                ($font-size-base * .875); // 14px
+$font-size-base: 1rem; // browser default, typically 16px
+$font-size-lg: ($font-size-base * 1.125); // 18px
+$font-size-sm: ($font-size-base * 0.875); // 14px
 
-$font-weight-light:           300;
-$font-weight-normal:          400;
-$font-weight-bold:            700;
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
 
-$font-weight-base:            $font-weight-normal;
-$line-height-base:            1.5;
+$font-weight-base: $font-weight-normal;
+$line-height-base: 1.5;
 
-$h1-font-size:                $font-size-base * 3.75;
-$h2-font-size:                $font-size-base * 3;
-$h3-font-size:                $font-size-base * 2.125;
-$h4-font-size:                $font-size-base * 1.75;
+$h1-font-size: $font-size-base * 3.75;
+$h2-font-size: $font-size-base * 3;
+$h3-font-size: $font-size-base * 2.125;
+$h4-font-size: $font-size-base * 1.75;
 
-$headings-margin-bottom:      $spacer;
-$headings-font-weight:        $font-weight-bold;
-$headings-line-height:        1.2;
+$headings-margin-bottom: $spacer;
+$headings-font-weight: $font-weight-bold;
+$headings-line-height: 1.2;
 
-$lead-font-size:              ($font-size-base * 1.5);
-$lead-font-weight:            $font-weight-light;
+$lead-font-size: ($font-size-base * 1.5);
+$lead-font-weight: $font-weight-light;
 
-$small-font-size:             80%;
+$small-font-size: 80%;
 
+$blockquote-font-size: $font-size-base * 1.125;
+$blockquote-padding-left: 3.5 * $font-size-base;
+$blockquote-avatar-size: 8rem;
+$blockquote-avatar-vertical-fix: -1rem;
 
-$blockquote-font-size:        $font-size-base * 1.125;
-$blockquote-padding-left:     3.5 * $font-size-base;
-$blockquote-avatar-size:      8rem;
-$blockquote-avatar-vertical-fix:    -1rem;
-
-$mark-padding:                .2em;
-$mark-bg:                     $green;
-
+$mark-padding: 0.2em;
+$mark-bg: $green;
 
 // Forms
 
-$custom-control-indicator-box-shadow:           0 0 0 .2rem rgba($light-grey, .25);
-$custom-control-indicator-focus-border-color:   $light-grey;
-$custom-control-indicator-checked-color:        $green;
-$custom-control-indicator-checked-bg:           $green;
-$custom-control-indicator-checked-disabled-bg:  rgba($green, .5);
-$custom-control-indicator-focus-box-shadow:     0 0 0 .2rem rgba($green, .25);
-$custom-control-indicator-active-color:         $green;
-$custom-control-indicator-active-bg:            $green;
+$custom-control-indicator-box-shadow: 0 0 0 0.2rem rgba($light-grey, 0.25);
+$custom-control-indicator-focus-border-color: $light-grey;
+$custom-control-indicator-checked-color: $green;
+$custom-control-indicator-checked-bg: $green;
+$custom-control-indicator-checked-disabled-bg: rgba($green, 0.5);
+$custom-control-indicator-focus-box-shadow: 0 0 0 0.2rem rgba($green, 0.25);
+$custom-control-indicator-active-color: $green;
+$custom-control-indicator-active-bg: $green;
 
 // Cards
 
 $card-border-radius: 0;
 
-
 // Carousel
 
-$carousel-control-color:            $primary;
-
+$carousel-control-color: $primary;
 
 // Navbar
 
-$navbar-padding-y:                  .5rem;
+$navbar-padding-y: 0.5rem;
 
-$navbar-dropdown-border-color:      $blue-light;
-$navbar-dropdown-border-radius:     0;
+$navbar-dropdown-border-color: $blue-light;
+$navbar-dropdown-border-radius: 0;
 
-$navbar-light-color:                $nearly-black;
-$navbar-light-hover-color:          $link-color;
-$navbar-light-active-color:         $link-hover-color;
+$navbar-light-color: $nearly-black;
+$navbar-light-hover-color: $link-color;
+$navbar-light-active-color: $link-hover-color;
 
-$navbar-light-brand-color:          $navbar-light-color;
-
+$navbar-light-brand-color: $navbar-light-color;
 
 // Dropdowns
 //
 // Dropdown menu container and contents.
 
-$dropdown-link-color:               $link-color;
-$dropdown-link-hover-color:         $link-color;
-$dropdown-link-active-color:        $white;
-
+$dropdown-link-color: $link-color;
+$dropdown-link-hover-color: $link-color;
+$dropdown-link-active-color: $white;
 
 // Sections
 
-$section-skew-width:                2 * $spacer;
+$section-skew-width: 2 * $spacer;

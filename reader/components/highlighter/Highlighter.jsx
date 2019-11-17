@@ -1,13 +1,14 @@
 import React, { cloneElement } from 'react'
 import ReactDom from 'react-dom'
+
 import { getPageFromRange } from './utils/utils'
 import { groupRectsByPage } from './utils/rects'
 import ContextMenu from './components/ContextMenu'
 import { findOrCreateLayerForContextMenu } from './utils/layer'
 import Highlights from './components/Highlights'
+import { withGlobalStore } from '../../store'
 
 import './Highlighter.scss'
-import { withGlobalStore } from '../../store'
 
 class Highlighter extends React.Component {
   state = {
@@ -44,8 +45,10 @@ class Highlighter extends React.Component {
 
   onAfterSelection() {
     const {
-      document: { viewer },
-    } = this.props.store
+      store: {
+        document: { viewer },
+      },
+    } = this.props
     const selection = window.getSelection()
 
     // no text was selected
@@ -121,7 +124,8 @@ class Highlighter extends React.Component {
       annotationId,
     } = this.state
 
-    const children = cloneElement(this.props.children, {
+    const { children } = this.props
+    const child = cloneElement(children, {
       ...this.props,
     })
 
@@ -144,7 +148,7 @@ class Highlighter extends React.Component {
       <>
         {contextRoot && contextMenu}
         <Highlights updateContextMenu={this.onUpdateContextMenu} />
-        {children}
+        {child}
       </>
     )
   }

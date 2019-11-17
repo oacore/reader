@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useReducer } from 'react'
+
 import Icon from '../icons/Icon'
 import './Toolbar.scss'
 import { useGlobalStore } from '../../store'
@@ -207,9 +208,10 @@ const Toolbar = ({ viewer, eventBus }) => {
           type="button"
           className="btn"
           disabled={viewer.currentPageNumber <= 1}
-          onClick={() =>
-            globalDispatch(changeCurrentPageNumber(--viewer.currentPageNumber))
-          }
+          onClick={() => {
+            viewer.currentPageNumber -= 1
+            globalDispatch(changeCurrentPageNumber(viewer.currentPageNumber))
+          }}
         >
           <Icon iconType="left-arrow" />
         </button>
@@ -241,9 +243,10 @@ const Toolbar = ({ viewer, eventBus }) => {
           type="button"
           className="btn"
           disabled={viewer.currentPageNumber >= viewer.pagesCount}
-          onClick={() =>
-            globalDispatch(changeCurrentPageNumber(++viewer.currentPageNumber))
-          }
+          onClick={() => {
+            viewer.currentPageNumber += 1
+            globalDispatch(changeCurrentPageNumber(viewer.currentPageNumber))
+          }}
         >
           <Icon iconType="right-arrow" />
         </button>

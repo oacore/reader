@@ -1,12 +1,13 @@
 import React from 'react'
+
 import Viewer from '../viewer/Viewer'
 import PDFLoader from '../pdf-loader/PDFLoader'
 import ThumbnailSidebar from '../thumbnails-sidebar/ThumbnailSidebar'
 import OutlineSidebar from '../outline-sidebar/OutlineSidebar'
-
-import './MainArea.scss'
 import { useGlobalStore } from '../../store'
 import { setDocument } from '../../store/document/actions'
+
+import './MainArea.scss'
 
 const MainArea = () => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()

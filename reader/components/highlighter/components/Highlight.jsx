@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { findOrCreateLayerForContextMenu, findPageLayer } from '../utils/layer'
 
 const Highlight = ({

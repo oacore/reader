@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle, no-bitwise */
 /* Copyright 2012 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +18,7 @@
 
 import { getOutputScale, NullL10n } from 'pdfjs-dist/lib/web/ui_utils'
 import { RenderingStates } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
+
 import { createPromiseCapability, RenderingCancelledException } from './webpack'
 
 const MAX_NUM_SCALING_STEPS = 3

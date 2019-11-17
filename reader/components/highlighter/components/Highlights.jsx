@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import ReactDom from 'react-dom'
+
 import Highlight from './Highlight'
 import { findOrCreateLayerForHighlights, findPageLayer } from '../utils/layer'
 import { withGlobalStore } from '../../../store'
@@ -23,10 +24,12 @@ class Highlights extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.context.state.annotations !==
-      prevProps.context.state.annotations
-    )
+    const {
+      context: {
+        state: { annotations },
+      },
+    } = this.props
+    if (annotations !== prevProps.context.state.annotations)
       this.preparePortals()
   }
 

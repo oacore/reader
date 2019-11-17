@@ -1,8 +1,9 @@
 import React from 'react'
+
 import PDFThumbnailViewer from '../../lib/pdf-js/PDFThumbnailViewer'
+import { withGlobalStore } from '../../store'
 
 import './ThumbnailSidebar.scss'
-import { withGlobalStore } from '../../store'
 
 class ThumbnailSidebar extends React.PureComponent {
   containerNode = null
@@ -31,11 +32,12 @@ class ThumbnailSidebar extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { currentPageNumber } = this.props.store.ui
-    if (
-      prevProps.store.ui.currentPageNumber !==
-      this.props.store.ui.currentPageNumber
-    )
+    const {
+      store: {
+        ui: { currentPageNumber },
+      },
+    } = this.props
+    if (prevProps.store.ui.currentPageNumber !== currentPageNumber)
       this.thumbnailViewer.scrollThumbnailIntoView(currentPageNumber)
   }
 

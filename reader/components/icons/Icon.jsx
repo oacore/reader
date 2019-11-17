@@ -1,5 +1,6 @@
 import React from 'react'
 import SVG from 'react-inlinesvg'
+
 import './Icon.scss'
 import DownloadIcon from './assets/download.svg'
 import OutlineIcon from './assets/outline.svg'

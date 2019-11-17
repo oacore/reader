@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { withGlobalStore } from '../../../store'
 import { toggleEnhancementSidebar } from '../../../store/ui/actions'
 import { setAnnotation } from '../../../store/document/actions'
@@ -61,8 +62,12 @@ class ContextMenu extends React.PureComponent {
   }
 
   render() {
-    const { document } = this.props.store
-    const { left, top, height } = this.props
+    const {
+      left,
+      top,
+      height,
+      store: { document },
+    } = this.props
 
     // TODO: Currently annotations are available only if page is not rotated
     const isMenuVisible =
@@ -81,12 +86,12 @@ class ContextMenu extends React.PureComponent {
           display: 'inline-block',
         }}
         onMouseEnter={() => {
-          if (!this.state.isInnerVisible)
-            this.setState({ isInnerVisible: true })
+          const { isInnerVisible } = this.state
+          if (!isInnerVisible) this.setState({ isInnerVisible })
         }}
         onMouseLeave={() => {
-          if (this.state.isInnerVisible)
-            this.setState({ isInnerVisible: false })
+          const { isInnerVisible } = this.state
+          if (isInnerVisible) this.setState({ isInnerVisible: false })
         }}
       >
         <div className="highlight-popup">

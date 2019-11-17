@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react'
+
 import reducers, { initialState } from './reducers'
 
 const GlobalContext = createContext({})

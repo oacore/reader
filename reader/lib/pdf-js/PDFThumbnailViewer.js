@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import { PDFThumbnailViewer as _PDFThumbnailViewer } from 'pdfjs-dist/lib/web/pdf_thumbnail_viewer'
 
 import PDFThumbnailView from './PDFThumbnailView'

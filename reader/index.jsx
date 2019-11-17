@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
 import { EventBus, PDFLinkService } from 'pdfjs-dist/web/pdf_viewer'
+
 import Header from './components/header/Header'
 import MainArea from './components/main-area/MainArea'
 import Layout from './components/layout/Layout'

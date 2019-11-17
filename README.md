@@ -2,16 +2,14 @@
 
 CORE Reader is a full-featured PDF viewer with enhancements especially for academic papers built on top of [PDF.js](https://mozilla.github.io/pdf.js/)
 
-
 ## Installation & Preview
 
-The project requires [__Node.js__][node-download] and
-[__NPM__][npm-install] package manager.
+The project requires [**Node.js**][node-download] and
+[**NPM**][npm-install] package manager.
 
-After cloning this repository you need rename  [__.env.example__][env-file] file and provide CORE API key [__here__][core-api] and CORE Recommender API key [__here__][recommender-api].
+After cloning this repository you need rename [**.env.example**][env-file] file and provide CORE API key [**here**][core-api] and CORE Recommender API key [**here**][recommender-api].
 
 Also you will need to generate Github Token with package read permission [here][github-token] in order to download our @oacore packages from Github NPM registry.
-
 
 ```sh
 export NPM_TOKEN=<github_token_with_packages_read_permission>

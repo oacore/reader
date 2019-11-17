@@ -1,6 +1,6 @@
-@import "../bootstrap/core";
+@import '../bootstrap/core';
 
-$expand-icon: url("assets/expand.svg");
+$expand-icon: url('assets/expand.svg');
 
 .outline-view {
   position: absolute;
@@ -39,11 +39,11 @@ $expand-icon: url("assets/expand.svg");
       background: $expand-icon no-repeat center / contain;
       transition: transform 150ms;
 
-      [aria-expanded="true"] > & {
+      [aria-expanded='true'] > & {
         transform: none;
       }
 
-      [aria-expanded="false"] > & {
+      [aria-expanded='false'] > & {
         transform: rotate(-90deg);
       }
     }
@@ -60,5 +60,4 @@ $expand-icon: url("assets/expand.svg");
       padding: 0;
     }
   }
-
 }
