@@ -87,12 +87,13 @@ class Highlights extends React.PureComponent {
     }
     /* eslint-enable react/no-array-index-key,no-restricted-syntax */
 
-    const portals = Object.entries(annotationsByPage).map(
-      ([pageNumber, pageHighlights]) =>
-        ReactDom.createPortal(
-          pageHighlights,
-          findOrCreateLayerForHighlights(findPageLayer(pageNumber))
-        )
+    const portals = Object.entries(
+      annotationsByPage
+    ).map(([pageNumber, pageHighlights]) =>
+      ReactDom.createPortal(
+        pageHighlights,
+        findOrCreateLayerForHighlights(findPageLayer(pageNumber))
+      )
     )
 
     this.setState({ portals })
