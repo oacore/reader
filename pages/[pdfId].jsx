@@ -79,27 +79,41 @@ class Reader extends React.Component {
           />
 
           <meta name="referrer" content="origin" />
-          <meta name="DC.format" content={downloadLink} />
-          <meta name="citation_pdf_url" content={downloadLink} />
+          {downloadLink && (
+            <>
+              <meta name="DC.format" content={downloadLink} />
+              <meta name="citation_pdf_url" content={downloadLink} />
+            </>
+          )}
 
-          <meta name="DC.title" content={title} />
-          <meta name="citation_title" content={title} />
-          <meta name="DCTERMS.abstract" content={abstract} />
+          {title && (
+            <>
+              <meta name="DC.title" content={title} />
+              <meta name="citation_title" content={title} />
+            </>
+          )}
 
-          {authors.map(author => (
-            <meta key={author} name="citation_author" content={author} />
-          ))}
-          {authors.map(author => (
-            <meta key={author} name="DC.creator" content={author} />
-          ))}
+          {abstract && <meta name="DCTERMS.abstract" content={abstract} />}
 
-          <meta name="citation_publication_date" content={year} />
-          <meta name="DC.issued" content={year} />
+          {(authors || []).length &&
+            authors.map(author => (
+              <meta key={author} name="citation_author" content={author} />
+            )) &&
+            authors.map(author => (
+              <meta key={author} name="DC.creator" content={author} />
+            ))}
 
-          <meta name="DC.identifier" content={oai} />
-          {subjects.map(subject => (
-            <meta key={subject} name="DC.subject" content={subject} />
-          ))}
+          {year && (
+            <>
+              <meta name="citation_publication_date" content={year} />
+              <meta name="DC.issued" content={year} />
+            </>
+          )}
+          {oai && <meta name="DC.identifier" content={oai} />}
+          {(subjects || []).length &&
+            subjects.map(subject => (
+              <meta key={subject} name="DC.subject" content={subject} />
+            ))}
 
           <style>
             {`
