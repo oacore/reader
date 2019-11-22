@@ -52,6 +52,12 @@ const nextConfig = {
     if (!config.isServer)
       config.resolve.alias['@sentry/node'] = '@sentry/browser'
 
+    config.module.rules.push({
+      test: /\.js$/,
+      use: ['source-map-loader'],
+      enforce: 'pre',
+    })
+
     config.plugins.push(
       new webpack.DefinePlugin({
         CORE_RECOMMENDER_API_KEY: JSON.stringify(

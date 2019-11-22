@@ -32,7 +32,8 @@
     "html-webpack-plugin": "^3.2.0",
     "husky": "^3.1.0",
     "lint-staged": "^9.4.2",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "source-map-loader": "^0.2.4"
   },
   "dependencies": {
     "@oacore/api": "^1.0.0",
