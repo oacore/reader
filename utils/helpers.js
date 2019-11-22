@@ -3,7 +3,7 @@ const getBuildTarget = () => {
 }
 
 const getAssetPath = (path, target = getBuildTarget()) => {
-  return target === 'aws' ? `/reader{path}` : path
+  return target === 'aws' ? `/reader${path}` : path
 }
 
 module.exports = { getAssetPath }
