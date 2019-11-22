@@ -3,7 +3,7 @@
 const Sentry = require('@sentry/node')
 
 let sentryOptions
-if (typeof SENTRY_DSN !== 'undefined' && typeof RELEASE_ID !== 'undefined') {
+if (typeof SENTRY_DSN !== 'undefined') {
   sentryOptions = {
     dsn: SENTRY_DSN,
   }
