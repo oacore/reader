@@ -7,6 +7,7 @@ import { Sentry } from '../../../utils/sentry'
 
 const PDFLoader = React.memo(({ url, children }) => {
   const [documentProxy, setDocumentProxy] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   // Load document on mount
   useEffect(() => {
@@ -20,6 +21,8 @@ const PDFLoader = React.memo(({ url, children }) => {
         )
         Sentry.captureException(e)
         if (url) window.location.replace(url)
+      } finally {
+        setIsLoading(false)
       }
     }
     loadPDFDocument()
@@ -29,7 +32,13 @@ const PDFLoader = React.memo(({ url, children }) => {
 
   return (
     <div className="pdf-loader">
-      <Spinner />
+      {isLoading && <Spinner />}
+      {!isLoading && (
+        <div className="text-center">
+          PDF couldn&apos;t be displayed. PDF download should start
+          automatically, but if not, <a href={url}>click here</a>.
+        </div>
+      )}
     </div>
   )
 })
