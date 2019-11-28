@@ -54,7 +54,7 @@ class Reader extends React.Component {
       subjects,
     } = this.props
 
-    if (statusCode !== 200) return <ErrorPage statusCode={200} />
+    if (statusCode !== 200) return <ErrorPage statusCode={statusCode} />
 
     return (
       <>
