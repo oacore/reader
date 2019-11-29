@@ -20,7 +20,7 @@ const PDFLoader = React.memo(({ url, children }) => {
           `Unable to load PDF document. Redirecting to default browser view. Error: ${e}`
         )
         Sentry.captureException(e)
-        if (url) window.location.replace(url)
+        if (url) setTimeout(() => window.location.replace(url), 5000)
       } finally {
         setIsLoading(false)
       }
