@@ -7,6 +7,7 @@ import getArticleMetadata from '../reader/utils/getArticleMetadata'
 import withGoogleAnalytics from '../utils/withGoogleAnalytics'
 import { getAssetPath } from '../utils/helpers'
 import { Sentry } from '../utils/sentry'
+import structuredMetadata from '../utils/structuredMetadata'
 
 process.on('unhandledRejection', err => {
   Sentry.captureException(err)
@@ -23,7 +24,9 @@ const CoreReader = dynamic(() => import('../reader'), {
 class Reader extends React.Component {
   static async getInitialProps({ query: { pdfId } }) {
     try {
-      return await getArticleMetadata(pdfId)
+      const metadata = await getArticleMetadata(pdfId)
+      const structuredData = structuredMetadata(metadata)
+      return { ...metadata, structuredData }
     } catch (e) {
       Sentry.captureException(e)
       return { statusCode: e.statusCode }
@@ -53,6 +56,7 @@ class Reader extends React.Component {
       authors,
       oai,
       subjects,
+      structuredData,
     } = this.props
 
     if (statusCode !== 200) return <ErrorPage statusCode={statusCode} />
@@ -116,6 +120,7 @@ class Reader extends React.Component {
               <meta key={subject} name="DC.subject" content={subject} />
             ))}
 
+          <script type="application/ld+json">{structuredData}</script>
           <style>
             {`
             html,
