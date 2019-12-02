@@ -4,6 +4,12 @@ extends:
 parser: babel-eslint
 env:
   browser: true
+settings:
+  import/resolver:
+    node:
+      paths: ['.']
+      extensions: ['.js', '.jsx']
+
 
 globals: {
   CORE_RECOMMENDER_API_KEY: true,
@@ -11,4 +17,3 @@ globals: {
   BUILD_TARGET: true,
   SENTRY_DSN: true,
 }
-

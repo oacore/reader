@@ -10,7 +10,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx i",
+    "lint:js": "eslint --ignore-path .gitignore --ext .jsx --ext .js .",
     "lint:css": "prettier **/*.{json,scss,css}",
     "lint": "run-p lint:*"
   },
@@ -21,6 +21,8 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.4",
+    "@oacore/eslint-config-react": "^1.0.0",
+    "@oacore/prettier-config": "^1.0.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^17.1.1",
