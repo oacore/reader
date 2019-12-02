@@ -1,4 +1,5 @@
 import React from 'react'
+
 import './EnhancementSidebar.scss'
 import { useGlobalStore } from '../../store'
 

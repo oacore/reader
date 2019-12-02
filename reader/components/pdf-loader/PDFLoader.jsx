@@ -1,9 +1,10 @@
 import React, { useEffect, useState, cloneElement } from 'react'
 import Spinner from 'reactstrap/es/Spinner'
+
 import pdfjs from '../../lib/pdf-js/webpack'
+import { Sentry } from '../../../utils/sentry'
 
 import './PDFLoader.scss'
-import { Sentry } from '../../../utils/sentry'
 
 const PDFLoader = React.memo(({ url, children }) => {
   const [documentProxy, setDocumentProxy] = useState(null)

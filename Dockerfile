@@ -12,10 +12,10 @@ ENV NODE_ENV development
 
 WORKDIR /app
 ADD . /app
-RUN yarn install
-RUN yarn build
+RUN npm run install
+RUN npm run build
 
 EXPOSE 3000
 
 # default command runs dev server
-CMD yarn run start --host 0.0.0.0
+CMD npm run start --host 0.0.0.0

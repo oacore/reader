@@ -29,11 +29,9 @@ $HIGHLIGHT_COLORS: (
     width: 150px;
     background: #fafafa;
     padding: 10px;
-    box-shadow: 0 0 13px -1px rgba(0,0,0,0.75);
+    box-shadow: 0 0 13px -1px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
     z-index: 150;
-
-
 
     > div > button {
       max-height: 27px;
@@ -71,7 +69,6 @@ $HIGHLIGHT_COLORS: (
     }
   }
 }
-
 
 // TODO: Move it to better location and create config.scss file
 @each $colorName, $color in $HIGHLIGHT_COLORS {

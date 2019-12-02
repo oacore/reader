@@ -1,10 +1,11 @@
 import React from 'react'
 import { CSS_UNITS } from 'pdfjs-dist/lib/web/ui_utils'
 import { Progress, ModalBody } from 'reactstrap'
+
 import Modal from '../modal/Modal'
+import { withGlobalStore } from '../../store'
 
 import './Print.scss'
-import { withGlobalStore } from '../../store'
 
 // The size of the canvas in pixels for printing.
 const PRINT_RESOLUTION = 150
@@ -22,6 +23,8 @@ class Print extends React.Component {
 
   pagesOverview = null
 
+  printRejected = false
+
   state = {
     isPrintModalOpen: false,
     printProgress: 0,
@@ -29,12 +32,10 @@ class Print extends React.Component {
     pageCount: 0,
   }
 
-  printRejected = false
-
   componentDidMount() {
     // Suppress shortcut for print
     // TODO: Allow shortcut for print
-    window.addEventListener('keydown', this._suppressPrintShortcut)
+    window.addEventListener('keydown', this.suppressPrintShortcut)
 
     // Temporary suppress global print function
     window.print = () => {
@@ -44,11 +45,11 @@ class Print extends React.Component {
 
   componentWillUnmount() {
     // Unsubscribe from all events
-    window.removeEventListener('keydown', this._suppressPrintShortcut)
+    window.removeEventListener('keydown', this.suppressPrintShortcut)
     window.print = this.originalPrintFunction
   }
 
-  _suppressPrintShortcut = e => {
+  suppressPrintShortcut = e => {
     // Intercept Cmd/Ctrl + P in all browsers.
     // Also intercept Cmd/Ctrl + Shift + P in Chrome and Opera
     if (
@@ -66,8 +67,10 @@ class Print extends React.Component {
 
   onBeforePrint = () => {
     const {
-      document: { viewer },
-    } = this.props.store
+      store: {
+        document: { viewer },
+      },
+    } = this.props
 
     this.printRejected = false
     this.setState({
@@ -81,7 +84,7 @@ class Print extends React.Component {
     }
 
     this.pagesOverview = viewer.getPagesOverview()
-    return this._renderPages()
+    return this.renderPages()
   }
 
   onAfterPrint = () => {
@@ -96,7 +99,7 @@ class Print extends React.Component {
     })
   }
 
-  _renderPages = () => {
+  renderPages = () => {
     let currentPage = -1
     const pageCount = this.pagesOverview.length
     const renderNextPage = (resolve, reject) => {
@@ -105,13 +108,14 @@ class Print extends React.Component {
         return
       }
 
-      if (++currentPage >= pageCount) {
+      currentPage += 1
+      if (currentPage >= pageCount) {
         resolve()
         return
       }
       // recursively render every page to temporary canvas
-      this._renderPage(currentPage + 1, this.pagesOverview[currentPage])
-        .then(this._useRenderedPage)
+      this.renderPage(currentPage + 1, this.pagesOverview[currentPage])
+        .then(this.useRenderedPage)
         .then(() => {
           this.setState({
             printProgress: Math.round((100 * currentPage) / pageCount),
@@ -125,7 +129,7 @@ class Print extends React.Component {
     return new Promise(renderNextPage)
   }
 
-  _renderPage = (pageNumber, size) => {
+  renderPage = (pageNumber, size) => {
     const {
       store: { document },
     } = this.props
@@ -163,7 +167,7 @@ class Print extends React.Component {
   }
 
   // convert canvas to image
-  _useRenderedPage = printItem => {
+  useRenderedPage = printItem => {
     const wrapper = document.createElement('div')
     const img = document.createElement('img')
 

@@ -2,6 +2,7 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import ErrorPage from 'next/error'
+
 import getArticleMetadata from '../reader/utils/getArticleMetadata'
 import withGoogleAnalytics from '../utils/withGoogleAnalytics'
 import { getAssetPath } from '../utils/helpers'
@@ -29,7 +30,7 @@ class Reader extends React.Component {
     }
   }
 
-  componentDidCatch(error, errorInfo) {
+  static componentDidCatch(error, errorInfo) {
     Sentry.withScope(scope => {
       Object.keys(errorInfo).forEach(key => {
         scope.setExtra(key, errorInfo[key])

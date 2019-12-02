@@ -76,6 +76,7 @@ class Viewer extends React.PureComponent {
   }
 
   onPagesInit = () => {
+    // eslint-disable-next-line no-underscore-dangle
     this.pdfViewer._setScale('auto', /* no_scroll */ true)
     this.pdfViewer.update()
     this.setState({ toolbarEnabled: true })
@@ -87,11 +88,12 @@ class Viewer extends React.PureComponent {
   }
 
   Metadata = ({ metadata }) => {
+    const { metadataContainerWidth } = this.state
     return (
       <div
         className="pdf-metadata d-flex justify-content-between pt-2"
         style={{
-          width: this.state.metadataContainerWidth,
+          width: metadataContainerWidth,
         }}
       >
         <div className="pdf-metadata-left" />

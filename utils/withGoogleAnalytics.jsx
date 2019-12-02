@@ -14,7 +14,7 @@ const logPageView = () => {
 
 const withGoogleAnalytics = Page => {
   class WithAnalytics extends React.Component {
-    componentDidMount() {
+    static componentDidMount() {
       if (isProduction && GA_TRACKING_CODE) {
         if (!window.GA_INITIALIZED) {
           initGA()

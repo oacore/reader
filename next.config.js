@@ -6,6 +6,7 @@ const withTM = require('next-transpile-modules')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
 const withSourceMaps = require('@zeit/next-source-maps')
+
 const helpers = require('./utils/helpers')
 
 dotenv.config()

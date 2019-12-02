@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import load from 'little-loader'
+
 import './Recommender.scss'
 import { useGlobalStore } from '../../store'
 

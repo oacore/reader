@@ -32,7 +32,7 @@ export const groupRectsByPage = (rects, pagesRange, pdfViewer) => {
   // eslint-disable-next-line no-restricted-syntax
   for (const rect of rects) {
     if (rect.top - shiftPage > pageRect.bottom - shiftPage) {
-      pageNumber++
+      pageNumber += 1
       pageNode = pageNode.nextSibling
       pageRect = pageNode.getBoundingClientRect()
       pageView = pdfViewer.getPageView(Number(pageNumber) - 1)

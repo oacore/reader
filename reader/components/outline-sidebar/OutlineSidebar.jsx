@@ -1,5 +1,6 @@
 import React from 'react'
 import { Spinner } from 'reactstrap'
+
 import OutlineGroup from './renderers/OutlineRenderer'
 import './OutlineSidebar.scss'
 import { withGlobalStore } from '../../store'
