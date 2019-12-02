@@ -10,8 +10,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint:js": "eslint --ignore-path .gitignore --ext .jsx --ext .js .",
-    "lint:css": "prettier **/*.{json,scss,css}",
+    "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx .",
+    "lint:css": "prettier --ignore-path .gitignore --check '**/*.{json,scss,css}'",
     "lint": "run-p lint:*"
   },
   "devDependencies": {
