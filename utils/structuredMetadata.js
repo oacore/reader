@@ -36,8 +36,8 @@ const structuredMetadata = metadata => {
         '@type': 'ScholarlyArticle',
         '@id': `https://core.ac.uk/reader/${metadata.id}`,
         headline: metadata.title,
-        description: metadata.abstract,
-        sameAs: metadata.doi,
+        description: metadata.abstract || undefined,
+        sameAs: metadata.doi || undefined,
         name: metadata.title,
         author:
           metadata.authors &&
