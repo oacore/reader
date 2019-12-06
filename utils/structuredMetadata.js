@@ -47,7 +47,6 @@ const structuredMetadata = metadata => {
           })),
         datePublished: metadata.year || '',
         isAccessibleForFree: true,
-        topics: metadata.subjects || [],
         provider: {
           '@type': 'Organization',
           name: metadata.repositories.name,
