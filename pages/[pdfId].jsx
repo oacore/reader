@@ -120,7 +120,14 @@ class Reader extends React.Component {
               <meta key={subject} name="DC.subject" content={subject} />
             ))}
 
-          <script type="application/ld+json">{structuredData}</script>
+          {/* eslint-disable react/no-danger */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: structuredData,
+            }}
+          />
+          {/* eslint-enable react/no-danger */}
           <style>
             {`
             html,

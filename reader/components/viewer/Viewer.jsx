@@ -6,6 +6,7 @@ import './Viewer.scss'
 import Toolbar from '../toolbar/Toolbar'
 import Recommender from '../recommender/Recommender'
 import { changeCurrentPageNumber } from '../../store/ui/actions'
+import { debounce } from '../../utils/helpers'
 
 class Viewer extends React.PureComponent {
   containerNode = null
@@ -18,6 +19,15 @@ class Viewer extends React.PureComponent {
     toolbarEnabled: false,
     metadataContainerWidth: null,
   }
+
+  handleResizeEvent = debounce(() => {
+    this.pdfViewer.currentScaleValue = 'auto'
+    this.pdfViewer.update()
+
+    this.setState({
+      metadataContainerWidth: this.pdfViewer.getPageView(0).width,
+    })
+  })
 
   componentDidMount() {
     const {
@@ -54,6 +64,8 @@ class Viewer extends React.PureComponent {
       viewer: this.pdfViewer,
       documentProxy,
     })
+
+    window.addEventListener('resize', this.handleResizeEvent)
   }
 
   componentWillUnmount() {
@@ -62,6 +74,8 @@ class Viewer extends React.PureComponent {
     // unregister all event listeners
     eventBus.off('pagesinit', this.onPagesInit)
     eventBus.off('pagesloaded', this.onPagesLoaded)
+
+    window.removeEventListener('resize', this.handleResizeEvent)
   }
 
   onPagesLoaded = () => {
