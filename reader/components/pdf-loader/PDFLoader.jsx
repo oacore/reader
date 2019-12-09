@@ -36,8 +36,9 @@ const PDFLoader = React.memo(({ url, children }) => {
       {isLoading && <Spinner />}
       {!isLoading && (
         <div className="text-center">
-          PDF couldn&apos;t be displayed. PDF download should start
-          automatically, but if not, <a href={url}>click here</a>.
+          We are not allowed to display external PDFs yet. You will be
+          redirected to the full text document in the repository in a few
+          seconds, if not <a href={url}>click here</a>.
         </div>
       )}
     </div>
