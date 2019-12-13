@@ -7,7 +7,7 @@ CORE Reader is a full-featured PDF viewer with enhancements especially for acade
 The project requires [**Node.js**][node-download] and
 [**NPM**][npm-install] package manager.
 
-After cloning this repository you need rename [**.env.example**][env-file] file and provide CORE API key [**here**][core-api] and CORE Recommender API key [**here**][recommender-api].
+After cloning this repository you need rename [**.env.example**][env-file] file and provide CORE Recommender API key [**here**][recommender-api].
 
 Also you will need to generate Github Token with package read permission [here][github-token] in order to download our @oacore packages from Github NPM registry.
 
@@ -34,6 +34,5 @@ Server starts listen on `0.0.0.0:3000`
 [github-token]: https://github.com/settings/tokens
 [node-download]: https://nodejs.org/en/download/
 [npm-install]: https://www.npmjs.com/get-npm
-[core-api]: https://core.ac.uk/api-keys/register/
 [env-file]: https://github.com/oacore/reader/blob/master/.env.example
 [recommender-api]: https://core.ac.uk/recommender/register/
