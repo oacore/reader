@@ -6,6 +6,9 @@ import { Sentry } from '../../../utils/sentry'
 
 import './PDFLoader.scss'
 
+const CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.2.228/cmaps/'
+const CMAP_PACKED = true
+
 const PDFLoader = React.memo(({ url, children }) => {
   const [documentProxy, setDocumentProxy] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -14,7 +17,11 @@ const PDFLoader = React.memo(({ url, children }) => {
   useEffect(() => {
     const loadPDFDocument = async () => {
       try {
-        const document = await pdfjs.getDocument(url).promise
+        const document = await pdfjs.getDocument({
+          url,
+          cMapUrl: CMAP_URL,
+          cMapPacked: CMAP_PACKED,
+        }).promise
         setDocumentProxy(document)
       } catch (e) {
         console.error(
