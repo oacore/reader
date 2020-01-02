@@ -33,7 +33,8 @@ class Reader extends React.Component {
     }
   }
 
-  static componentDidCatch(error, errorInfo) {
+  // eslint-disable-next-line class-methods-use-this
+  componentDidCatch(error, errorInfo) {
     Sentry.withScope(scope => {
       Object.keys(errorInfo).forEach(key => {
         scope.setExtra(key, errorInfo[key])

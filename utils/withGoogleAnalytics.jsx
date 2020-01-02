@@ -14,7 +14,8 @@ const logPageView = () => {
 
 const withGoogleAnalytics = Page => {
   class WithAnalytics extends React.Component {
-    static componentDidMount() {
+    // eslint-disable-next-line class-methods-use-this
+    componentDidMount() {
       if (isProduction && GA_TRACKING_CODE) {
         if (!window.GA_INITIALIZED) {
           initGA()
