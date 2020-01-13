@@ -35,13 +35,8 @@ class Reader extends React.Component {
       return { statusCode: e.statusCode }
     } finally {
       logEvent({
-        category: 'API calls',
-        action: 'api',
-        label:
-          statusCode === 200 || statusCode === 404
-            ? 'successful'
-            : 'unsuccessful',
-        value: statusCode,
+        category: '/internal/article/<id> calls',
+        action: String(statusCode),
       })
     }
   }

@@ -1,7 +1,7 @@
 import React, { createElement } from 'react'
 import ReactGA from 'react-ga'
 
-const isProduction = process.env.NODE_ENV === 'production' || true
+const isProduction = process.env.NODE_ENV === 'production'
 
 if (isProduction && GA_TRACKING_CODE) ReactGA.initialize(GA_TRACKING_CODE)
 
@@ -13,14 +13,13 @@ const logPageView = () => {
 export const logEvent = ({
   category,
   action,
-  label,
   value,
   nonInteraction = true,
 }) => {
   ReactGA.event({
-    category: `READER: ${category}`,
+    category,
     action,
-    label,
+    label: 'reader',
     value,
     nonInteraction,
   })

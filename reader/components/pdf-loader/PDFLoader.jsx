@@ -37,8 +37,7 @@ const PDFLoader = React.memo(({ url, children }) => {
         setIsLoading(false)
         logEvent({
           category: 'PDF redirection',
-          action: 'redirection',
-          label: redirected ? 'redirected' : 'rendered',
+          action: redirected ? 'redirected' : 'rendered',
         })
       }
     }
