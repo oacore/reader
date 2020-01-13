@@ -18,7 +18,7 @@ export const logEvent = ({
   nonInteraction = true,
 }) => {
   ReactGA.event({
-    category,
+    category: `READER: ${category}`,
     action,
     label,
     value,
