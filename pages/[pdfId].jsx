@@ -4,7 +4,7 @@ import Head from 'next/head'
 import ErrorPage from 'next/error'
 
 import getArticleMetadata from '../reader/utils/getArticleMetadata'
-import withGoogleAnalytics from '../utils/withGoogleAnalytics'
+import withGoogleAnalytics, { logEvent } from '../utils/analytics'
 import { getAssetPath } from '../utils/helpers'
 import { Sentry } from '../utils/sentry'
 import structuredMetadata from '../utils/structuredMetadata'
@@ -23,13 +23,21 @@ const CoreReader = dynamic(() => import('../reader'), {
 
 class Reader extends React.Component {
   static async getInitialProps({ query: { pdfId } }) {
+    let statusCode = null
     try {
       const metadata = await getArticleMetadata(pdfId)
       const structuredData = structuredMetadata(metadata)
+      statusCode = metadata.statusCode
       return { ...metadata, structuredData }
     } catch (e) {
       Sentry.captureException(e)
+      statusCode = e.statusCode
       return { statusCode: e.statusCode }
+    } finally {
+      logEvent({
+        category: '/internal/article/<id> calls',
+        action: String(statusCode),
+      })
     }
   }
 
