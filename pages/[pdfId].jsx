@@ -4,7 +4,7 @@ import Head from 'next/head'
 import ErrorPage from 'next/error'
 
 import getArticleMetadata from '../reader/utils/getArticleMetadata'
-import withGoogleAnalytics from '../utils/withGoogleAnalytics'
+import withGoogleAnalytics from '../utils/analytics'
 import { getAssetPath } from '../utils/helpers'
 import { Sentry } from '../utils/sentry'
 import structuredMetadata from '../utils/structuredMetadata'
