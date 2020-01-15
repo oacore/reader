@@ -3,11 +3,33 @@ import ReactGA from 'react-ga'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
-if (!isProduction && GA_TRACKING_CODE) ReactGA.initialize(GA_TRACKING_CODE)
+const trackers = GA_TRACKING_CODE.split(',')
+
+if (!isProduction && trackers.length) {
+  if (trackers.length === 2) {
+    ReactGA.initialize([
+      {
+        trackingId: trackers[0],
+        gaOptions: {
+          name: 'prod',
+        },
+      },
+      {
+        trackingId: trackers[1],
+        gaOptions: {
+          name: 'dev',
+        },
+      },
+    ])
+  } else ReactGA.initialize(trackers[0])
+}
 
 const logPageView = () => {
   ReactGA.set({ page: window.location.pathname })
-  ReactGA.pageview(window.location.pathname)
+  ReactGA.pageview(
+    window.location.pathname,
+    trackers.length === 2 ? ['prod', 'dev'] : undefined
+  )
 }
 
 const withGoogleAnalytics = Page => {
