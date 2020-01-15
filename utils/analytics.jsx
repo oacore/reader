@@ -3,27 +3,13 @@ import ReactGA from 'react-ga'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
-if (isProduction && GA_TRACKING_CODE) ReactGA.initialize(GA_TRACKING_CODE)
+if (!isProduction && GA_TRACKING_CODE) ReactGA.initialize(GA_TRACKING_CODE)
 
 const logPageView = () => {
   ReactGA.set({ page: window.location.pathname })
   ReactGA.pageview(window.location.pathname)
 }
 
-export const logEvent = ({
-  category,
-  action,
-  value,
-  nonInteraction = true,
-}) => {
-  ReactGA.event({
-    category,
-    action,
-    label: 'reader',
-    value,
-    nonInteraction,
-  })
-}
 const withGoogleAnalytics = Page => {
   class WithAnalytics extends React.Component {
     // eslint-disable-next-line class-methods-use-this

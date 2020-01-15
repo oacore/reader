@@ -3,7 +3,6 @@ import Spinner from 'reactstrap/es/Spinner'
 
 import pdfjs from '../../lib/pdf-js/webpack'
 import { Sentry } from '../../../utils/sentry'
-import { logEvent } from '../../../utils/analytics'
 import './PDFLoader.scss'
 
 const CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.2.228/cmaps/'
@@ -16,7 +15,6 @@ const PDFLoader = React.memo(({ url, children }) => {
   // Load document on mount
   useEffect(() => {
     const loadPDFDocument = async () => {
-      let redirected = false
       try {
         const document = await pdfjs.getDocument({
           url,
@@ -29,16 +27,9 @@ const PDFLoader = React.memo(({ url, children }) => {
           `Unable to load PDF document. Redirecting to default browser view. Error: ${e}`
         )
         Sentry.captureException(e)
-        if (url) {
-          redirected = true
-          setTimeout(() => window.location.replace(url), 5000)
-        }
+        if (url) setTimeout(() => window.location.replace(url), 5000)
       } finally {
         setIsLoading(false)
-        logEvent({
-          category: 'PDF redirection',
-          action: redirected ? 'redirected' : 'rendered',
-        })
       }
     }
     loadPDFDocument()

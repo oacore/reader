@@ -4,7 +4,7 @@ import Head from 'next/head'
 import ErrorPage from 'next/error'
 
 import getArticleMetadata from '../reader/utils/getArticleMetadata'
-import withGoogleAnalytics, { logEvent } from '../utils/analytics'
+import withGoogleAnalytics from '../utils/analytics'
 import { getAssetPath } from '../utils/helpers'
 import { Sentry } from '../utils/sentry'
 import structuredMetadata from '../utils/structuredMetadata'
@@ -33,11 +33,6 @@ class Reader extends React.Component {
       statusCode = e.statusCode
       if (statusCode !== 404) Sentry.captureException(e)
       return { statusCode: e.statusCode }
-    } finally {
-      logEvent({
-        category: '/internal/article/<id> calls',
-        action: String(statusCode),
-      })
     }
   }
 
