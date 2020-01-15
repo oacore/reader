@@ -30,8 +30,8 @@ class Reader extends React.Component {
       statusCode = metadata.statusCode
       return { ...metadata, structuredData }
     } catch (e) {
-      Sentry.captureException(e)
       statusCode = e.statusCode
+      if (statusCode !== 404) Sentry.captureException(e)
       return { statusCode: e.statusCode }
     } finally {
       logEvent({
