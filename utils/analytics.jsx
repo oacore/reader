@@ -2,10 +2,9 @@ import React, { createElement } from 'react'
 import ReactGA from 'react-ga'
 
 const isProduction = process.env.NODE_ENV === 'production'
-
 const trackers = (GA_TRACKING_CODE || '').split(',')
 
-if (!isProduction && trackers.length && trackers[0] !== '') {
+if (isProduction && trackers[0] !== '') {
   if (trackers.length === 2) {
     ReactGA.initialize([
       {
