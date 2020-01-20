@@ -24,15 +24,30 @@ const CoreReader = dynamic(() => import('../reader'), {
 class Reader extends React.Component {
   static async getInitialProps({ query: { pdfId } }) {
     let statusCode = null
-    try {
-      const metadata = await getArticleMetadata(pdfId)
-      const structuredData = structuredMetadata(metadata)
-      statusCode = metadata.statusCode
-      return { ...metadata, structuredData }
-    } catch (e) {
-      statusCode = e.statusCode
-      if (statusCode !== 404) Sentry.captureException(e)
-      return { statusCode: e.statusCode }
+    let metadata = null
+    let numberOfRetries = 2
+
+    while (numberOfRetries) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        ;[metadata, statusCode] = await getArticleMetadata(pdfId)
+        break
+      } catch (e) {
+        numberOfRetries -= 1
+        statusCode = e.statusCode
+        if (![404, 410].includes(statusCode)) {
+          if (!e.message.includes('socket hang up') || !numberOfRetries) {
+            Sentry.captureException(e)
+            break
+          }
+        } else break
+      }
+    }
+
+    return {
+      ...(metadata || {}),
+      structuredData: metadata ? structuredMetadata(metadata) : null,
+      statusCode,
     }
   }
 
