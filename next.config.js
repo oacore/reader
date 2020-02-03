@@ -76,7 +76,6 @@ const nextConfig = {
   },
   transpileModules: ['pdfjs-dist/external', 'pdfjs-dist/lib'],
 }
-
 nextConfig.workerLoaderOptions = {
   publicPath: `${nextConfig.assetPrefix}/_next/`,
   name: 'static/[hash].worker.js',

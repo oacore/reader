@@ -9,6 +9,4 @@ export const metaDataInitialState = {
   title: null,
 }
 
-export default (state = metaDataInitialState) => {
-  return state
-}
+export default (state = metaDataInitialState) => state
