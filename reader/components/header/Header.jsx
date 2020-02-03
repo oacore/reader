@@ -75,9 +75,7 @@ const Header = ({ printContainerRef }) => {
               <Icon iconType="print" />
             </Button>
           )}
-          content={() => {
-            return printContainerRef.current.printContainer
-          }}
+          content={() => printContainerRef.current.printContainer}
           onBeforeGetContent={() => printContainerRef.current.onBeforePrint()}
           onAfterPrint={() => printContainerRef.current.onAfterPrint()}
           // TODO: consider to show some warning to user

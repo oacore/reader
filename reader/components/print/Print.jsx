@@ -158,12 +158,10 @@ class Print extends React.Component {
         }
         return pdfPage.render(renderContext).promise
       })
-      .then(() => {
-        return {
-          width,
-          height,
-        }
-      })
+      .then(() => ({
+        width,
+        height,
+      }))
   }
 
   // convert canvas to image

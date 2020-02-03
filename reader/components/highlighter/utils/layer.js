@@ -25,11 +25,10 @@ export const findOrCreateLayerForHighlights = container => {
   return layer
 }
 
-export const findPageLayer = pageNumber => {
+export const findPageLayer = pageNumber =>
   // TODO: Get reference from PDF viewer object.
   //  It should be cheaper operation than this one
-  return document.querySelector(`.page[data-page-number="${pageNumber}"]`)
-}
+  document.querySelector(`.page[data-page-number="${pageNumber}"]`)
 
 export default {
   findOrCreateLayerForContextMenu,
