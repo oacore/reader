@@ -7,6 +7,7 @@ export const uiInitialState = {
   isEnhancementSidebarVisible: false,
   isRelatedPapersScrolled: window.location.hash === '#related-papers',
   currentPageNumber: 1,
+  isRecommenderLoaded: false,
 }
 
 export default (state = uiInitialState, { type, payload }) => {
@@ -54,6 +55,13 @@ export default (state = uiInitialState, { type, payload }) => {
         ...state,
         currentPageNumber: payload.currentPageNumber,
       }
+
+    case UI_ACTIONS.SET_RECOMMENDER_LOADED:
+      return {
+        ...state,
+        isRecommenderLoaded: true,
+      }
+
     default:
       return state
   }

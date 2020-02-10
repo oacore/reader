@@ -3,9 +3,10 @@ import load from 'little-loader'
 
 import './Recommender.scss'
 import { useGlobalStore } from '../../store'
+import { setRecommenderLoaded as globalSetRecommenderLoaded } from '../../store/ui/actions'
 
 const Recommender = ({ containerWidth }) => {
-  const [{ ui }] = useGlobalStore()
+  const [{ ui }, dispatch] = useGlobalStore()
   const [recommenderLoaded, setRecommenderLoaded] = useState(false)
   const recommenderRef = useRef()
 
@@ -46,6 +47,7 @@ const Recommender = ({ containerWidth }) => {
         load('https://core.ac.uk/recommender/embed.js', () => {
           setRecommenderLoaded(true)
         })
+        dispatch(globalSetRecommenderLoaded())
       } catch (e) {
         // silently suppress recommender and don't show anything
       }

@@ -31,20 +31,22 @@ class OutlineSidebar extends React.PureComponent {
     const {
       store: {
         document: { linkService },
+        ui: { isRecommenderLoaded },
       },
       dispatch,
     } = this.props
 
-    const finalOutline = [
-      ...(outline || []),
-      {
+    const finalOutline = outline || []
+
+    if (isRecommenderLoaded) {
+      finalOutline.push({
         onClick: () => {
           dispatch(scrollToRelatedPapers())
         },
         title: 'Related papers',
         items: [],
-      },
-    ]
+      })
+    }
 
     return (
       <>

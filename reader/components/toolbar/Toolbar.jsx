@@ -145,20 +145,22 @@ const Toolbar = ({ viewer, eventBus }) => {
       }`}
       ref={toolbarRef}
     >
-      <div className="pdf-related-papers d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2 order-3">
-        <button
-          title="Show related papers"
-          type="button"
-          className="btn m-auto h-100"
-          onClick={() =>
-            dispatch({
-              type: 'toggle_related_papers',
-            })
-          }
-        >
-          {!state.relatedPapersClicked ? 'Related papers' : 'Back to reading'}
-        </button>
-      </div>
+      {ui.isRecommenderLoaded && (
+        <div className="pdf-related-papers d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2 order-3">
+          <button
+            title="Show related papers"
+            type="button"
+            className="btn m-auto h-100"
+            onClick={() =>
+              dispatch({
+                type: 'toggle_related_papers',
+              })
+            }
+          >
+            {!state.relatedPapersClicked ? 'Related papers' : 'Back to reading'}
+          </button>
+        </div>
+      )}
       <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2">
         <button
           title="Rotate"
