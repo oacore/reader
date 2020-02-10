@@ -34,10 +34,13 @@ class Reader extends React.Component {
         break
       } catch (e) {
         numberOfRetries -= 1
-        statusCode = e.statusCode
-        if (![404, 410].includes(statusCode)) {
+        if (![404, 410].includes(e.statusCode)) {
           if (!e.message.includes('socket hang up') || !numberOfRetries) {
-            Sentry.captureException(e)
+            Sentry.withScope(scope => {
+              // group API errors with the same status code together
+              scope.setFingerprint(['api', e.statusCode])
+              Sentry.captureException(e)
+            })
             break
           }
         } else break
