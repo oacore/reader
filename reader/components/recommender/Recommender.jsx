@@ -59,7 +59,7 @@ const Recommender = ({ containerWidth }) => {
       className="pdf-recommender"
       style={{
         width: containerWidth,
-        display: recommenderLoaded ? 'visible' : 'hidden',
+        visibility: recommenderLoaded ? 'visible' : 'hidden',
       }}
       ref={recommenderRef}
     >
