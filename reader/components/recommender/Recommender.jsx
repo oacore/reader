@@ -3,9 +3,10 @@ import load from 'little-loader'
 
 import './Recommender.scss'
 import { useGlobalStore } from '../../store'
+import { setRecommenderLoaded as globalSetRecommenderLoaded } from '../../store/ui/actions'
 
 const Recommender = ({ containerWidth }) => {
-  const [{ ui }] = useGlobalStore()
+  const [{ ui }, dispatch] = useGlobalStore()
   const [recommenderLoaded, setRecommenderLoaded] = useState(false)
   const recommenderRef = useRef()
 
@@ -36,12 +37,21 @@ const Recommender = ({ containerWidth }) => {
   }, [ui.isRelatedPapersScrolled])
 
   useEffect(() => {
-    localStorage.setItem('idRecommender', CORE_RECOMMENDER_API_KEY)
-    localStorage.setItem('userInput', '{}')
-
-    load('https://core.ac.uk/recommender/embed.js', () => {
-      setRecommenderLoaded(true)
-    })
+    // LocalStorage is not supported for older versions
+    // of Safari in private window
+    // https://stackoverflow.com/a/27081419/5594539
+    if (typeof localStorage === 'object') {
+      try {
+        localStorage.setItem('idRecommender', CORE_RECOMMENDER_API_KEY)
+        localStorage.setItem('userInput', '{}')
+        load('https://core.ac.uk/recommender/embed.js', () => {
+          setRecommenderLoaded(true)
+        })
+        dispatch(globalSetRecommenderLoaded())
+      } catch (e) {
+        // silently suppress recommender and don't show anything
+      }
+    }
   }, [])
 
   return (
