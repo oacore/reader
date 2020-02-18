@@ -40,17 +40,15 @@ const Recommender = ({ containerWidth }) => {
     // LocalStorage is not supported for older versions
     // of Safari in private window
     // https://stackoverflow.com/a/27081419/5594539
-    if (typeof localStorage === 'object') {
-      try {
-        localStorage.setItem('idRecommender', CORE_RECOMMENDER_API_KEY)
-        localStorage.setItem('userInput', '{}')
-        load('https://core.ac.uk/recommender/embed.js', () => {
-          setRecommenderLoaded(true)
-        })
-        dispatch(globalSetRecommenderLoaded())
-      } catch (e) {
-        // silently suppress recommender and don't show anything
-      }
+    try {
+      localStorage.setItem('idRecommender', CORE_RECOMMENDER_API_KEY)
+      localStorage.setItem('userInput', '{}')
+      load('https://core.ac.uk/recommender/embed.js', () => {
+        setRecommenderLoaded(true)
+      })
+      dispatch(globalSetRecommenderLoaded())
+    } catch (e) {
+      // silently suppress recommender and don't show anything
     }
   }, [])
 
