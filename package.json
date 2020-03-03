@@ -52,7 +52,7 @@
     "little-loader": "^0.2.0",
     "next": "^9.1.4",
     "next-images": "^1.2.0",
-    "next-transpile-modules": "^2.3.1",
+    "next-transpile-modules": "^3.0.2",
     "node-sass": "^4.13.1",
     "pdfjs-dist": "2.3.200",
     "react": "^16.13.0",
