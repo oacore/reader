@@ -18,17 +18,17 @@ import CoreSymbolIcon from './assets/core-symbol.svg'
 const mapNameToModule = name => {
   const iconMap = {
     'core-symbol': CoreSymbolIcon,
-    download: DownloadIcon,
-    outline: OutlineIcon,
-    thumbnails: ThumbnailsIcon,
+    'download': DownloadIcon,
+    'outline': OutlineIcon,
+    'thumbnails': ThumbnailsIcon,
     'paper-info': PaperInfoIcon,
-    print: PrintIcon,
-    share: ShareIcon,
+    'print': PrintIcon,
+    'share': ShareIcon,
     'left-arrow': LeftArrowIcon,
     'right-arrow': RightArrowIcon,
     'zoom-in': ZoomInIcon,
     'zoom-out': ZoomOutIcon,
-    rotate: RotateIcon,
+    'rotate': RotateIcon,
   }
 
   if (!(name in iconMap)) throw new Error(`Icon ${name} not found`)
