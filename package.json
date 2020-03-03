@@ -37,7 +37,7 @@
     "source-map-loader": "^0.2.4"
   },
   "dependencies": {
-    "@oacore/api": "^1.0.5",
+    "@oacore/api": "^1.0.8",
     "@sentry/browser": "^5.10.2",
     "@sentry/node": "^5.11.2",
     "@zeit/next-css": "^1.0.1",
