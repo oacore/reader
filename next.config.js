@@ -2,7 +2,10 @@ const withCss = require('@zeit/next-css')
 const withSass = require('@zeit/next-sass')
 const withImages = require('next-images')
 const withWorkers = require('@zeit/next-workers')
-const withTM = require('next-transpile-modules')
+const withTM = require('next-transpile-modules')([
+  'pdfjs-dist/external',
+  'pdfjs-dist/lib',
+])
 const webpack = require('webpack')
 const dotenv = require('dotenv')
 const withSourceMaps = require('@zeit/next-source-maps')
@@ -74,7 +77,6 @@ const nextConfig = {
     config.output.globalObject = 'self'
     return config
   },
-  transpileModules: ['pdfjs-dist/external', 'pdfjs-dist/lib'],
 }
 nextConfig.workerLoaderOptions = {
   publicPath: `${nextConfig.assetPrefix}/_next/`,
