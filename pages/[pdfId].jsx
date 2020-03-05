@@ -69,7 +69,7 @@ class Reader extends React.Component {
           `font-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/`,
           // google analytics may transport info via image
           // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
-          "img-src 'self' *.core.ac.uk core.ac.uk data: 'self' *.google-analytics.com",
+          "img-src 'self' *.core.ac.uk core.ac.uk data: blob: *.google-analytics.com https://stats.g.doubleclick.net/",
           'connect-src *',
         ].join(';')
       )
