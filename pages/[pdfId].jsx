@@ -9,6 +9,8 @@ import { getAssetPath } from '../utils/helpers'
 import { Sentry } from '../utils/sentry'
 import structuredMetadata from '../utils/structuredMetadata'
 
+import './styles.css'
+
 process.on('unhandledRejection', err => {
   Sentry.captureException(err)
 })
@@ -150,16 +152,6 @@ class Reader extends React.Component {
             }}
           />
           {/* eslint-enable react/no-danger */}
-          <style>
-            {`
-            html,
-            body,
-            #__next {
-              margin: 0;
-              height: 100%;
-            }
-          `}
-          </style>
         </Head>
         <CoreReader
           id={id}
