@@ -9,6 +9,8 @@ import { getAssetPath } from '../utils/helpers'
 import { Sentry } from '../utils/sentry'
 import structuredMetadata from '../utils/structuredMetadata'
 
+import './styles.css'
+
 process.on('unhandledRejection', err => {
   Sentry.captureException(err)
 })
@@ -22,7 +24,7 @@ const CoreReader = dynamic(() => import('../reader'), {
 })
 
 class Reader extends React.Component {
-  static async getInitialProps({ query: { pdfId } }) {
+  static async getInitialProps({ query: { pdfId }, res }) {
     let statusCode = null
     let metadata = null
     let numberOfRetries = 2
@@ -45,6 +47,32 @@ class Reader extends React.Component {
           }
         } else break
       }
+    }
+
+    // add the header only on server-side
+    if (res != null) {
+      res.setHeader(
+        'Content-Security-Policy',
+        [
+          // consider everything from these two domains as a safe
+          "default-src 'self' *.core.ac.uk core.ac.uk",
+          // in development there are attached inline scripts
+          // (probably from hot reload or some Next.JS magic)
+          // TODO: Remove unsafe-inline once new version of PDF.js is released
+          // https://github.com/mozilla/pdf.js/issues/11036
+          `script-src 'self' *.google-analytics.com *.core.ac.uk core.ac.uk 'unsafe-eval' ${
+            process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
+          }`,
+          `style-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/ ${
+            process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
+          }`,
+          `font-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/`,
+          // google analytics may transport info via image
+          // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
+          "img-src 'self' *.core.ac.uk core.ac.uk data: 'self' *.google-analytics.com",
+          'connect-src *',
+        ].join(';')
+      )
     }
 
     return {
@@ -150,16 +178,6 @@ class Reader extends React.Component {
             }}
           />
           {/* eslint-enable react/no-danger */}
-          <style>
-            {`
-            html,
-            body,
-            #__next {
-              margin: 0;
-              height: 100%;
-            }
-          `}
-          </style>
         </Head>
         <CoreReader
           id={id}
