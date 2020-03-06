@@ -1,3 +1,5 @@
+import { addEllipsis } from './helpers'
+
 const structuredMetadata = metadata => {
   const ld = {
     '@context': 'http://schema.org',
@@ -35,7 +37,7 @@ const structuredMetadata = metadata => {
       {
         '@type': 'ScholarlyArticle',
         '@id': `https://core.ac.uk/reader/${metadata.id}`,
-        'headline': metadata.title,
+        'headline': addEllipsis(metadata.title || '', 110),
         'description': metadata.abstract || undefined,
         'sameAs': metadata.doi || undefined,
         'name': metadata.title,
