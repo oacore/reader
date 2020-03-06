@@ -54,7 +54,10 @@ const structuredMetadata = metadata => {
           'name': metadata.repositories.name || '',
         },
         'image': `https://core.ac.uk/image/${metadata.id}/large`,
-        'publisher': metadata.publisher || '',
+        'publisher': {
+          '@type': 'Organization',
+          'name': metadata.publisher || '',
+        },
       },
     ],
   }
