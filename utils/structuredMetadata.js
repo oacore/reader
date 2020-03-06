@@ -39,7 +39,6 @@ const structuredMetadata = metadata => {
         '@id': `https://core.ac.uk/reader/${metadata.id}`,
         'headline': addEllipsis(metadata.title || '', 110),
         'description': metadata.abstract || undefined,
-        'sameAs': metadata.doi || undefined,
         'name': metadata.title,
         'author':
           metadata.authors &&
