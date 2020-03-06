@@ -20,7 +20,7 @@ const structuredMetadata = metadata => {
             'position': 2,
             'item': {
               '@id': `https://core.ac.uk/search?q=repositories.id:(${metadata.repositories.id})`,
-              'name': metadata.repositories.name,
+              'name': metadata.repositories.name || '',
             },
           },
           {
@@ -51,7 +51,7 @@ const structuredMetadata = metadata => {
         'isAccessibleForFree': true,
         'provider': {
           '@type': 'Organization',
-          'name': metadata.repositories.name,
+          'name': metadata.repositories.name || '',
         },
         'image': `https://core.ac.uk/image/${metadata.id}/large`,
         'publisher': metadata.publisher || '',
