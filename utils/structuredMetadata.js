@@ -45,7 +45,7 @@ const structuredMetadata = metadata => {
             '@type': 'Person',
             'name': author,
           })),
-        'datePublished': metadata.year || '',
+        'datePublished': metadata.datePublished || '',
         'isAccessibleForFree': true,
         'provider': {
           '@type': 'Organization',
