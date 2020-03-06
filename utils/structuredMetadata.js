@@ -20,7 +20,7 @@ const structuredMetadata = metadata => {
             'position': 2,
             'item': {
               '@id': `https://core.ac.uk/search?q=repositories.id:(${metadata.repositories.id})`,
-              'name': metadata.repositories.name || '',
+              'name': metadata.repositories.name || 'unknown',
             },
           },
           {
