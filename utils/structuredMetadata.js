@@ -1,3 +1,5 @@
+import { addEllipsis } from './helpers'
+
 const structuredMetadata = metadata => {
   const ld = {
     '@context': 'http://schema.org',
@@ -18,7 +20,7 @@ const structuredMetadata = metadata => {
             'position': 2,
             'item': {
               '@id': `https://core.ac.uk/search?q=repositories.id:(${metadata.repositories.id})`,
-              'name': metadata.repositories.name,
+              'name': metadata.repositories.name || 'unknown',
             },
           },
           {
@@ -35,9 +37,8 @@ const structuredMetadata = metadata => {
       {
         '@type': 'ScholarlyArticle',
         '@id': `https://core.ac.uk/reader/${metadata.id}`,
-        'headline': metadata.title,
+        'headline': addEllipsis(metadata.title || '', 110),
         'description': metadata.abstract || undefined,
-        'sameAs': metadata.doi || undefined,
         'name': metadata.title,
         'author':
           metadata.authors &&
@@ -45,14 +46,17 @@ const structuredMetadata = metadata => {
             '@type': 'Person',
             'name': author,
           })),
-        'datePublished': metadata.year || '',
+        'datePublished': metadata.datePublished || '',
         'isAccessibleForFree': true,
         'provider': {
           '@type': 'Organization',
-          'name': metadata.repositories.name,
+          'name': metadata.repositories.name || '',
         },
         'image': `https://core.ac.uk/image/${metadata.id}/large`,
-        'publisher': metadata.publisher || '',
+        'publisher': {
+          '@type': 'Organization',
+          'name': metadata.publisher || '',
+        },
       },
     ],
   }
