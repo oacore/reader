@@ -55,6 +55,7 @@
     "next-transpile-modules": "^3.0.2",
     "node-sass": "^4.13.1",
     "pdfjs-dist": "2.3.200",
+    "performance-polyfill": "0.0.3",
     "react": "^16.13.0",
     "react-dom": "^16.12.0",
     "react-ga": "^2.7.0",
