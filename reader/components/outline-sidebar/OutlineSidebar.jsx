@@ -9,6 +9,8 @@ import { scrollToRelatedPapers } from '../../store/ui/actions'
 class OutlineSidebar extends React.PureComponent {
   containerNode = null
 
+  relatedPapersInOutline = false
+
   state = {
     outline: null,
     isOutlineLoading: true,
@@ -38,7 +40,7 @@ class OutlineSidebar extends React.PureComponent {
 
     const finalOutline = outline || []
 
-    if (isRecommenderLoaded) {
+    if (isRecommenderLoaded && !this.relatedPapersInOutline) {
       finalOutline.push({
         onClick: () => {
           dispatch(scrollToRelatedPapers())
@@ -46,6 +48,7 @@ class OutlineSidebar extends React.PureComponent {
         title: 'Related papers',
         items: [],
       })
+      this.relatedPapersInOutline = true
     }
 
     return (
