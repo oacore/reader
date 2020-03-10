@@ -8,8 +8,15 @@ if (typeof SENTRY_DSN !== 'undefined') {
     dsn: SENTRY_DSN,
     beforeSend(event, hint) {
       const error = hint.originalException
-      if (error && error.message && error.message.match(/XRef entry/))
-        event.fingerprint = ['xref']
+      if (error && error.message) {
+        if (error.message.match(/XRef entry/)) event.fingerprint = ['xref']
+        if (
+          error.message.match(
+            /Unexpected server response \(.*\) while retrieving PDF/
+          )
+        )
+          event.fingerprint = ['pdf-network-error']
+      }
 
       return event
     },
