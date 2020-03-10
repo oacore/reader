@@ -6,6 +6,13 @@ let sentryOptions
 if (typeof SENTRY_DSN !== 'undefined') {
   sentryOptions = {
     dsn: SENTRY_DSN,
+    beforeSend(event, hint) {
+      const error = hint.originalException
+      if (error && error.message && error.message.match(/XRef entry/))
+        event.fingerprint = ['xref']
+
+      return event
+    },
   }
 }
 
