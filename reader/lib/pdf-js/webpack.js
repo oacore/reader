@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-const pdfjs = require('pdfjs-dist/build/pdf.js')
-const PdfjsWorker = require('pdfjs-dist/build/pdf.worker.js')
+const pdfjs = require('pdfjs-dist/es5/build/pdf.js')
+const PdfjsWorker = require('pdfjs-dist/es5/build/pdf.worker.js')
 
 if (typeof window !== 'undefined' && 'Worker' in window)
   pdfjs.GlobalWorkerOptions.workerPort = new PdfjsWorker()
