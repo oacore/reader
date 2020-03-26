@@ -2,10 +2,7 @@ const withCss = require('@zeit/next-css')
 const withSass = require('@zeit/next-sass')
 const withImages = require('next-images')
 const withWorkers = require('@zeit/next-workers')
-const withTM = require('next-transpile-modules')([
-  'pdfjs-dist/external',
-  'pdfjs-dist/lib',
-])
+const withTM = require('next-transpile-modules')(['pdfjs-dist/lib'])
 const webpack = require('webpack')
 const dotenv = require('dotenv')
 const withSourceMaps = require('@zeit/next-source-maps')

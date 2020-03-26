@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
-import { EventBus, PDFLinkService } from 'pdfjs-dist/web/pdf_viewer'
+import { EventBus, PDFLinkService } from 'pdfjs-dist/es5/web/pdf_viewer'
 
 import Header from './components/header/Header'
 import MainArea from './components/main-area/MainArea'
@@ -17,7 +17,7 @@ const CoreReader = ({ id, downloadUrl, repositories, year }) => {
   const eventBus = new EventBus({ dispatchToDOM: false })
 
   // Link service allows to clicking on internal links in PDF
-  const linkService = new PDFLinkService(eventBus)
+  const linkService = new PDFLinkService({ eventBus })
 
   const printContainerRef = useRef()
 

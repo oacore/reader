@@ -58,7 +58,6 @@ class Reader extends React.Component {
           "default-src 'self' *.core.ac.uk core.ac.uk",
           // in development there are attached inline scripts
           // (probably from hot reload or some Next.JS magic)
-          // TODO: Remove unsafe-inline once new version of PDF.js is released
           // https://github.com/mozilla/pdf.js/issues/11036
           `script-src 'self' *.google-analytics.com *.core.ac.uk core.ac.uk 'unsafe-eval' ${
             process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
@@ -66,7 +65,7 @@ class Reader extends React.Component {
           `style-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/ ${
             process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
           }`,
-          `font-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/`,
+          `font-src 'self' data: https://fonts.googleapis.com/ https://fonts.gstatic.com/`,
           // google analytics may transport info via image
           // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
           "img-src 'self' *.core.ac.uk core.ac.uk data: blob: *.google-analytics.com https://stats.g.doubleclick.net/",

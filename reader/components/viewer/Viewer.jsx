@@ -1,7 +1,7 @@
 import React from 'react'
-import { PDFViewer as _PDFViewer } from 'pdfjs-dist/web/pdf_viewer'
+import { PDFViewer as _PDFViewer } from 'pdfjs-dist/es5/web/pdf_viewer'
 
-import 'pdfjs-dist/web/pdf_viewer.css'
+import 'pdfjs-dist/es5/web/pdf_viewer.css'
 import './Viewer.scss'
 import Toolbar from '../toolbar/Toolbar'
 import Recommender from '../recommender/Recommender'
