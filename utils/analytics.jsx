@@ -11,12 +11,14 @@ if (isProduction && trackers[0] !== '') {
         trackingId: trackers[0],
         gaOptions: {
           name: 'prod',
+          siteSpeedSampleRate: 10,
         },
       },
       {
         trackingId: trackers[1],
         gaOptions: {
           name: 'dev',
+          siteSpeedSampleRate: 10,
         },
       },
     ])
