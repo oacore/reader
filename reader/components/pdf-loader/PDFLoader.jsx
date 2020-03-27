@@ -4,8 +4,9 @@ import Spinner from 'reactstrap/es/Spinner'
 import pdfjs from '../../lib/pdf-js/webpack'
 import { Sentry } from '../../../utils/sentry'
 import './PDFLoader.scss'
+import { logTiming } from '../../../utils/analytics'
 
-const CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.2.228/cmaps/'
+const CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.4.456/cmaps/'
 const CMAP_PACKED = true
 
 const redirect = url => {
@@ -25,11 +26,20 @@ const PDFLoader = React.memo(({ url, children }) => {
           setIsLoading(false)
           redirect(url)
         } else {
+          const startTime = Date.now()
           const document = await pdfjs.getDocument({
             url,
             cMapUrl: CMAP_URL,
             cMapPacked: CMAP_PACKED,
           }).promise
+
+          document.getDownloadInfo().then(() => {
+            logTiming({
+              category: 'API calls',
+              variable: '/pdf/download/<id>',
+              value: Date.now() - startTime,
+            })
+          })
           setDocumentProxy(document)
         }
       } catch (e) {

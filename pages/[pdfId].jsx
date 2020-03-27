@@ -4,7 +4,7 @@ import Head from 'next/head'
 import ErrorPage from 'next/error'
 
 import getArticleMetadata from '../reader/utils/getArticleMetadata'
-import withGoogleAnalytics from '../utils/analytics'
+import { withGoogleAnalytics, logTiming } from '../utils/analytics'
 import { getAssetPath } from '../utils/helpers'
 import { Sentry } from '../utils/sentry'
 import structuredMetadata from '../utils/structuredMetadata'
@@ -28,6 +28,7 @@ class Reader extends React.Component {
     let statusCode = null
     let metadata = null
     let numberOfRetries = 2
+    const startTime = Date.now()
 
     while (numberOfRetries) {
       try {
@@ -48,6 +49,12 @@ class Reader extends React.Component {
         } else break
       }
     }
+
+    logTiming({
+      category: 'API calls',
+      variable: '/internal/articles/<id>',
+      value: Date.now() - startTime,
+    })
 
     // add the header only on server-side
     if (res != null) {
