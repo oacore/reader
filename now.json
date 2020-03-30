@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "reader",
   "build": {
     "env": {
       "BUILD_TARGET": "now",
