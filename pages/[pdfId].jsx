@@ -23,71 +23,70 @@ const CoreReader = dynamic(() => import('../reader'), {
   ssr: false,
 })
 
-class Reader extends React.Component {
-  static async getInitialProps({ query: { pdfId }, res }) {
-    let statusCode = null
-    let metadata = null
-    let numberOfRetries = 2
-    const startTime = Date.now()
+export async function getServerSideProps({ params: { pdfId }, res }) {
+  let statusCode = null
+  let metadata = null
+  let numberOfRetries = 2
+  const startTime = Date.now()
 
-    while (numberOfRetries) {
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        ;[metadata, statusCode] = await getArticleMetadata(pdfId)
-        break
-      } catch (e) {
-        numberOfRetries -= 1
-        if (![404, 410].includes(e.statusCode)) {
-          if (!e.message.includes('socket hang up') || !numberOfRetries) {
-            Sentry.withScope(scope => {
-              // group API errors with the same status code together
-              scope.setFingerprint(['api', e.statusCode])
-              Sentry.captureException(e)
-            })
-            break
-          }
-        } else break
-      }
-    }
-
-    logTiming({
-      category: 'API calls',
-      variable: '/internal/articles/<id>',
-      value: Date.now() - startTime,
-    })
-
-    // add the header only on server-side
-    if (res != null) {
-      res.setHeader(
-        'Content-Security-Policy',
-        [
-          // consider everything from these two domains as a safe
-          "default-src 'self' *.core.ac.uk core.ac.uk",
-          // in development there are attached inline scripts
-          // (probably from hot reload or some Next.JS magic)
-          // https://github.com/mozilla/pdf.js/issues/11036
-          `script-src 'self' *.google-analytics.com *.core.ac.uk core.ac.uk 'unsafe-eval' ${
-            process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
-          }`,
-          `style-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/ ${
-            process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
-          }`,
-          `font-src 'self' data: https://fonts.googleapis.com/ https://fonts.gstatic.com/`,
-          // google analytics may transport info via image
-          // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
-          "img-src 'self' *.core.ac.uk core.ac.uk data: blob: *.google-analytics.com https://stats.g.doubleclick.net/",
-          'connect-src *',
-        ].join(';')
-      )
-    }
-
-    return {
-      ...(metadata || {}),
-      structuredData: metadata ? structuredMetadata(metadata) : null,
-      statusCode,
+  while (numberOfRetries) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      ;[metadata, statusCode] = await getArticleMetadata(pdfId)
+      break
+    } catch (e) {
+      numberOfRetries -= 1
+      if (![404, 410].includes(e.statusCode)) {
+        if (!e.message.includes('socket hang up') || !numberOfRetries) {
+          Sentry.withScope(scope => {
+            // group API errors with the same status code together
+            scope.setFingerprint(['api', e.statusCode])
+            Sentry.captureException(e)
+          })
+          break
+        }
+      } else break
     }
   }
 
+  logTiming({
+    category: 'API calls',
+    variable: '/internal/articles/<id>',
+    value: Date.now() - startTime,
+  })
+
+  res.setHeader(
+    'Content-Security-Policy',
+    [
+      // consider everything from these two domains as a safe
+      "default-src 'self' *.core.ac.uk core.ac.uk",
+      // in development there are attached inline scripts
+      // (probably from hot reload or some Next.JS magic)
+      // https://github.com/mozilla/pdf.js/issues/11036
+      `script-src 'self' *.google-analytics.com *.core.ac.uk core.ac.uk 'unsafe-eval' ${
+        process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
+      }`,
+      `style-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/ ${
+        process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
+      }`,
+      `font-src 'self' data: https://fonts.googleapis.com/ https://fonts.gstatic.com/`,
+      // google analytics may transport info via image
+      // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
+      "img-src 'self' *.core.ac.uk core.ac.uk data: blob: *.google-analytics.com https://stats.g.doubleclick.net/",
+      'connect-src *',
+    ].join(';')
+  )
+
+  return {
+    props: {
+      ...(metadata || {}),
+      structuredData: metadata ? structuredMetadata(metadata) : null,
+      statusCode,
+    },
+  }
+}
+
+class Reader extends React.Component {
   // eslint-disable-next-line class-methods-use-this
   componentDidCatch(error, errorInfo) {
     Sentry.withScope(scope => {
