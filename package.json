@@ -51,7 +51,7 @@
     "file-saver": "^2.0.2",
     "little-loader": "^0.2.0",
     "next": "^9.3.2",
-    "next-images": "^1.2.0",
+    "next-images": "^1.4.0",
     "next-transpile-modules": "^3.1.0",
     "node-sass": "^4.13.1",
     "pdfjs-dist": "^2.4.456",
