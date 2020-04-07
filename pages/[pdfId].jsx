@@ -66,9 +66,7 @@ export async function getServerSideProps({ params: { pdfId }, res }) {
       `script-src 'self' *.google-analytics.com *.core.ac.uk core.ac.uk 'unsafe-eval' ${
         process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
       }`,
-      `style-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/ ${
-        process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
-      }`,
+      "style-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/ 'unsafe-inline'",
       `font-src 'self' data: https://fonts.googleapis.com/ https://fonts.gstatic.com/`,
       // google analytics may transport info via image
       // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
