@@ -39,7 +39,7 @@
   "dependencies": {
     "@oacore/api": "^1.0.8",
     "@sentry/browser": "^5.10.2",
-    "@sentry/node": "^5.11.2",
+    "@sentry/node": "^5.15.5",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "@zeit/next-source-maps": "^0.0.3",
