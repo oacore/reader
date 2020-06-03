@@ -56,7 +56,7 @@
     "node-sass": "^4.13.1",
     "pdfjs-dist": "^2.4.456",
     "react": "^16.13.0",
-    "react-dom": "^16.12.0",
+    "react-dom": "^16.13.0",
     "react-ga": "^2.7.0",
     "react-inlinesvg": "^1.2.0",
     "react-to-print": "2.6.3",
