@@ -60,7 +60,7 @@
     "react-ga": "^2.7.0",
     "react-inlinesvg": "^1.2.0",
     "react-to-print": "2.6.3",
-    "reactstrap": "^8.1.1",
+    "reactstrap": "^8.4.1",
     "smoothscroll-polyfill": "^0.4.4",
     "web-streams-polyfill": "^2.1.0",
     "webpack": "^4.43.0",
