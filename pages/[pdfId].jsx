@@ -9,6 +9,7 @@ import { getAssetPath } from '../utils/helpers'
 import { Sentry } from '../utils/sentry'
 import structuredMetadata from '../utils/structuredMetadata'
 
+import '@oacore/design/lib/elements/icon/icon.css'
 import './styles.css'
 
 process.on('unhandledRejection', err => {

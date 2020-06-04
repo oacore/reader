@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button } from 'reactstrap'
 import ReactToPrint from 'react-to-print'
+import { Icon } from '@oacore/design'
 
-import Icon from '../icons/Icon'
 import { downloadPDF } from '../downloader/Downloader'
 import './Header.scss'
 import { useGlobalStore } from '../../store'
@@ -31,7 +31,7 @@ const Header = ({ printContainerRef }) => {
           active={ui.isOutlineSidebarVisible}
           onClick={() => dispatch(toggleOutlineSidebar())}
         >
-          <Icon iconType="outline" />
+          <Icon src="#file-document" alt="Show outline" />
         </Button>
         <Button
           title="Show thumbnails"
@@ -39,7 +39,7 @@ const Header = ({ printContainerRef }) => {
           active={ui.isThumbnailSidebarVisible}
           onClick={() => dispatch(toggleThumbnailsSidebar())}
         >
-          <Icon iconType="thumbnails" />
+          <Icon src="#view-grid" />
         </Button>
       </div>
       <div className="item d-flex justify-content-center">
@@ -50,10 +50,7 @@ const Header = ({ printContainerRef }) => {
           onClick={handleRedirection}
           className="w-auto"
         >
-          <Icon iconType="core-symbol" />
-          <span className="sr-only" style={{ left: '50%' }}>
-            CORE
-          </span>
+          <Icon src="#core-symbol" alt="CORE" />
         </Button>
       </div>
       <div className="item d-flex justify-content-end">
@@ -63,7 +60,7 @@ const Header = ({ printContainerRef }) => {
           disabled={!document.documentProxy} // pdf is not loaded yet
           onClick={() => downloadPDF(document.documentProxy, metadata.url)}
         >
-          <Icon iconType="download" />
+          <Icon src="#file-download" alt="Download document" />
         </Button>
         <ReactToPrint
           trigger={() => (
@@ -72,7 +69,7 @@ const Header = ({ printContainerRef }) => {
               color="none"
               disabled={!document.pagesLoaded}
             >
-              <Icon iconType="print" />
+              <Icon src="#printer" alt="Print document" />
             </Button>
           )}
           content={() => printContainerRef.current.printContainer}
