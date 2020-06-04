@@ -3,6 +3,7 @@ import ReactGA from 'react-ga'
 
 const isProduction = process.env.NODE_ENV === 'production'
 const trackers = (GA_TRACKING_CODE || '').split(',')
+let isGAInitialized = false
 
 if (isProduction && trackers[0] !== '') {
   if (trackers.length === 2) {
@@ -22,10 +23,15 @@ if (isProduction && trackers[0] !== '') {
         },
       },
     ])
-  } else ReactGA.initialize(trackers[0])
+    isGAInitialized = true
+  } else {
+    ReactGA.initialize(trackers[0])
+    isGAInitialized = true
+  }
 }
 
 const logPageView = () => {
+  if (!isGAInitialized) return
   ReactGA.set({ page: window.location.pathname })
   ReactGA.pageview(
     window.location.pathname,
@@ -34,6 +40,7 @@ const logPageView = () => {
 }
 
 export const logTiming = options => {
+  if (!isGAInitialized) return
   ReactGA.timing(options, trackers.length === 2 ? ['prod', 'dev'] : undefined)
 }
 
