@@ -1,0 +1,7 @@
+#pdf-print-container {
+  display: none;
+}
+
+.print-active {
+  color: var(--primary);
+}
