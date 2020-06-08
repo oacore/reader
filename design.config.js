@@ -7,6 +7,7 @@ const icons = [
   'format-rotate-90',
   'file-download',
   'printer',
+  'printer-off',
   'magnify-plus-outline',
   'magnify-minus-outline',
   'file-document',

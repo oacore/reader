@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactToPrint from 'react-to-print'
 import { Icon, Button, AppBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
@@ -10,8 +9,9 @@ import {
   toggleOutlineSidebar,
   toggleThumbnailsSidebar,
 } from '../../store/ui/actions'
+import Print from '../print'
 
-const Header = ({ printContainerRef }) => {
+const Header = () => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()
 
   const handleRedirection = () => {
@@ -63,65 +63,7 @@ const Header = ({ printContainerRef }) => {
         >
           <Icon src="#file-download" alt="Download document" />
         </Button>
-        <ReactToPrint
-          trigger={() => (
-            <Button
-              title="Print document"
-              disabled={!document.pagesLoaded}
-              className="button-menu"
-            >
-              <Icon src="#printer" alt="Print document" />
-            </Button>
-          )}
-          content={() => printContainerRef.current.printContainer}
-          onBeforeGetContent={() => printContainerRef.current.onBeforePrint()}
-          onAfterPrint={() => printContainerRef.current.onAfterPrint()}
-          // TODO: consider to show some warning to user
-          //       that print wasn't successful
-          onPrintError={() => printContainerRef.current.onAfterPrint()}
-          removeAfterPrint
-          copyStyles={false}
-          pageStyle={`
-            *,
-            html {
-                box-sizing: border-box;
-            }
-            *, *:before, *:after {
-                box-sizing: inherit;
-            }
-
-            @page {
-             margin: 0;
-             size: auto;
-            }
-
-            body, html {
-              margin: 0;
-              padding: 0;
-              width: 100%;
-              display: block;
-            }
-
-            #pdf-print-container {
-              display: block;
-            }
-
-            #pdf-print-container > div {
-              display: flex;
-              flex-direction: column;
-              height: 100%;
-              align-items: center;
-              justify-content: center;
-              page-break-after:always;
-              page-break-inside: avoid;
-            }
-
-            #pdf-print-container > div > img {
-              max-width:100%;
-              max-height:100%;
-            }
-          `}
-        />
+        <Print className="button-menu" />
       </AppBar.Item>
     </AppBar>
   )

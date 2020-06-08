@@ -59,7 +59,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-ga": "^2.7.0",
-    "react-to-print": "2.6.3",
+    "react-to-print": "^2.9.0",
     "reactstrap": "^8.4.1",
     "smoothscroll-polyfill": "^0.4.4",
     "web-streams-polyfill": "^2.1.0",

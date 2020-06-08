@@ -1,11 +1,12 @@
 import React from 'react'
 import { CSS_UNITS } from 'pdfjs-dist/lib/web/ui_utils'
-import { Progress, ModalBody } from 'reactstrap'
+import { Button, Icon } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
+import ReactToPrint, { PrintContextConsumer } from 'react-to-print'
 
-import Modal from '../modal/Modal'
 import { withGlobalStore } from '../../store'
-
-import './Print.scss'
+import './styles.module.css'
+import LoadingBar from '../loading-bar'
 
 // The size of the canvas in pixels for printing.
 const PRINT_RESOLUTION = 150
@@ -19,15 +20,13 @@ class Print extends React.Component {
   scratchCanvas = document.createElement('canvas')
 
   // rendered images are appended to this container
-  printContainer = null
+  printContainer = React.createRef()
 
   pagesOverview = null
 
   printRejected = false
 
   state = {
-    isPrintModalOpen: false,
-    printProgress: 0,
     currentPage: 0,
     pageCount: 0,
   }
@@ -73,9 +72,6 @@ class Print extends React.Component {
     } = this.props
 
     this.printRejected = false
-    this.setState({
-      isPrintModalOpen: true,
-    })
 
     if (!viewer.hasEqualPageSizes) {
       console.warn(
@@ -89,11 +85,13 @@ class Print extends React.Component {
 
   onAfterPrint = () => {
     // remove all temporary rendered pages
-    while (this.printContainer.firstChild)
-      this.printContainer.removeChild(this.printContainer.firstChild)
+    while (this.printContainer.current.firstChild) {
+      this.printContainer.current.removeChild(
+        this.printContainer.current.firstChild
+      )
+    }
+
     this.setState({
-      isPrintModalOpen: false,
-      printProgress: 0,
       currentPage: 0,
       pageCount: 0,
     })
@@ -113,12 +111,12 @@ class Print extends React.Component {
         resolve()
         return
       }
+
       // recursively render every page to temporary canvas
       this.renderPage(currentPage + 1, this.pagesOverview[currentPage])
         .then(this.useRenderedPage)
         .then(() => {
           this.setState({
-            printProgress: Math.round((100 * currentPage) / pageCount),
             currentPage: currentPage + 1,
             pageCount,
           })
@@ -179,8 +177,7 @@ class Print extends React.Component {
     } else img.src = this.scratchCanvas.toDataURL()
 
     wrapper.appendChild(img)
-    this.printContainer.appendChild(wrapper)
-
+    this.printContainer.current.appendChild(wrapper)
     return new Promise((resolve, reject) => {
       img.onload = resolve
       img.onerror = reject
@@ -189,39 +186,94 @@ class Print extends React.Component {
 
   rejectPrinting = () => {
     this.printRejected = true
-    this.setState({ isPrintModalOpen: false })
+    this.forceUpdate()
   }
 
   render() {
+    const { currentPage, pageCount } = this.state
     const {
-      isPrintModalOpen,
-      printProgress,
-      currentPage,
-      pageCount,
-    } = this.state
+      store: { document },
+      className,
+    } = this.props
+    const isPrinting = currentPage !== pageCount
+
     return (
       <>
-        <div
-          id="pdf-print-container"
-          ref={r => {
-            this.printContainer = r
-          }}
-        />
-        <div>
-          <Modal
-            isOpen={isPrintModalOpen}
-            toggle={this.toggle}
-            onClose={this.rejectPrinting}
-          >
-            <ModalBody>
-              <h6 className="m-0">Print in progress</h6>
-              <Progress value={printProgress} className="rounded-0 mb-1 mt-1" />
-              <p className="text-center">
-                {currentPage} / {pageCount}{' '}
-              </p>
-            </ModalBody>
-          </Modal>
-        </div>
+        {isPrinting && <LoadingBar />}
+        <div id="pdf-print-container" ref={this.printContainer} />
+        <ReactToPrint
+          content={() => this.printContainer.current}
+          onBeforeGetContent={() => this.onBeforePrint()}
+          onAfterPrint={() => this.onAfterPrint()}
+          // TODO: consider to show some warning to user
+          //       that print wasn't successful
+          onPrintError={() => this.onAfterPrint()}
+          removeAfterPrint
+          copyStyles={false}
+          pageStyle={`
+            *,
+            html {
+                box-sizing: border-box;
+            }
+            *, *:before, *:after {
+                box-sizing: inherit;
+            }
+
+            @page {
+             margin: 0;
+             size: auto;
+            }
+
+            body, html {
+              margin: 0;
+              padding: 0;
+              width: 100%;
+              display: block;
+            }
+
+            #pdf-print-container {
+              display: block;
+            }
+
+            #pdf-print-container > div {
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+              align-items: center;
+              justify-content: center;
+              page-break-after:always;
+              page-break-inside: avoid;
+            }
+
+            #pdf-print-container > div > img {
+              max-width:100%;
+              max-height:100%;
+            }
+          `}
+        >
+          <PrintContextConsumer>
+            {({ handlePrint }) => (
+              <Button
+                title={isPrinting ? 'Cancel print' : 'Print document'}
+                className={classNames
+                  .use(isPrinting && 'print-active')
+                  .join(className)
+                  .toString()}
+                disabled={!document.pagesLoaded}
+                onClick={() => {
+                  if (isPrinting) this.rejectPrinting()
+                  else handlePrint()
+                }}
+              >
+                {isPrinting ? (
+                  <Icon src="#printer-off" alt="Cancel print" />
+                ) : (
+                  <Icon src="#printer" alt="Print document" />
+                )}
+              </Button>
+            )}
+          </PrintContextConsumer>
+        </ReactToPrint>
       </>
     )
   }
