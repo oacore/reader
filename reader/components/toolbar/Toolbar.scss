@@ -1,8 +1,10 @@
 @import '../bootstrap/core';
 
 .pdf-toolbar {
+  --button-color: var(--body-color);
+
   position: sticky;
-  height: 148px;
+  height: 8rem;
   right: 0;
   left: 0;
   bottom: 0;
@@ -30,23 +32,16 @@
   .pdf-related-papers,
   .pdf-pagination,
   .pdf-preferences {
-    background: #fafafa;
-    border-radius: 4px;
-    height: 60px;
-    visibility: hidden;
+    --button-corner-radius: 2px;
 
-    @include media-breakpoint-down(xs) {
-      height: 35px;
-    }
+    background: #fafafa;
+    border-radius: var(--button-corner-radius);
+    visibility: hidden;
   }
 
   .pdf-pagination,
   .pdf-preferences {
     > button {
-      width: 60px;
-      height: 100%;
-      padding: 0.75rem;
-
       @include media-breakpoint-down(xs) {
         width: 35px;
         padding: 0.3rem;
