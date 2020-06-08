@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactToPrint from 'react-to-print'
-import { Icon, Button } from '@oacore/design'
+import { Icon, Button, AppBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
 import { downloadPDF } from '../downloader/Downloader'
-import './Header.scss'
+import './styles.module.css'
 import { useGlobalStore } from '../../store'
 import {
   toggleOutlineSidebar,
@@ -23,8 +23,8 @@ const Header = ({ printContainerRef }) => {
   }
 
   return (
-    <div className="header">
-      <div className="item d-flex justify-content-start">
+    <AppBar className="app-bar">
+      <AppBar.Item>
         <Button
           title="Show outline"
           onClick={() => dispatch(toggleOutlineSidebar())}
@@ -43,18 +43,18 @@ const Header = ({ printContainerRef }) => {
         >
           <Icon src="#view-grid" />
         </Button>
-      </div>
-      <div className="item d-flex justify-content-center">
+      </AppBar.Item>
+      <AppBar.Item className="item-center">
         <Button
           title="Redirect to CORE metadata page"
           disabled={metadata.id === null}
           onClick={handleRedirection}
-          className="button-menu w-auto"
+          className="button-menu"
         >
           <Icon src="#core-symbol" alt="CORE" />
         </Button>
-      </div>
-      <div className="item d-flex justify-content-end">
+      </AppBar.Item>
+      <AppBar.Item className="item-right">
         <Button
           title="Download document"
           disabled={!document.documentProxy} // pdf is not loaded yet
@@ -122,8 +122,8 @@ const Header = ({ printContainerRef }) => {
             }
           `}
         />
-      </div>
-    </div>
+      </AppBar.Item>
+    </AppBar>
   )
 }
 

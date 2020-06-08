@@ -1,6 +1,7 @@
 html,
 body,
 #__next {
-  height: 100%;
   --body-color: #000;
+
+  height: 100%;
 }
