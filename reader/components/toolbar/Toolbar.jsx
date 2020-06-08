@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useReducer } from 'react'
-import { Icon } from '@oacore/design'
+import { Icon, Button } from '@oacore/design'
 
 import './Toolbar.scss'
 import { useGlobalStore } from '../../store'
@@ -146,11 +146,11 @@ const Toolbar = ({ viewer, eventBus }) => {
       ref={toolbarRef}
     >
       {ui.isRecommenderLoaded && (
-        <div className="pdf-related-papers d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2 order-3">
-          <button
+        <div className="pdf-related-papers d-flex flex-row align-items-center justify-content-between mr-2 order-3">
+          <Button
             title="Show related papers"
             type="button"
-            className="btn m-auto h-100"
+            className="m-auto h-100"
             onClick={() =>
               dispatch({
                 type: 'toggle_related_papers',
@@ -158,14 +158,13 @@ const Toolbar = ({ viewer, eventBus }) => {
             }
           >
             {!state.relatedPapersClicked ? 'Related papers' : 'Back to reading'}
-          </button>
+          </Button>
         </div>
       )}
-      <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2">
-        <button
+      <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-2">
+        <Button
           title="Rotate"
           type="button"
-          className="btn"
           onClick={() => {
             const delta = 90
             viewer.pagesRotation = (viewer.pagesRotation + 360 + delta) % 360
@@ -176,11 +175,10 @@ const Toolbar = ({ viewer, eventBus }) => {
           }}
         >
           <Icon src="#format-rotate-90" alt="Rotate" />
-        </button>
-        <button
+        </Button>
+        <Button
           title="Zoom in"
           type="button"
-          className="btn"
           disabled={viewer.currentScaleValue >= MAX_SCALE}
           onClick={() => {
             zoomIn()
@@ -189,11 +187,10 @@ const Toolbar = ({ viewer, eventBus }) => {
           }}
         >
           <Icon src="#magnify-plus-outline" alt="Zoom in" />
-        </button>
-        <button
+        </Button>
+        <Button
           title="Zoom out"
           type="button"
-          className="btn"
           disabled={viewer.currentScaleValue <= MIN_SCALE}
           onClick={() => {
             zoomOut()
@@ -202,13 +199,12 @@ const Toolbar = ({ viewer, eventBus }) => {
           }}
         >
           <Icon src="#magnify-minus-outline" alt="Zoom out" />
-        </button>
+        </Button>
       </div>
-      <div className="pdf-pagination d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2">
-        <button
+      <div className="pdf-pagination d-flex flex-row align-items-center justify-content-between mr-2">
+        <Button
           title="Previous page"
           type="button"
-          className="btn"
           disabled={viewer.currentPageNumber <= 1}
           onClick={() => {
             viewer.currentPageNumber -= 1
@@ -216,7 +212,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           }}
         >
           <Icon src="#chevron-left" alt="Previous page" />
-        </button>
+        </Button>
         <div className="page-number-navigation">
           <label className="m-0" htmlFor="page-number">
             <span className="sr-only">Page number</span>
@@ -240,10 +236,9 @@ const Toolbar = ({ viewer, eventBus }) => {
             / <span className="pages-count">{viewer.pagesCount}</span>
           </label>
         </div>
-        <button
+        <Button
           title="Next page"
           type="button"
-          className="btn"
           disabled={viewer.currentPageNumber >= viewer.pagesCount}
           onClick={() => {
             viewer.currentPageNumber += 1
@@ -251,7 +246,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           }}
         >
           <Icon src="#chevron-right" alt="Next page" />
-        </button>
+        </Button>
       </div>
     </div>
   )

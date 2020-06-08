@@ -17,30 +17,12 @@
   }
 }
 
-.header .btn {
-  position: relative;
-  width: 3rem;
-  height: 3rem;
-  padding: 0.75rem;
-  border: 0;
-  color: $gray-700;
+.button-menu {
+  color: inherit;
+}
 
-  &:hover,
-  &:focus {
-    color: $primary;
-  }
-
-  &:active,
-  &.active {
-    color: $primary;
-    background: $gray-200;
-  }
-
-  // remove Bootstrap's shadow
-  &:focus,
-  &:active,
-  &.active,
-  &.active:focus {
-    box-shadow: none !important;
-  }
+.button-menu:active,
+.button-menu:hover,
+.button-menu.button-active {
+  color: var(--primary);
 }
