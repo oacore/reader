@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node ./node_modules/.bin/design build icons && next build",
     "start": "next start",
     "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx .",
     "lint:css": "prettier --ignore-path .gitignore --check '**/*.{json,scss,css}'",
@@ -37,7 +37,9 @@
     "source-map-loader": "^0.2.4"
   },
   "dependencies": {
+    "@mdi/svg": "^5.3.45",
     "@oacore/api": "^1.0.8",
+    "@oacore/design": "^0.1.2",
     "@sentry/browser": "^5.15.5",
     "@sentry/node": "^5.15.5",
     "@zeit/next-css": "^1.0.1",
@@ -58,7 +60,6 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-ga": "^2.7.0",
-    "react-inlinesvg": "^1.2.0",
     "react-to-print": "2.6.3",
     "reactstrap": "^8.4.1",
     "smoothscroll-polyfill": "^0.4.4",

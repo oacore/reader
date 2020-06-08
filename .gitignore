@@ -4,3 +4,5 @@ dist
 build
 .next
 .env
+public/design
+public/icons.svg

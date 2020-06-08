@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useReducer } from 'react'
+import { Icon } from '@oacore/design'
 
-import Icon from '../icons/Icon'
 import './Toolbar.scss'
 import { useGlobalStore } from '../../store'
 import {
@@ -175,7 +175,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             viewer.update()
           }}
         >
-          <Icon iconType="rotate" />
+          <Icon src="#format-rotate-90" alt="Rotate" />
         </button>
         <button
           title="Zoom in"
@@ -188,7 +188,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             viewer.update()
           }}
         >
-          <Icon iconType="zoom-in" />
+          <Icon src="#magnify-plus-outline" alt="Zoom in" />
         </button>
         <button
           title="Zoom out"
@@ -201,7 +201,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             viewer.update()
           }}
         >
-          <Icon iconType="zoom-out" />
+          <Icon src="#magnify-minus-outline" alt="Zoom out" />
         </button>
       </div>
       <div className="pdf-pagination d-flex flex-row align-items-center justify-content-between mr-lg-5 mr-2">
@@ -215,7 +215,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             globalDispatch(changeCurrentPageNumber(viewer.currentPageNumber))
           }}
         >
-          <Icon iconType="left-arrow" />
+          <Icon src="#chevron-left" alt="Previous page" />
         </button>
         <div className="page-number-navigation">
           <label className="m-0" htmlFor="page-number">
@@ -250,7 +250,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             globalDispatch(changeCurrentPageNumber(viewer.currentPageNumber))
           }}
         >
-          <Icon iconType="right-arrow" />
+          <Icon src="#chevron-right" alt="Next page" />
         </button>
       </div>
     </div>
