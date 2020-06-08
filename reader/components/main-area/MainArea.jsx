@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Viewer from '../viewer/Viewer'
-import PDFLoader from '../pdf-loader/PDFLoader'
+import PdfLoader from '../pdf-loader/pdf-loader'
 import ThumbnailSidebar from '../thumbnails-sidebar/ThumbnailSidebar'
 import OutlineSidebar from '../outline-sidebar/OutlineSidebar'
 import { useGlobalStore } from '../../store'
@@ -18,7 +18,7 @@ const MainArea = () => {
         {document.documentProxy && <ThumbnailSidebar />}
         {document.documentProxy && <OutlineSidebar />}
       </div>
-      <PDFLoader url={metadata.url}>
+      <PdfLoader url={metadata.url}>
         <Viewer
           linkService={document.linkService}
           eventBus={document.eventBus}
@@ -27,7 +27,7 @@ const MainArea = () => {
           setDocument={d => dispatch(setDocument(d))}
           globalDispatch={dispatch}
         />
-      </PDFLoader>
+      </PdfLoader>
     </div>
   )
 }

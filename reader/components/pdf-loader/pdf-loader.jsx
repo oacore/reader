@@ -1,10 +1,11 @@
 import React, { useEffect, useState, cloneElement } from 'react'
-import Spinner from 'reactstrap/es/Spinner'
 
 import pdfjs from '../../lib/pdf-js/webpack'
 import { Sentry } from '../../../utils/sentry'
-import './PDFLoader.scss'
+import './styles.module.scss'
 import { logTiming } from '../../../utils/analytics'
+import DocumentPlaceholder from './document-placeholder'
+import LoadingBar from '../loading-bar'
 
 const CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.4.456/cmaps/'
 const CMAP_PACKED = true
@@ -12,7 +13,7 @@ const CMAP_PACKED = true
 const redirect = url => {
   if (url) setTimeout(() => window.location.replace(url), 5000)
 }
-const PDFLoader = React.memo(({ url, children }) => {
+const PdfLoader = React.memo(({ url, children }) => {
   const [documentProxy, setDocumentProxy] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -62,17 +63,19 @@ const PDFLoader = React.memo(({ url, children }) => {
   if (documentProxy) return cloneElement(children, { documentProxy })
 
   return (
-    <div className="pdf-loader">
-      {isLoading && <Spinner />}
-      {!isLoading && (
-        <div className="text-center">
-          We are not allowed to display external PDFs yet. You will be
-          redirected to the full text document in the repository in a few
-          seconds, if not <a href={url}>click here</a>.
-        </div>
-      )}
-    </div>
+    <>
+      {isLoading && <LoadingBar />}
+      <DocumentPlaceholder>
+        {!isLoading && (
+          <div className="notice">
+            We are not allowed to display external PDFs yet. You will be
+            redirected to the full text document in the repository in a few
+            seconds, if not <a href={url}>click here</a>.
+          </div>
+        )}
+      </DocumentPlaceholder>
+    </>
   )
 })
 
-export default PDFLoader
+export default PdfLoader
