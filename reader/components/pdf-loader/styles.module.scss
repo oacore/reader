@@ -1,0 +1,71 @@
+//  https://stackoverflow.com/a/41900041/5594539
+@keyframes placeholder-animation {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.linear-animation {
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeholder-animation;
+  animation-timing-function: linear;
+  background: var(--white);
+  background: linear-gradient(
+    to right,
+    var(--gray-100) 8%,
+    var(--gray-200) 18%,
+    var(--gray-100) 33%
+  );
+  background-size: 1000px 100px;
+}
+
+.document {
+  margin: 1rem auto 5rem auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 70rem;
+  background: var(--white);
+  height: calc(100% - 6rem);
+  width: 96%;
+  padding: 3%;
+}
+
+.header {
+  width: 90%;
+  height: 3rem;
+  margin: 3rem auto 13rem auto;
+}
+
+.line {
+  height: 1.5rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.line-short {
+  height: 1.5rem;
+  margin-top: 1rem;
+  width: 50%;
+}
+
+.pagination {
+  width: 5rem;
+  height: 1rem;
+  margin: auto auto 0 auto;
+  justify-self: flex-end;
+}
+
+.spacer {
+  margin-top: 10rem;
+  height: 0;
+}
+
+.notice {
+  margin: auto;
+  padding: 5rem;
+}

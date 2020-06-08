@@ -19,7 +19,7 @@ const CoreReader = ({ id, downloadUrl, repositories, year }) => {
   // Link service allows to clicking on internal links in PDF
   const linkService = new PDFLinkService({ eventBus })
 
-  const printContainerRef = useRef()
+  const printContainerRef = useRef(null)
 
   return (
     <>

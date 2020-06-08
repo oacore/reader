@@ -1,0 +1,29 @@
+.loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  width: 100%;
+}
+
+.loading-bar::before {
+  position: absolute;
+  width: 100%;
+  content: '';
+  border-bottom: 4px solid var(--primary);
+  animation: stretching 3s linear infinite;
+}
+
+@keyframes stretching {
+  0% {
+    transform: translateX(-50%) scaleX(0.1);
+  }
+
+  50% {
+    transform: translateX(0) scaleX(0.8);
+  }
+
+  100% {
+    transform: translateX(50%) scaleX(0.1);
+  }
+}
