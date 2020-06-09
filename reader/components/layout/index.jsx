@@ -3,7 +3,7 @@ import { classNames } from '@oacore/design/lib/utils'
 
 import './styles.module.css'
 
-const Index = ({
+const Layout = ({
   children,
   className = '',
   tag: Tag = 'div',
@@ -17,4 +17,4 @@ const Index = ({
   </Tag>
 )
 
-export default Index
+export default Layout
