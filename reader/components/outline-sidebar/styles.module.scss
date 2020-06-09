@@ -1,5 +1,3 @@
-@import '../bootstrap/core';
-
 .outline-view {
   position: absolute;
   top: 0;
@@ -39,7 +37,7 @@ li[aria-expanded='false'] > .outline-button {
 .missing-outline {
   padding: 0.75rem;
   border-style: dashed;
-  border-color: $gray-500;
+  border-color: var(--gray-500);
   border-width: 2px;
   margin-bottom: 0.5rem;
 

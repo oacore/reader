@@ -1,5 +1,6 @@
 import React from 'react'
 
+import '../reader/components/bootstrap/bootstrap.scss'
 import '@oacore/design/lib/foundation/colors.css'
 import '@oacore/design/lib/elements/icon/icon.css'
 import '@oacore/design/lib/elements/button/button.css'
