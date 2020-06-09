@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
 import ReactDom from 'react-dom'
 
-import Highlight from './Highlight'
-import { findOrCreateLayerForHighlights, findPageLayer } from '../utils/layer'
-import { withGlobalStore } from '../../../store'
+import Highlight from './highlight'
+import { findOrCreateLayerForHighlights, findPageLayer } from './utils/layer'
+import { withGlobalStore } from '../../store'
 
 class Highlights extends React.PureComponent {
   state = {

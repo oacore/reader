@@ -2,9 +2,9 @@ import React from 'react'
 import { PDFViewer as _PDFViewer } from 'pdfjs-dist/es5/web/pdf_viewer'
 
 import 'pdfjs-dist/es5/web/pdf_viewer.css'
-import './Viewer.scss'
-import Toolbar from '../toolbar/Toolbar'
-import Recommender from '../recommender/Recommender'
+import './styles.module.scss'
+import Toolbar from '../toolbar'
+import Recommender from '../recommender'
 import { changeCurrentPageNumber } from '../../store/ui/actions'
 import { debounce } from '../../utils/helpers'
 

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { withGlobalStore } from '../../../store'
-import { toggleEnhancementSidebar } from '../../../store/ui/actions'
-import { setAnnotation } from '../../../store/document/actions'
+import { withGlobalStore } from '../../store'
+import { toggleEnhancementSidebar } from '../../store/ui/actions'
+import { setAnnotation } from '../../store/document/actions'
 
 const HIGHLIGHTS_COLORS = ['red', 'yellow', 'green', 'blue']
 

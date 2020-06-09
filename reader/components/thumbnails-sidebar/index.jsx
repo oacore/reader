@@ -3,9 +3,9 @@ import React from 'react'
 import PDFThumbnailViewer from '../../lib/pdf-js/PDFThumbnailViewer'
 import { withGlobalStore } from '../../store'
 
-import './ThumbnailSidebar.scss'
+import './styles.module.scss'
 
-class ThumbnailSidebar extends React.PureComponent {
+class ThumbnailsSidebar extends React.PureComponent {
   containerNode = null
 
   componentDidMount() {
@@ -81,4 +81,4 @@ class ThumbnailSidebar extends React.PureComponent {
   }
 }
 
-export default withGlobalStore(ThumbnailSidebar)
+export default withGlobalStore(ThumbnailsSidebar)

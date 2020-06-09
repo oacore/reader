@@ -3,14 +3,14 @@ import ReactDom from 'react-dom'
 
 import { getPageFromRange } from './utils/utils'
 import { groupRectsByPage } from './utils/rects'
-import ContextMenu from './components/ContextMenu'
+import ContextMenu from './context-menu'
 import { findOrCreateLayerForContextMenu } from './utils/layer'
-import Highlights from './components/Highlights'
+import Highlights from './highlights'
 import { withGlobalStore } from '../../store'
 
-import './Highlighter.scss'
+import './styles.module.scss'
 
-class Highlighter extends React.Component {
+class Index extends React.Component {
   state = {
     isVisible: false,
     contextRoot: null,
@@ -154,4 +154,4 @@ class Highlighter extends React.Component {
   }
 }
 
-export default withGlobalStore(Highlighter)
+export default withGlobalStore(Index)
