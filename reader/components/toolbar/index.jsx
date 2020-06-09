@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useReducer } from 'react'
 import { Icon, Button } from '@oacore/design'
+import { classNames } from '@oacore/design/lib/utils'
 
-import './styles.module.scss'
+import './styles.module.css'
 import { useGlobalStore } from '../../store'
 import {
   changeCurrentPageNumber,
@@ -140,17 +141,17 @@ const Toolbar = ({ viewer, eventBus }) => {
 
   return (
     <div
-      className={`pdf-toolbar d-flex flex-wrap justify-content-end align-items-center ${
-        state.isVisible ? 'pdf-toolbar-visible' : ''
-      }`}
+      className={classNames.use(
+        'pdf-toolbar',
+        state.isVisible && 'pdf-toolbar-visible'
+      )}
       ref={toolbarRef}
     >
       {ui.isRecommenderLoaded && (
-        <div className="pdf-related-papers d-flex flex-row align-items-center justify-content-between mr-2 order-3">
+        <div className="pdf-related-papers">
           <Button
             title="Show related papers"
             type="button"
-            className="m-auto h-100"
             onClick={() =>
               dispatch({
                 type: 'toggle_related_papers',
@@ -161,7 +162,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           </Button>
         </div>
       )}
-      <div className="pdf-preferences d-flex flex-row align-items-center justify-content-between mr-2">
+      <div className="pdf-preferences">
         <Button
           title="Rotate"
           type="button"
@@ -201,7 +202,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           <Icon src="#magnify-minus-outline" alt="Zoom out" />
         </Button>
       </div>
-      <div className="pdf-pagination d-flex flex-row align-items-center justify-content-between mr-2">
+      <div className="pdf-pagination">
         <Button
           title="Previous page"
           type="button"
@@ -219,7 +220,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             <input
               ref={inputPageNumber}
               type="text"
-              className="form-control input-change-page-number"
+              className="input-change-page-number"
               name="page-number"
               value={ui.currentPageNumber}
               onChange={e => {

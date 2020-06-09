@@ -1,0 +1,84 @@
+.pdf-toolbar {
+  --button-color: var(--body-color);
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  position: sticky;
+  height: 8rem;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 30;
+}
+
+@media (max-width: 575px) {
+  .pdf-toolbar {
+    height: 5rem;
+  }
+}
+
+.pdf-toolbar-visible,
+.pdf-toolbar:hover {
+  background: linear-gradient(
+    360deg,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.pdf-toolbar-visible .pdf-related-papers,
+.pdf-toolbar-visible .pdf-pagination,
+.pdf-toolbar-visible .pdf-preferences,
+.pdf-toolbar:hover .pdf-related-papers,
+.pdf-toolbar:hover .pdf-pagination,
+.pdf-toolbar:hover .pdf-preferences {
+  visibility: visible;
+}
+
+.pdf-related-papers,
+.pdf-pagination,
+.pdf-preferences {
+  --button-corner-radius: 2px;
+
+  background: #fafafa;
+  border-radius: var(--button-corner-radius);
+  visibility: hidden;
+  display: flex;
+  margin-right: 0.5rem;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.pdf-related-papers {
+  order: 3;
+}
+
+@media (max-width: 575px) {
+  .pdf-pagination > button,
+  .pdf-preferences > button {
+    width: 35px;
+    padding: 0.3rem;
+  }
+}
+
+.input-change-page-number,
+.pages-count {
+  display: inline-block;
+  width: 2.4rem;
+}
+
+.input-change-page-number > input {
+  height: 100%;
+  padding: 0;
+  text-align: right;
+  border-color: rgba(0, 0, 0, 0);
+}
+
+
+.input-change-page-number > input:hover,
+.input-change-page-number > input:focus {
+  border-color: var(--primary);
+}
