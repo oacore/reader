@@ -4,7 +4,7 @@ import { EventBus, PDFLinkService } from 'pdfjs-dist/es5/web/pdf_viewer'
 
 import Header from './components/header'
 import MainArea from './components/main-area/MainArea'
-import Layout from './components/layout/Layout'
+import Layout from './components/layout'
 import './components/bootstrap/bootstrap.scss'
 import Print from './components/print/Print'
 import GlobalStore from './store'
