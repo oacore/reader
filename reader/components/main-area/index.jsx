@@ -2,14 +2,14 @@ import React from 'react'
 
 import Viewer from '../viewer/Viewer'
 import PdfLoader from '../pdf-loader/pdf-loader'
-import ThumbnailSidebar from '../thumbnails-sidebar/ThumbnailSidebar'
+import ThumbnailSidebar from '../thumbnails-sidebar'
 import OutlineSidebar from '../outline-sidebar'
 import { useGlobalStore } from '../../store'
 import { setDocument } from '../../store/document/actions'
 
 import './styles.module.scss'
 
-const Index = () => {
+const MainArea = () => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()
 
   return (
@@ -32,4 +32,4 @@ const Index = () => {
   )
 }
 
-export default Index
+export default MainArea
