@@ -2,7 +2,7 @@ import React, { useEffect, useState, cloneElement } from 'react'
 
 import pdfjs from '../../lib/pdf-js/webpack'
 import { Sentry } from '../../../utils/sentry'
-import './styles.module.scss'
+import './styles.module.css'
 import { logTiming } from '../../../utils/analytics'
 import DocumentPlaceholder from './document-placeholder'
 import LoadingBar from '../loading-bar'
