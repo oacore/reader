@@ -1,0 +1,53 @@
+.pdf-recommender {
+  margin: 0 auto;
+}
+
+.pdf-recommender .dropdown,
+.pdf-recommender .dropdown-content,
+.pdf-recommender .tab-container{
+  display: none;
+}
+
+#coreRecommender-tab1 > ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#coreRecommender-tab1 li {
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  #coreRecommender-tab1 li {
+    max-width: 49%;
+  }
+}
+
+#coreRecommender-tab1 > ul > li > a {
+  display: flex;
+  padding: 10px;
+  border-style: dashed;
+  border-color: var(--gray-500);
+  text-decoration: none;
+}
+
+.information {
+  padding-left: 0.75rem;
+}
+
+.information .title {
+    font-weight: bold;
+    color: var(--gray-800);
+  }
+
+.information .detail-info {
+  color: var(--gray-600);
+}
+
+.footer {
+  display: none;
+}
