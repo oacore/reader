@@ -1,5 +1,3 @@
-@import '../bootstrap/core';
-
 .main-area {
   --sidebar-width: 20rem;
 
@@ -38,7 +36,7 @@
   transition: left 200ms ease;
   will-change: left;
 
-  @include media-breakpoint-up(md) {
+  @media (min-width: 768px) {
     .sidebar-open & {
       left: var(--sidebar-width);
     }
