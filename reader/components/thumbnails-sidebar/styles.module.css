@@ -18,7 +18,7 @@
 }
 
 .thumbnail.selected .thumbnailSelectionRing {
-      box-shadow: 0 0 0 4px rgba(183, 84, 0, 0.5);
+  box-shadow: 0 0 0 4px rgba(183, 84, 0, 0.5);
 }
 
 .thumbnailSelectionRing {

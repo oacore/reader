@@ -4,7 +4,7 @@
 
 .pdf-recommender .dropdown,
 .pdf-recommender .dropdown-content,
-.pdf-recommender .tab-container{
+.pdf-recommender .tab-container {
   display: none;
 }
 
@@ -40,9 +40,9 @@
 }
 
 .information .title {
-    font-weight: bold;
-    color: var(--gray-800);
-  }
+  font-weight: bold;
+  color: var(--gray-800);
+}
 
 .information .detail-info {
   color: var(--gray-600);

@@ -54,7 +54,6 @@ li[aria-expanded='false'] > .outline-button {
   display: block;
 }
 
-
 .outline-loading {
   display: flex;
   flex-direction: column;
