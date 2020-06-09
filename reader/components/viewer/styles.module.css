@@ -1,0 +1,22 @@
+.pdfViewer .page {
+  border: none;
+  margin-top: 15px;
+}
+
+.pdfViewer .page:last-of-type {
+  margin-bottom: 15px;
+}
+
+.pdf-metadata {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  margin: 0 auto;
+}
+
+.textLayer {
+  // has to be higher than .context-menu-layer
+  z-index: 10;
+}
+
+

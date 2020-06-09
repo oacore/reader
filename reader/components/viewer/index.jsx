@@ -2,7 +2,7 @@ import React from 'react'
 import { PDFViewer as _PDFViewer } from 'pdfjs-dist/es5/web/pdf_viewer'
 
 import 'pdfjs-dist/es5/web/pdf_viewer.css'
-import './styles.module.scss'
+import './styles.module.css'
 import Toolbar from '../toolbar'
 import Recommender from '../recommender'
 import { changeCurrentPageNumber } from '../../store/ui/actions'
@@ -105,16 +105,14 @@ class Viewer extends React.PureComponent {
     const { metadataContainerWidth } = this.state
     return (
       <div
-        className="pdf-metadata d-flex justify-content-between pt-2"
+        className="pdf-metadata"
         style={{
           width: metadataContainerWidth,
         }}
       >
         <div className="pdf-metadata-left" />
         <div className="pdf-metadata-right">
-          {metadata.repositories.length
-            ? `${metadata.repositories[0].name},`
-            : ''}{' '}
+          {metadata.repositories?.name || ''}
           <b>{metadata.year}</b>
         </div>
       </div>
