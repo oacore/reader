@@ -17,18 +17,18 @@
   margin: -1px 9px 4px 9px;
 }
 
-.thumbnail.selected .thumbnailSelectionRing {
+.thumbnail.selected .thumbnail-selection-ring {
   box-shadow: 0 0 0 4px rgba(183, 84, 0, 0.5);
 }
 
-.thumbnailSelectionRing {
+.thumbnail-selection-ring {
   width: auto !important;
   height: auto !important;
   border-radius: 2px;
   transition: box-shadow 150ms;
 }
 
-.thumbnailImage {
+.thumbnail-image {
   width: 100% !important;
   height: auto !important;
   border: 1px solid var(--gray-400);

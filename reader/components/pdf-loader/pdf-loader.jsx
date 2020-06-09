@@ -2,7 +2,7 @@ import React, { useEffect, useState, cloneElement } from 'react'
 
 import pdfjs from '../../lib/pdf-js/webpack'
 import { Sentry } from '../../../utils/sentry'
-import './styles.module.css'
+import styles from './styles.module.css'
 import { logTiming } from '../../../utils/analytics'
 import DocumentPlaceholder from './document-placeholder'
 import LoadingBar from '../loading-bar'
@@ -67,7 +67,7 @@ const PdfLoader = React.memo(({ url, children }) => {
       {isLoading && <LoadingBar />}
       <DocumentPlaceholder>
         {!isLoading && (
-          <div className="notice">
+          <div className={styles.notice}>
             We are not allowed to display external PDFs yet. You will be
             redirected to the full text document in the repository in a few
             seconds, if not <a href={url}>click here</a>.

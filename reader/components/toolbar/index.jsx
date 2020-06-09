@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useReducer } from 'react'
-import { Icon, Button } from '@oacore/design'
+import { Icon, Button, TextField } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
-import './styles.module.css'
+import styles from './styles.module.css'
 import { useGlobalStore } from '../../store'
 import {
   changeCurrentPageNumber,
@@ -142,13 +142,13 @@ const Toolbar = ({ viewer, eventBus }) => {
   return (
     <div
       className={classNames.use(
-        'pdf-toolbar',
-        state.isVisible && 'pdf-toolbar-visible'
+        styles.pdfToolbar,
+        state.isVisible && styles.pdfToolbarVisible
       )}
       ref={toolbarRef}
     >
       {ui.isRecommenderLoaded && (
-        <div className="pdf-related-papers">
+        <div className={styles.pdfRelatedPapers}>
           <Button
             title="Show related papers"
             type="button"
@@ -162,7 +162,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           </Button>
         </div>
       )}
-      <div className="pdf-preferences">
+      <div className={styles.pdfPreferences}>
         <Button
           title="Rotate"
           type="button"
@@ -202,7 +202,7 @@ const Toolbar = ({ viewer, eventBus }) => {
           <Icon src="#magnify-minus-outline" alt="Zoom out" />
         </Button>
       </div>
-      <div className="pdf-pagination">
+      <div className={styles.pdfPagination}>
         <Button
           title="Previous page"
           type="button"
@@ -214,28 +214,27 @@ const Toolbar = ({ viewer, eventBus }) => {
         >
           <Icon src="#chevron-left" alt="Previous page" />
         </Button>
-        <div className="page-number-navigation">
-          <label className="m-0" htmlFor="page-number">
-            <span className="sr-only">Page number</span>
-            <input
-              ref={inputPageNumber}
-              type="text"
-              className="input-change-page-number"
-              name="page-number"
-              value={ui.currentPageNumber}
-              onChange={e => {
-                if (e.target.value === '') return
-                const pageNumber = Number(e.target.value)
-                if (Number.isNaN(pageNumber) || pageNumber > viewer.pagesCount)
-                  return
+        <div>
+          <TextField
+            label="Page number"
+            labelSrOnly
+            ref={inputPageNumber}
+            type="text"
+            className={styles.inputChangePageNumber}
+            name="page-number"
+            value={ui.currentPageNumber}
+            onChange={e => {
+              if (e.target.value === '') return
+              const pageNumber = Number(e.target.value)
+              if (Number.isNaN(pageNumber) || pageNumber > viewer.pagesCount)
+                return
 
-                globalDispatch(changeCurrentPageNumber(pageNumber))
-              }}
-              onFocus={e => e.target.select()}
-              onBlur={handleBlurInput}
-            />{' '}
-            / <span className="pages-count">{viewer.pagesCount}</span>
-          </label>
+              globalDispatch(changeCurrentPageNumber(pageNumber))
+            }}
+            onFocus={e => e.target.select()}
+            onBlur={handleBlurInput}
+          />{' '}
+          / <span className={styles.pagesCount}>{viewer.pagesCount}</span>
         </div>
         <Button
           title="Next page"

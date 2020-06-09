@@ -1,15 +1,15 @@
 import React from 'react'
 import { PDFViewer as _PDFViewer } from 'pdfjs-dist/es5/web/pdf_viewer'
 
-import 'pdfjs-dist/es5/web/pdf_viewer.css'
-import './styles.module.css'
+import stylesMain from '../main-area/styles.module.css'
+import styles from './styles.module.css'
 import Toolbar from '../toolbar'
 import Recommender from '../recommender'
 import { changeCurrentPageNumber } from '../../store/ui/actions'
 import { debounce } from '../../utils/helpers'
 
 class Viewer extends React.PureComponent {
-  containerNode = null
+  containerNode = React.createRef()
 
   viewerNode = null
 
@@ -42,7 +42,7 @@ class Viewer extends React.PureComponent {
     // i.e. page is render only when is visible
     // This PDFViewer makes animations (sidebar open/closed) much more faster.
     this.pdfViewer = new _PDFViewer({
-      container: this.containerNode,
+      container: this.containerNode.current,
       viewer: this.viewerNode,
       enhanceTextSelection: true,
       renderingQueue,
@@ -105,13 +105,13 @@ class Viewer extends React.PureComponent {
     const { metadataContainerWidth } = this.state
     return (
       <div
-        className="pdf-metadata"
+        className={styles.pdfMetadata}
         style={{
           width: metadataContainerWidth,
         }}
       >
-        <div className="pdf-metadata-left" />
-        <div className="pdf-metadata-right">
+        <div />
+        <div>
           {metadata.repositories?.name || ''}
           <b>{metadata.year}</b>
         </div>
@@ -128,12 +128,7 @@ class Viewer extends React.PureComponent {
     const { Metadata, pdfViewer } = this
 
     return (
-      <div
-        className="pdf-container"
-        ref={node => {
-          this.containerNode = node
-        }}
-      >
+      <div className={stylesMain.pdfContainer} ref={this.containerNode}>
         {metadataContainerWidth && <Metadata metadata={metadata} />}
         <div
           ref={node => {

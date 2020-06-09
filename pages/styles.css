@@ -5,3 +5,70 @@ body,
 
   height: 100%;
 }
+
+/* Recommender */
+
+#coreRecommenderOutput .dropdown,
+#coreRecommenderOutput .dropdown-content,
+#coreRecommenderOutput .tab-container {
+  display: none;
+}
+
+#coreRecommender-tab1 > ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#coreRecommender-tab1 li {
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  #coreRecommender-tab1 li {
+    max-width: 49%;
+  }
+}
+
+#coreRecommender-tab1 > ul > li > a {
+  display: flex;
+  padding: 10px;
+  border-style: dashed;
+  border-color: var(--gray-500);
+  text-decoration: none;
+}
+
+#coreRecommender-tab1 :global(.information) {
+  padding-left: 0.75rem;
+}
+
+#coreRecommender-tab1 :global(.title) {
+  font-weight: bold;
+  color: var(--gray-800);
+}
+
+#coreRecommender-tab1 :global(.detail-info) {
+  color: var(--gray-600);
+}
+
+#coreRecommender-tab1 :global(.footer) {
+  display: none;
+}
+
+/* Viewer */
+.pdfViewer > .page {
+  border: none;
+  margin-top: 15px;
+}
+
+.pdfViewer .page:last-of-type {
+  margin-bottom: 15px;
+}
+
+.textLayer {
+  /* has to be higher than .context-menu-layer */
+  z-index: 10;
+}

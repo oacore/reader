@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react'
 import load from 'little-loader'
 
-import './styles.module.css'
+import styles from './styles.module.css'
 import { useGlobalStore } from '../../store'
 import { setRecommenderLoaded as globalSetRecommenderLoaded } from '../../store/ui/actions'
 
 const Recommender = ({ containerWidth }) => {
   const [{ ui }, dispatch] = useGlobalStore()
   const [recommenderLoaded, setRecommenderLoaded] = useState(false)
-  const recommenderRef = useRef()
+  const recommenderRef = useRef(null)
 
   useEffect(() => {
     if (ui.isRelatedPapersScrolled) {
@@ -54,7 +54,7 @@ const Recommender = ({ containerWidth }) => {
 
   return (
     <div
-      className="pdf-recommender"
+      className={styles.pdfRecommender}
       style={{
         width: containerWidth,
         visibility: recommenderLoaded ? 'visible' : 'hidden',

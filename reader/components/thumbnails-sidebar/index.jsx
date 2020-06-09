@@ -2,8 +2,7 @@ import React from 'react'
 
 import PDFThumbnailViewer from '../../lib/pdf-js/PDFThumbnailViewer'
 import { withGlobalStore } from '../../store'
-
-import './styles.module.css'
+import styles from './styles.module.css'
 
 class ThumbnailsSidebar extends React.PureComponent {
   containerNode = null
@@ -19,6 +18,10 @@ class ThumbnailsSidebar extends React.PureComponent {
       container: this.containerNode,
       linkService,
       renderingQueue,
+      classNameSelectionRing: styles.thumbnailSelectionRing,
+      classNameSelected: styles.selected,
+      classNameThumbnailImage: styles.thumbnailImage,
+      classNameThumbnail: styles.thumbnail,
     })
 
     renderingQueue.setThumbnailViewer(this.thumbnailViewer)
@@ -72,7 +75,7 @@ class ThumbnailsSidebar extends React.PureComponent {
         ref={node => {
           this.containerNode = node
         }}
-        className="thumbnails-view"
+        className={styles.thumbnailsView}
         style={{
           visibility: ui.isThumbnailSidebarVisible ? 'visible' : 'hidden',
         }}
