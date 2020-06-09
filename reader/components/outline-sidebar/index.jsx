@@ -1,8 +1,8 @@
 import React from 'react'
 import { Spinner } from 'reactstrap'
 
-import OutlineGroup from './renderers/OutlineRenderer'
-import './OutlineSidebar.scss'
+import OutlineGroup from './outline-renderer'
+import './styles.module.scss'
 import { withGlobalStore } from '../../store'
 import { scrollToRelatedPapers } from '../../store/ui/actions'
 

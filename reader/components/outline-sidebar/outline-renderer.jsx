@@ -1,23 +1,22 @@
 import React, { useState } from 'react'
-import { Collapse } from 'reactstrap'
+import { classNames } from '@oacore/design/lib/utils'
+import { Icon } from '@oacore/design'
 
 const OutlineGroup = ({ outline, linkService, isExpanded }) => (
-  <Collapse isOpen={isExpanded}>
-    <ol>
-      {outline.map(
-        (item, index) => (
-          /* eslint-disable react/no-array-index-key */
-          <OutlineItem
-            key={`${index}`}
-            item={item}
-            linkService={linkService}
-            isExpanded={isExpanded}
-          />
-        )
-        /* eslint-enable */
-      )}
-    </ol>
-  </Collapse>
+  <ol className={classNames.use('outline-group', isExpanded && 'expanded')}>
+    {outline.map(
+      (item, index) => (
+        /* eslint-disable react/no-array-index-key */
+        <OutlineItem
+          key={`${index}`}
+          item={item}
+          linkService={linkService}
+          isExpanded={isExpanded}
+        />
+      )
+      /* eslint-enable */
+    )}
+  </ol>
 )
 
 const OutlineItem = ({ isExpanded, item, linkService }) => {
@@ -31,7 +30,10 @@ const OutlineItem = ({ isExpanded, item, linkService }) => {
           onClick={() => toggleIsOpen(!isOpen)}
           className="outline-button"
         >
-          <span className="sr-only">{isOpen ? 'Collapse' : 'Expand'} menu</span>
+          <Icon
+            src="#chevron-right"
+            alt={`${isOpen ? 'Collapse' : 'Expand'} menu`}
+          />
         </button>
       )}
       <a

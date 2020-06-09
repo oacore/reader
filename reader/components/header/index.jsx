@@ -41,7 +41,7 @@ const Header = ({ printContainerRef }) => {
             .use('button-menu', ui.isThumbnailSidebarVisible && 'button-active')
             .toString()}
         >
-          <Icon src="#view-grid" />
+          <Icon src="#view-grid" alt="Show thumbnails" />
         </Button>
       </AppBar.Item>
       <AppBar.Item className="item-center">

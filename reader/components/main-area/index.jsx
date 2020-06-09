@@ -3,7 +3,7 @@ import React from 'react'
 import Viewer from '../viewer/Viewer'
 import PdfLoader from '../pdf-loader/pdf-loader'
 import ThumbnailSidebar from '../thumbnails-sidebar/ThumbnailSidebar'
-import OutlineSidebar from '../outline-sidebar/OutlineSidebar'
+import OutlineSidebar from '../outline-sidebar'
 import { useGlobalStore } from '../../store'
 import { setDocument } from '../../store/document/actions'
 
