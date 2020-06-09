@@ -1,7 +1,7 @@
 import React from 'react'
 
 import OutlineGroup from './outline-renderer'
-import './styles.module.css'
+import styles from './styles.module.css'
 import { withGlobalStore } from '../../store'
 import { scrollToRelatedPapers } from '../../store/ui/actions'
 
@@ -53,7 +53,7 @@ class OutlineSidebar extends React.PureComponent {
     return (
       <>
         {(!outline || outline.length === 0) && (
-          <div className="missing-outline">
+          <div className={styles.missingOutline}>
             Document outline is not available for this moment.
           </div>
         )}
@@ -78,13 +78,13 @@ class OutlineSidebar extends React.PureComponent {
         ref={node => {
           this.containerNode = node
         }}
-        className="outline-view"
+        className={styles.outlineView}
         style={{
           visibility: ui.isOutlineSidebarVisible ? 'visible' : 'hidden',
         }}
       >
         {isOutlineLoading ? (
-          <div className="outline-loading">
+          <div className={styles.outlineLoading}>
             <h5>Outline is loading currently</h5>
           </div>
         ) : (

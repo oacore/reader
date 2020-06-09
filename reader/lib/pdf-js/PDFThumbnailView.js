@@ -89,6 +89,9 @@ class PDFThumbnailView {
     defaultViewport,
     linkService,
     renderingQueue,
+    classNameSelectionRing,
+    classNameThumbnailImage,
+    classNameThumbnail,
     disableCanvasToImageConversion = false,
     l10n = NullL10n,
   }) {
@@ -119,6 +122,9 @@ class PDFThumbnailView {
 
     this.l10n = l10n
 
+    this.classNameSelectionRing = classNameSelectionRing
+    this.classNameThumbnailImage = classNameThumbnailImage
+    this.classNameThumbnail = classNameThumbnail
     const anchor = document.createElement('a')
     anchor.href = linkService.getAnchorUrl(`#page=${id}`)
     this.l10n
@@ -133,12 +139,12 @@ class PDFThumbnailView {
     this.anchor = anchor
 
     const div = document.createElement('div')
-    div.className = 'thumbnail'
+    div.className = this.classNameThumbnail
     div.setAttribute('data-page-number', this.id)
     this.div = div
 
     const ring = document.createElement('div')
-    ring.className = 'thumbnailSelectionRing'
+    ring.className = this.classNameSelectionRing
     const borderAdjustment = 2 * THUMBNAIL_CANVAS_BORDER_WIDTH
     ring.style.width = `${this.canvasWidth + borderAdjustment}px`
     ring.style.height = `${this.canvasHeight + borderAdjustment}px`
@@ -248,11 +254,10 @@ class PDFThumbnailView {
     if (this.renderingState !== RenderingStates.FINISHED) return
 
     const id = this.renderingId
-    const className = 'thumbnailImage'
 
     if (this.disableCanvasToImageConversion) {
       this.canvas.id = id
-      this.canvas.className = className
+      this.canvas.className = this.classNameThumbnailImage
       this.l10n
         .get(
           'thumb_page_canvas',
@@ -269,7 +274,7 @@ class PDFThumbnailView {
     }
     const image = document.createElement('img')
     image.id = id
-    image.className = className
+    image.className = this.classNameThumbnailImage
     this.l10n
       .get(
         'thumb_page_canvas',

@@ -3,7 +3,7 @@ import { Icon, Button, AppBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
 import { downloadPDF } from '../downloader'
-import './styles.module.css'
+import styles from './styles.module.css'
 import { useGlobalStore } from '../../store'
 import {
   toggleOutlineSidebar,
@@ -23,13 +23,16 @@ const Header = () => {
   }
 
   return (
-    <AppBar className="app-bar">
+    <AppBar className={styles.appBar}>
       <AppBar.Item>
         <Button
           title="Show outline"
           onClick={() => dispatch(toggleOutlineSidebar())}
           className={classNames
-            .use('button-menu', ui.isOutlineSidebarVisible && 'button-active')
+            .use(
+              styles.buttonMenu,
+              ui.isOutlineSidebarVisible && styles.buttonActive
+            )
             .toString()}
         >
           <Icon src="#file-document" alt="Show outline" />
@@ -38,32 +41,35 @@ const Header = () => {
           title="Show thumbnails"
           onClick={() => dispatch(toggleThumbnailsSidebar())}
           className={classNames
-            .use('button-menu', ui.isThumbnailSidebarVisible && 'button-active')
+            .use(
+              styles.buttonMenu,
+              ui.isThumbnailSidebarVisible && styles.buttonActive
+            )
             .toString()}
         >
           <Icon src="#view-grid" alt="Show thumbnails" />
         </Button>
       </AppBar.Item>
-      <AppBar.Item className="item-center">
+      <AppBar.Item className={styles.itemCenter}>
         <Button
           title="Redirect to CORE metadata page"
           disabled={metadata.id === null}
           onClick={handleRedirection}
-          className="button-menu"
+          className={styles.buttonMenu}
         >
           <Icon src="#core-symbol" alt="CORE" />
         </Button>
       </AppBar.Item>
-      <AppBar.Item className="item-right">
+      <AppBar.Item className={styles.itemRight}>
         <Button
           title="Download document"
           disabled={!document.documentProxy} // pdf is not loaded yet
           onClick={() => downloadPDF(document.documentProxy, metadata.url)}
-          className="button-menu"
+          className={styles.buttonMenu}
         >
           <Icon src="#file-download" alt="Download document" />
         </Button>
-        <Print className="button-menu" />
+        <Print className={styles.buttonMenu} />
       </AppBar.Item>
     </AppBar>
   )

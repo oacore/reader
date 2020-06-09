@@ -1,4 +1,5 @@
 import React from 'react'
+import { classNames } from '@oacore/design/lib/utils'
 
 import Viewer from '../viewer'
 import PdfLoader from '../pdf-loader/pdf-loader'
@@ -6,15 +7,19 @@ import ThumbnailSidebar from '../thumbnails-sidebar'
 import OutlineSidebar from '../outline-sidebar'
 import { useGlobalStore } from '../../store'
 import { setDocument } from '../../store/document/actions'
-
-import './styles.module.css'
+import styles from './styles.module.css'
 
 const MainArea = () => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()
 
   return (
-    <div className={`main-area ${ui.isSidebarOpen ? 'sidebar-open' : ''}`}>
-      <div className="sidebar">
+    <div
+      className={classNames.use(
+        styles.mainArea,
+        ui.isSidebarOpen && styles.sidebarOpen
+      )}
+    >
+      <div className={styles.sidebar}>
         {document.documentProxy && <ThumbnailSidebar />}
         {document.documentProxy && <OutlineSidebar />}
       </div>

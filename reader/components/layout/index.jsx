@@ -1,7 +1,7 @@
 import React from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 
-import './styles.module.css'
+import styles from './styles.module.css'
 
 const Layout = ({
   children,
@@ -10,7 +10,7 @@ const Layout = ({
   ...restProps
 }) => (
   <Tag
-    className={classNames.use('app-container').join(className)}
+    className={classNames.use(styles.appContainer).join(className)}
     {...restProps}
   >
     {children}

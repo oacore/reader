@@ -2,8 +2,15 @@ import React, { useState } from 'react'
 import { classNames } from '@oacore/design/lib/utils'
 import { Icon } from '@oacore/design'
 
+import styles from './styles.module.css'
+
 const OutlineGroup = ({ outline, linkService, isExpanded }) => (
-  <ol className={classNames.use('outline-group', isExpanded && 'expanded')}>
+  <ol
+    className={classNames.use(
+      styles.outlineGroup,
+      isExpanded && styles.expanded
+    )}
+  >
     {outline.map(
       (item, index) => (
         /* eslint-disable react/no-array-index-key */
@@ -28,7 +35,7 @@ const OutlineItem = ({ isExpanded, item, linkService }) => {
         <button
           type="button"
           onClick={() => toggleIsOpen(!isOpen)}
-          className="outline-button"
+          className={styles.outlineButton}
         >
           <Icon
             src="#chevron-right"

@@ -80,4 +80,6 @@
 .input-change-page-number > input:hover,
 .input-change-page-number > input:focus {
   border-color: var(--primary);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
+  outline: 0;
 }

@@ -5,7 +5,7 @@ import { classNames } from '@oacore/design/lib/utils'
 import ReactToPrint, { PrintContextConsumer } from 'react-to-print'
 
 import { withGlobalStore } from '../../store'
-import './styles.module.css'
+import styles from './styles.module.css'
 import LoadingBar from '../loading-bar'
 
 // The size of the canvas in pixels for printing.
@@ -200,7 +200,11 @@ class Print extends React.Component {
     return (
       <>
         {isPrinting && <LoadingBar />}
-        <div id="pdf-print-container" ref={this.printContainer} />
+        <div
+          id="pdf-print-container"
+          ref={this.printContainer}
+          className={styles.printContainer}
+        />
         <ReactToPrint
           content={() => this.printContainer.current}
           onBeforeGetContent={() => this.onBeforePrint()}
@@ -256,7 +260,7 @@ class Print extends React.Component {
               <Button
                 title={isPrinting ? 'Cancel print' : 'Print document'}
                 className={classNames
-                  .use(isPrinting && 'print-active')
+                  .use(isPrinting && styles.printActive)
                   .join(className)
                   .toString()}
                 disabled={!document.pagesLoaded}
