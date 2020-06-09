@@ -3,7 +3,7 @@ import React from 'react'
 import PDFThumbnailViewer from '../../lib/pdf-js/PDFThumbnailViewer'
 import { withGlobalStore } from '../../store'
 
-import './styles.module.scss'
+import './styles.module.css'
 
 class ThumbnailsSidebar extends React.PureComponent {
   containerNode = null
