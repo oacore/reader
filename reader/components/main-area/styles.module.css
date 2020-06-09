@@ -20,10 +20,10 @@
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
   transition: left 200ms ease;
   will-change: left;
+}
 
-  .sidebar-open > & {
-    left: 0;
-  }
+.sidebar-open > .sidebar {
+  left: 0;
 }
 
 .pdf-container {
@@ -35,10 +35,10 @@
   overflow: auto;
   transition: left 200ms ease;
   will-change: left;
+}
 
-  @media (min-width: 768px) {
-    .sidebar-open & {
-      left: var(--sidebar-width);
-    }
+@media (min-width: 768px) {
+  .sidebar-open .pdf-container {
+    left: var(--sidebar-width);
   }
 }
