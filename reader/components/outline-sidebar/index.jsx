@@ -1,5 +1,4 @@
 import React from 'react'
-import { Spinner } from 'reactstrap'
 
 import OutlineGroup from './outline-renderer'
 import './styles.module.scss'
@@ -86,7 +85,6 @@ class OutlineSidebar extends React.PureComponent {
       >
         {isOutlineLoading ? (
           <div className="d-flex flex-column justify-content-center">
-            <Spinner color="primary" />
             <h5>Outline is loading currently</h5>
           </div>
         ) : (
