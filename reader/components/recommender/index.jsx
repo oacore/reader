@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import load from 'little-loader'
 
-import './styles.module.scss'
+import './styles.module.css'
 import { useGlobalStore } from '../../store'
 import { setRecommenderLoaded as globalSetRecommenderLoaded } from '../../store/ui/actions'
 
