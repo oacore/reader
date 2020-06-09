@@ -6,11 +6,11 @@
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   width: 100%;
+}
 
-  .info-box {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 40px;
-    border-radius: 2px;
-  }
+.info-box {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 40px;
+  border-radius: 2px;
 }

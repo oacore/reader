@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './styles.module.scss'
+import './styles.module.css'
 import { useGlobalStore } from '../../store'
 
 const EnhancementSidebar = () => {
