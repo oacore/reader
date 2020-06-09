@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Viewer from '../viewer/Viewer'
+import Viewer from '../viewer'
 import PdfLoader from '../pdf-loader/pdf-loader'
 import ThumbnailSidebar from '../thumbnails-sidebar'
 import OutlineSidebar from '../outline-sidebar'
