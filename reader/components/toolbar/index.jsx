@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useReducer } from 'react'
 import { Icon, Button } from '@oacore/design'
 
-import './Toolbar.scss'
+import './styles.module.scss'
 import { useGlobalStore } from '../../store'
 import {
   changeCurrentPageNumber,
