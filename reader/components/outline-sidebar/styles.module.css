@@ -7,12 +7,12 @@
   padding: 1rem;
   overflow-y: auto;
   overflow-x: hidden;
+}
 
-  ul,
-  ol {
-    list-style-type: none;
-    padding: 0 0 0 1.5rem;
-  }
+.outline-view ul,
+.outline-view ol {
+  list-style-type: none;
+  padding: 0 0 0 1.5rem;
 }
 
 .outline-button {
@@ -40,10 +40,10 @@ li[aria-expanded='false'] > .outline-button {
   border-color: var(--gray-500);
   border-width: 2px;
   margin-bottom: 0.5rem;
+}
 
-  & + ol {
-    padding: 0;
-  }
+.missing-outline + ol {
+  padding: 0;
 }
 
 .outline-group {
@@ -52,4 +52,11 @@ li[aria-expanded='false'] > .outline-button {
 
 .outline-group.expanded {
   display: block;
+}
+
+
+.outline-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
