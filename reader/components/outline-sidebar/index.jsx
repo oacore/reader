@@ -1,7 +1,7 @@
 import React from 'react'
 
 import OutlineGroup from './outline-renderer'
-import './styles.module.scss'
+import './styles.module.css'
 import { withGlobalStore } from '../../store'
 import { scrollToRelatedPapers } from '../../store/ui/actions'
 
@@ -84,7 +84,7 @@ class OutlineSidebar extends React.PureComponent {
         }}
       >
         {isOutlineLoading ? (
-          <div className="d-flex flex-column justify-content-center">
+          <div className="outline-loading">
             <h5>Outline is loading currently</h5>
           </div>
         ) : (
