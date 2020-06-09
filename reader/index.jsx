@@ -3,7 +3,7 @@ import { PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
 import { EventBus, PDFLinkService } from 'pdfjs-dist/es5/web/pdf_viewer'
 
 import Header from './components/header'
-import MainArea from './components/main-area/MainArea'
+import MainArea from './components/main-area'
 import Layout from './components/layout'
 import './components/bootstrap/bootstrap.scss'
 import Print from './components/print/Print'

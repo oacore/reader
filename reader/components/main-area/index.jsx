@@ -7,9 +7,9 @@ import OutlineSidebar from '../outline-sidebar/OutlineSidebar'
 import { useGlobalStore } from '../../store'
 import { setDocument } from '../../store/document/actions'
 
-import './MainArea.scss'
+import './styles.module.scss'
 
-const MainArea = () => {
+const Index = () => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()
 
   return (
@@ -32,4 +32,4 @@ const MainArea = () => {
   )
 }
 
-export default MainArea
+export default Index
