@@ -3,7 +3,7 @@ import ReactToPrint from 'react-to-print'
 import { Icon, Button, AppBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
-import { downloadPDF } from '../downloader/Downloader'
+import { downloadPDF } from '../downloader'
 import './styles.module.css'
 import { useGlobalStore } from '../../store'
 import {
