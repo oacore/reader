@@ -77,7 +77,6 @@
   border-color: rgba(0, 0, 0, 0);
 }
 
-
 .input-change-page-number > input:hover,
 .input-change-page-number > input:focus {
   border-color: var(--primary);

@@ -1,5 +1,4 @@
 const withCss = require('@zeit/next-css')
-const withSass = require('@zeit/next-sass')
 const withImages = require('next-images')
 const withWorkers = require('@zeit/next-workers')
 const withTM = require('next-transpile-modules')(['pdfjs-dist/lib'])
@@ -81,5 +80,5 @@ nextConfig.workerLoaderOptions = {
 }
 
 module.exports = withSourceMaps(
-  withTM(withWorkers(withImages(withSass(withCss(nextConfig)))))
+  withTM(withWorkers(withImages(withCss(nextConfig))))
 )
