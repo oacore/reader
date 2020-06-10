@@ -3,17 +3,13 @@
   0% {
     background-position: -468px 0;
   }
+
   100% {
     background-position: 468px 0;
   }
 }
 
 .linear-animation {
-  animation-duration: 1.5s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: placeholder-animation;
-  animation-timing-function: linear;
   background: var(--white);
   background: linear-gradient(
     to right,
@@ -22,50 +18,55 @@
     var(--gray-100) 33%
   );
   background-size: 1000px 100px;
+  animation-name: placeholder-animation;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
 }
 
 .document {
-  margin: 1rem auto 5rem auto;
   display: flex;
   flex-direction: column;
-  max-width: 70rem;
-  background: var(--white);
-  height: calc(100% - 6rem);
   width: 96%;
+  max-width: 70rem;
+  height: calc(100% - 6rem);
   padding: 3%;
+  margin: 1rem auto 5rem;
+  background: var(--white);
 }
 
 .header {
   width: 90%;
   height: 3rem;
-  margin: 3rem auto 13rem auto;
+  margin: 3rem auto 13rem;
 }
 
 .line {
+  width: 100%;
   height: 1.5rem;
   margin-top: 1rem;
-  width: 100%;
 }
 
 .line-short {
+  width: 50%;
   height: 1.5rem;
   margin-top: 1rem;
-  width: 50%;
 }
 
 .pagination {
   width: 5rem;
   height: 1rem;
-  margin: auto auto 0 auto;
+  margin: auto auto 0;
   justify-self: flex-end;
 }
 
 .spacer {
-  margin-top: 10rem;
   height: 0;
+  margin-top: 10rem;
 }
 
 .notice {
-  margin: auto;
   padding: 5rem;
+  margin: auto;
 }

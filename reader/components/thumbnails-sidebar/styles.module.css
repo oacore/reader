@@ -12,9 +12,10 @@
 .thumbnail {
   margin: 0 0 1rem;
 }
+
 .thumbnail:not([data-loaded]) {
+  margin: -1px 9px 4px;
   border: 1px dashed rgba(255, 255, 255, 0.5);
-  margin: -1px 9px 4px 9px;
 }
 
 .thumbnail.selected .thumbnail-selection-ring {
@@ -22,17 +23,17 @@
 }
 
 .thumbnail-selection-ring {
-  width: auto !important;
-  height: auto !important;
+  width: auto;
+  height: auto;
   border-radius: 2px;
   transition: box-shadow 150ms;
 }
 
 .thumbnail-image {
-  width: 100% !important;
-  height: auto !important;
+  width: 100%;
+  height: auto;
+  background-color: var(--white);
   border: 1px solid var(--gray-400);
   border-radius: 2px;
-  background-color: white;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }

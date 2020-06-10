@@ -30,7 +30,7 @@ const OutlineItem = ({ isExpanded, item, linkService }) => {
   const [isOpen, toggleIsOpen] = useState(isExpanded)
 
   return (
-    <li role="treeitem" aria-expanded={isOpen}>
+    <li className={styles.outlineItem} role="treeitem" aria-expanded={isOpen}>
       {Boolean(item.items.length) && (
         <button
           type="button"
