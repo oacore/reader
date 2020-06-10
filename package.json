@@ -10,8 +10,9 @@
     "dev": "next dev",
     "build": "node ./node_modules/.bin/design build icons && next build",
     "start": "next start",
+    "lint:json": "prettier --ignore-path .gitignore --check '**/*.json'",
     "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx .",
-    "lint:css": "prettier --ignore-path .gitignore --check '**/*.{json,scss,css}'",
+    "lint:css": "stylelint --ignore-path .gitignore '**/*.css'",
     "lint": "run-p lint:*"
   },
   "devDependencies": {
@@ -34,7 +35,12 @@
     "lint-staged": "^9.5.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2",
-    "source-map-loader": "^0.2.4"
+    "source-map-loader": "^0.2.4",
+    "stylelint": "^13.6.0",
+    "stylelint-config-css-modules": "^2.2.0",
+    "stylelint-config-prettier": "^8.0.1",
+    "stylelint-config-twbs-bootstrap": "^2.0.3",
+    "stylelint-prettier": "^1.1.2"
   },
   "dependencies": {
     "@mdi/svg": "^5.3.45",
@@ -53,6 +59,8 @@
     "next-transpile-modules": "^3.1.0",
     "pdfjs-dist": "^2.4.456",
     "postcss": "^7.0.32",
+    "postcss-extend": "^1.0.5",
+    "postcss-preset-env": "^6.7.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-ga": "^2.7.0",

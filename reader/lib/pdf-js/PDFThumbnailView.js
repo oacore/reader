@@ -22,7 +22,6 @@ import { RenderingStates } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
 import { createPromiseCapability, RenderingCancelledException } from './webpack'
 
 const MAX_NUM_SCALING_STEPS = 3
-const THUMBNAIL_CANVAS_BORDER_WIDTH = 1 // px
 const THUMBNAIL_WIDTH = 300 // px -> Just this was adjusted
 
 /**
@@ -145,9 +144,6 @@ class PDFThumbnailView {
 
     const ring = document.createElement('div')
     ring.className = this.classNameSelectionRing
-    const borderAdjustment = 2 * THUMBNAIL_CANVAS_BORDER_WIDTH
-    ring.style.width = `${this.canvasWidth + borderAdjustment}px`
-    ring.style.height = `${this.canvasHeight + borderAdjustment}px`
     this.ring = ring
 
     div.appendChild(ring)
@@ -179,10 +175,6 @@ class PDFThumbnailView {
     const { childNodes } = ring
     for (let i = childNodes.length - 1; i >= 0; i--)
       ring.removeChild(childNodes[i])
-
-    const borderAdjustment = 2 * THUMBNAIL_CANVAS_BORDER_WIDTH
-    ring.style.width = `${this.canvasWidth + borderAdjustment}px`
-    ring.style.height = `${this.canvasHeight + borderAdjustment}px`
 
     if (this.canvas) {
       // Zeroing the width and height causes Firefox to release graphics
@@ -284,9 +276,6 @@ class PDFThumbnailView {
       .then(msg => {
         image.setAttribute('aria-label', msg)
       })
-
-    image.style.width = `${this.canvasWidth}px`
-    image.style.height = `${this.canvasHeight}px`
 
     image.src = this.canvas.toDataURL()
     this.image = image

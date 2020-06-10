@@ -10,10 +10,10 @@
 .sidebar {
   position: absolute;
   top: 0;
-  left: calc(-1 * var(--sidebar-width));
   bottom: 0;
-  width: var(--sidebar-width);
+  left: calc(-1 * var(--sidebar-width));
   z-index: calc(1000 - 5);
+  width: var(--sidebar-width);
   overflow-x: hidden;
   overflow-y: auto;
   background: var(--gray-200);

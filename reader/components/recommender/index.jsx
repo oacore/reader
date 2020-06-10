@@ -61,7 +61,7 @@ const Recommender = ({ containerWidth }) => {
       }}
       ref={recommenderRef}
     >
-      <h3>Related papers</h3>
+      <h5 className="display">Related papers</h5>
       <div id="coreRecommenderOutput" />
     </div>
   )
