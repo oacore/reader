@@ -1,4 +1,3 @@
-const withImages = require('next-images')
 const withWorkers = require('@zeit/next-workers')
 const withTM = require('next-transpile-modules')(['pdfjs-dist/lib'])
 const webpack = require('webpack')
@@ -114,4 +113,4 @@ nextConfig.workerLoaderOptions = {
   name: 'static/[hash].worker.js',
 }
 
-module.exports = withSourceMaps(withTM(withWorkers(withImages(nextConfig))))
+module.exports = withSourceMaps(withTM(withWorkers(nextConfig)))

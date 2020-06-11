@@ -57,18 +57,3 @@ body,
 #coreRecommender-tab1 .footer {
   display: none;
 }
-
-/* Viewer */
-.pdfViewer > .page {
-  margin-top: 15px;
-  border: none;
-}
-
-.pdfViewer .page:last-of-type {
-  margin-bottom: 15px;
-}
-
-.textLayer {
-  /* has to be higher than .context-menu-layer */
-  z-index: 10;
-}
