@@ -117,6 +117,14 @@ class Reader extends React.Component {
         <Head>
           <title>{title} - CORE Reader</title>
 
+          <link
+            rel="preload"
+            href={downloadLink}
+            as="fetch"
+            type="application/pdf"
+            crossOrigin="anonymous"
+          />
+
           {['64', '128', '256', '512'].map(size => (
             <link
               key={size}
