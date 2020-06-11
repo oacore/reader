@@ -123,7 +123,7 @@ class Reader extends React.Component {
               rel="icon"
               type="image/png"
               sizes={`${size}x${size}`}
-              href={getAssetPath(`/favicon/favicon-${size}px.png`)}
+              href={getAssetPath(`/static/favicon/favicon-${size}px.png`)}
             />
           ))}
 
@@ -131,7 +131,7 @@ class Reader extends React.Component {
             rel="icon"
             sizes="any"
             type="image/svg+xml"
-            href={getAssetPath('/favicon/favicon.svg')}
+            href={getAssetPath('/static/favicon/favicon.svg')}
           />
 
           <meta name="referrer" content="origin" />

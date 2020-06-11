@@ -11,7 +11,7 @@ const icons = [
   'magnify-plus-outline',
   'magnify-minus-outline',
   'file-document',
-  path.join(__dirname, './public/core-symbol.svg'),
+  path.join(__dirname, './public/static/core-symbol.svg'),
 ]
 
 const iconsRoot = path.join(
@@ -26,8 +26,8 @@ const config = {
   },
 
   output: {
-    path: path.join(__dirname, 'public/design'),
-    publicPath: '/design',
+    path: path.join(__dirname, 'public/static/design'),
+    publicPath: '/static/design',
     icons: {
       files: 'icons',
       sprite: 'icons.svg',
