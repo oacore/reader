@@ -17,5 +17,4 @@ jobs:
           npm run build
           npm run lint
         env:
-          CORE_RECOMMENDER_API_KEY: ${{ secrets.CORE_RECOMMENDER_API_KEY }}
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

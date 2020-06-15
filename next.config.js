@@ -10,25 +10,6 @@ const helpers = require('./utils/helpers')
 
 dotenv.config()
 
-const missingEnvVars = [
-  [
-    'CORE_RECOMMENDER_API_KEY',
-    'You can generate free API key here at https://core.ac.uk/recommender/register/',
-  ],
-].filter(
-  ([name]) => process.env[name] === undefined || process.env[name] === ''
-)
-
-if (missingEnvVars.length > 0) {
-  const varList = missingEnvVars
-    .map(([name, description]) => `- ${name}\n    ${description}`)
-    .join('\n')
-  console.error(
-    `Following environment variables are missing:\n${varList}\n Please export it or use .env file and try again.`
-  )
-  process.exit(1)
-}
-
 /** Build Target
  *
  * Supports the following values:
@@ -107,9 +88,6 @@ const nextConfig = {
 
     config.plugins.push(
       new webpack.DefinePlugin({
-        CORE_RECOMMENDER_API_KEY: JSON.stringify(
-          process.env.CORE_RECOMMENDER_API_KEY
-        ),
         GA_TRACKING_CODE: JSON.stringify(process.env.GA_TRACKING_CODE),
         BUILD_TARGET: JSON.stringify(process.env.BUILD_TARGET),
         SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
