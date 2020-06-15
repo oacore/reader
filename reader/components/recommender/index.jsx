@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react'
-import load from 'little-loader'
 
 import styles from './styles.module.css'
 import { useGlobalStore } from '../../store'
@@ -36,22 +35,6 @@ const Recommender = ({ containerWidth }) => {
     }
   }, [ui.isRelatedPapersScrolled])
 
-  useEffect(() => {
-    // LocalStorage is not supported for older versions
-    // of Safari in private window
-    // https://stackoverflow.com/a/27081419/5594539
-    try {
-      localStorage.setItem('idRecommender', CORE_RECOMMENDER_API_KEY)
-      localStorage.setItem('userInput', '{}')
-      load('https://core.ac.uk/recommender/embed.js', () => {
-        setRecommenderLoaded(true)
-      })
-      dispatch(globalSetRecommenderLoaded())
-    } catch (e) {
-      // silently suppress recommender and don't show anything
-    }
-  }, [])
-
   return (
     <div
       className={styles.pdfRecommender}
@@ -62,7 +45,6 @@ const Recommender = ({ containerWidth }) => {
       ref={recommenderRef}
     >
       <h5 className="display">Related papers</h5>
-      <div id="coreRecommenderOutput" />
     </div>
   )
 }
