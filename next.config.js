@@ -1,3 +1,5 @@
+const path = require('path')
+
 const withWorkers = require('@zeit/next-workers')
 const withTM = require('next-transpile-modules')(['pdfjs-dist/lib'])
 const webpack = require('webpack')
@@ -83,8 +85,12 @@ const nextConfig = {
       }
     })
 
-    if (!config.isServer)
-      config.resolve.alias['@sentry/node'] = '@sentry/browser'
+    Object.assign(config.resolve.alias, {
+      '@sentry/node': config.isServer ? '@sentry/node' : '@sentry/browser',
+
+      'react': path.join(__dirname, 'node_modules', 'react'),
+      'react-dom': path.join(__dirname, 'node_modules', 'react-dom'),
+    })
 
     config.module.rules.push({
       test: /\.js$/,
