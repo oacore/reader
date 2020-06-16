@@ -11,7 +11,7 @@ import { debounce } from '../../utils/helpers'
 class Viewer extends React.PureComponent {
   containerNode = React.createRef()
 
-  viewerNode = null
+  viewerNode = React.createRef()
 
   pdfViewer = null
 
@@ -43,7 +43,7 @@ class Viewer extends React.PureComponent {
     // This PDFViewer makes animations (sidebar open/closed) much more faster.
     this.pdfViewer = new _PDFViewer({
       container: this.containerNode.current,
-      viewer: this.viewerNode,
+      viewer: this.viewerNode.current,
       enhanceTextSelection: true,
       renderingQueue,
       eventBus,
@@ -130,12 +130,7 @@ class Viewer extends React.PureComponent {
     return (
       <div className={stylesMain.pdfContainer} ref={this.containerNode}>
         {metadataContainerWidth && <Metadata metadata={metadata} />}
-        <div
-          ref={node => {
-            this.viewerNode = node
-          }}
-          className="pdfViewer"
-        />
+        <div ref={this.viewerNode} className="pdfViewer" />
         {metadataContainerWidth && (
           <Recommender containerWidth={metadataContainerWidth} />
         )}
