@@ -1,12 +1,11 @@
 import React from 'react'
 import { CSS_UNITS } from 'pdfjs-dist/lib/web/ui_utils'
-import { Button, Icon } from '@oacore/design'
+import { Button, Icon, LoadingBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 import ReactToPrint, { PrintContextConsumer } from 'react-to-print'
 
 import { withGlobalStore } from '../../store'
 import styles from './styles.module.css'
-import LoadingBar from '../loading-bar'
 
 // The size of the canvas in pixels for printing.
 const PRINT_RESOLUTION = 150
@@ -199,7 +198,7 @@ class Print extends React.Component {
 
     return (
       <>
-        {isPrinting && <LoadingBar />}
+        {isPrinting && <LoadingBar fixed />}
         <div
           id="pdf-print-container"
           ref={this.printContainer}
@@ -261,8 +260,7 @@ class Print extends React.Component {
                 title={isPrinting ? 'Cancel print' : 'Print document'}
                 className={classNames
                   .use(isPrinting && styles.printActive)
-                  .join(className)
-                  .toString()}
+                  .join(className)}
                 disabled={!document.pagesLoaded}
                 onClick={() => {
                   if (isPrinting) this.rejectPrinting()

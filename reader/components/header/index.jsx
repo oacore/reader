@@ -28,24 +28,20 @@ const Header = () => {
         <Button
           title="Show outline"
           onClick={() => dispatch(toggleOutlineSidebar())}
-          className={classNames
-            .use(
-              styles.buttonMenu,
-              ui.isOutlineSidebarVisible && styles.buttonActive
-            )
-            .toString()}
+          className={classNames.use(
+            styles.buttonMenu,
+            ui.isOutlineSidebarVisible && styles.buttonActive
+          )}
         >
           <Icon src="#file-document" alt="Show outline" />
         </Button>
         <Button
           title="Show thumbnails"
           onClick={() => dispatch(toggleThumbnailsSidebar())}
-          className={classNames
-            .use(
-              styles.buttonMenu,
-              ui.isThumbnailSidebarVisible && styles.buttonActive
-            )
-            .toString()}
+          className={classNames.use(
+            styles.buttonMenu,
+            ui.isThumbnailSidebarVisible && styles.buttonActive
+          )}
         >
           <Icon src="#view-grid" alt="Show thumbnails" />
         </Button>
