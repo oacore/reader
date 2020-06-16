@@ -6,8 +6,6 @@ import { withGlobalStore } from '../../store'
 import { scrollToRelatedPapers } from '../../store/ui/actions'
 
 class OutlineSidebar extends React.PureComponent {
-  containerNode = null
-
   relatedPapersInOutline = false
 
   state = {
@@ -75,9 +73,6 @@ class OutlineSidebar extends React.PureComponent {
 
     return (
       <div
-        ref={node => {
-          this.containerNode = node
-        }}
         className={styles.outlineView}
         style={{
           visibility: ui.isOutlineSidebarVisible ? 'visible' : 'hidden',
