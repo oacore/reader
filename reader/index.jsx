@@ -7,7 +7,15 @@ import Layout from './components/layout'
 import Header from './components/header'
 import GlobalStore from './store'
 
-const CoreReader = ({ id, downloadUrl, repositories, year }) => {
+const CoreReader = ({
+  id,
+  downloadUrl,
+  repositories,
+  year,
+  abstract,
+  title,
+  oai,
+}) => {
   // Create shared Queue for rendering pages and thumbnails
   const renderingQueue = new PDFRenderingQueue()
 
@@ -25,6 +33,9 @@ const CoreReader = ({ id, downloadUrl, repositories, year }) => {
           url: downloadUrl,
           repositories,
           year,
+          abstract,
+          title,
+          oai,
         }}
         document={{
           eventBus,

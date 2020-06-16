@@ -30,14 +30,13 @@ class OutlineSidebar extends React.PureComponent {
     const {
       store: {
         document: { linkService },
-        ui: { isRecommenderLoaded },
       },
       dispatch,
     } = this.props
 
     const finalOutline = outline || []
 
-    if (isRecommenderLoaded && !this.relatedPapersInOutline) {
+    if (!this.relatedPapersInOutline) {
       finalOutline.push({
         onClick: () => {
           dispatch(scrollToRelatedPapers())

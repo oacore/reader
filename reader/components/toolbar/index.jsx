@@ -147,21 +147,19 @@ const Toolbar = ({ viewer, eventBus }) => {
       )}
       ref={toolbarRef}
     >
-      {ui.isRecommenderLoaded && (
-        <div className={styles.pdfRelatedPapers}>
-          <Button
-            title="Show related papers"
-            type="button"
-            onClick={() =>
-              dispatch({
-                type: 'toggle_related_papers',
-              })
-            }
-          >
-            {!state.relatedPapersClicked ? 'Related papers' : 'Back to reading'}
-          </Button>
-        </div>
-      )}
+      <div className={styles.pdfRelatedPapers}>
+        <Button
+          title="Show related papers"
+          type="button"
+          onClick={() =>
+            dispatch({
+              type: 'toggle_related_papers',
+            })
+          }
+        >
+          {!state.relatedPapersClicked ? 'Related papers' : 'Back to reading'}
+        </Button>
+      </div>
       <div className={styles.pdfPreferences}>
         <Button
           title="Rotate"

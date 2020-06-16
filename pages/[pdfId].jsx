@@ -194,6 +194,9 @@ class Reader extends React.Component {
           repositories={repositories}
           year={year}
           authors={authors}
+          abstract={abstract}
+          title={title}
+          oai={oai}
         />
       </>
     )

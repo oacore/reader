@@ -7,7 +7,6 @@ export const UI_ACTIONS = {
   SCROLL_TO_LAST_READ_POSITION: 'ui/SCROLL_TO_LAST_READ_POSITION',
   SET_LAST_READ_POSITION: 'ui/SET_LAST_READ_POSITION',
   CHANGE_CURRENT_PAGE_NUMBER: 'ui/CHANGE_CURRENT_PAGE_NUMBER',
-  SET_RECOMMENDER_LOADED: 'ui/SET_RECOMMENDER_LOADED',
 }
 
 export const toggleThumbnailsSidebar = () => ({
@@ -35,8 +34,4 @@ export const changeCurrentPageNumber = currentPageNumber => ({
   payload: {
     currentPageNumber,
   },
-})
-
-export const setRecommenderLoaded = () => ({
-  type: UI_ACTIONS.SET_RECOMMENDER_LOADED,
 })

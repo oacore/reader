@@ -11,18 +11,18 @@
 }
 
 .related-papers li {
+  display: flex;
   flex-grow: 1;
+  padding: 1rem;
   margin-bottom: 1.5rem;
+  border-color: var(--gray-500);
+  border-style: dashed;
 }
 
 @media (min-width: 992px) {
   .related-papers li {
     max-width: 49%;
   }
-}
-
-.information {
-  padding-left: 0.75rem;
 }
 
 .title {
@@ -35,5 +35,9 @@
 }
 
 .metadata {
+  padding-left: 0.75rem;
+}
 
+.authors {
+  color: var(--primary);
 }
