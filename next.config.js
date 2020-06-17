@@ -49,6 +49,13 @@ const nextConfig = {
       return entries
     }
 
+    const splitChunks = config.optimization && config.optimization.splitChunks
+    if (splitChunks) {
+      const { cacheGroups } = splitChunks
+      if (cacheGroups.framework) cacheGroups.commons.name = 'framework'
+      if (cacheGroups.shared) cacheGroups.shared.name = 'framework'
+      if (cacheGroups.lib) cacheGroups.lib.name = 'framework'
+    }
     const { rules } = config.module
 
     // TODO: Remove once https://github.com/zeit/next.js/issues/10584 is solved and released
