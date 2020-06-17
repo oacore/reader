@@ -365,7 +365,7 @@
   bottom: 0;
   left: 0;
   display: block;
-  background: url('/static/pdf-js/loading-icon.gif') center no-repeat;
+  background: url('/reader/static/pdf-js/loading-icon.gif') center no-repeat;
 }
 
 .pdfViewer .page:last-of-type {
