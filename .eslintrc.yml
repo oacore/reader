@@ -10,9 +10,3 @@ settings:
       paths: ['.']
       extensions: ['.js', '.jsx']
 
-
-globals: {
-  GA_TRACKING_CODE: true,
-  BUILD_TARGET: true,
-  SENTRY_DSN: true,
-}
