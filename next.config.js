@@ -2,13 +2,9 @@ const path = require('path')
 
 const withWorkers = require('@zeit/next-workers')
 const withTM = require('next-transpile-modules')(['pdfjs-dist/lib'])
-const webpack = require('webpack')
-const dotenv = require('dotenv')
 const withSourceMaps = require('@zeit/next-source-maps')
 
 const helpers = require('./utils/helpers')
-
-dotenv.config()
 
 /** Build Target
  *
@@ -20,6 +16,11 @@ dotenv.config()
  */
 
 const nextConfig = {
+  env: {
+    SENTRY_DSN: process.env.SENTRY_DSN,
+    GA_TRACKING_CODE: process.env.GA_TRACKING_CODE,
+    BUILD_TARGET: process.env.BUILD_TARGET,
+  },
   assetPrefix: helpers.getAssetPath('', process.env.BUILD_TARGET),
   webpack: config => {
     const originalEntry = config.entry
@@ -85,14 +86,6 @@ const nextConfig = {
       use: ['source-map-loader'],
       enforce: 'pre',
     })
-
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        GA_TRACKING_CODE: JSON.stringify(process.env.GA_TRACKING_CODE),
-        BUILD_TARGET: JSON.stringify(process.env.BUILD_TARGET),
-        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
-      })
-    )
 
     // TODO: Remove once https://github.com/zeit/next-plugins/blob/master/packages/next-workers/index.js#L20 is released
     config.output.globalObject = 'self'

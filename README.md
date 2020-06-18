@@ -32,4 +32,3 @@ Server starts listen on `0.0.0.0:3000`
 [github-token]: https://github.com/settings/tokens
 [node-download]: https://nodejs.org/en/download/
 [npm-install]: https://www.npmjs.com/get-npm
-[env-file]: https://github.com/oacore/reader/blob/master/.env.example

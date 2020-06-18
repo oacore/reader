@@ -48,7 +48,6 @@
     "@zeit/next-source-maps": "^0.0.3",
     "@zeit/next-workers": "^1.0.0",
     "core-js": "3.4.1",
-    "dotenv": "^8.2.0",
     "file-saver": "^2.0.2",
     "next": "^9.4.4",
     "next-transpile-modules": "^3.1.0",

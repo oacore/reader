@@ -3,9 +3,9 @@
 const Sentry = require('@sentry/node')
 
 let sentryOptions
-if (typeof SENTRY_DSN !== 'undefined') {
+if (process.env.SENTRY_DSN) {
   sentryOptions = {
-    dsn: SENTRY_DSN,
+    dsn: process.env.SENTRY_DSN,
     beforeSend(event, hint) {
       const error = hint.originalException
       if (error && error.message) {

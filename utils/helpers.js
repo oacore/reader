@@ -1,7 +1,4 @@
-const getBuildTarget = () =>
-  typeof BUILD_TARGET !== 'undefined' ? BUILD_TARGET : ''
-
-const getAssetPath = (path, target = getBuildTarget()) =>
+const getAssetPath = (path, target = process.env.BUILD_TARGET || '') =>
   target === 'aws' ? `/reader${path}` : path
 
 const addEllipsis = (text, max) => {
