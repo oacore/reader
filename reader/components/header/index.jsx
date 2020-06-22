@@ -2,7 +2,7 @@ import React from 'react'
 import { Icon, Button, AppBar } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
-import { downloadPDF } from '../downloader'
+import { DownloadFile } from '../downloader'
 import styles from './styles.module.css'
 import { useGlobalStore } from '../../store'
 import {
@@ -12,7 +12,7 @@ import {
 import Print from '../print'
 
 const Header = () => {
-  const [{ metadata, ui, document }, dispatch] = useGlobalStore()
+  const [{ metadata, ui }, dispatch] = useGlobalStore()
 
   const handleRedirection = () => {
     const coreHostname = 'core.ac.uk'
@@ -57,14 +57,7 @@ const Header = () => {
         </Button>
       </AppBar.Item>
       <AppBar.Item className={styles.itemRight}>
-        <Button
-          title="Download document"
-          disabled={!document.documentProxy} // pdf is not loaded yet
-          onClick={() => downloadPDF(document.documentProxy, metadata.url)}
-          className={styles.buttonMenu}
-        >
-          <Icon src="#file-download" alt="Download document" />
-        </Button>
+        <DownloadFile url={metadata.url} className={styles.buttonMenu} />
         <Print className={styles.buttonMenu} />
       </AppBar.Item>
     </AppBar>

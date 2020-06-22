@@ -1,13 +1,13 @@
 import { saveAs } from 'file-saver'
+import { Button, Icon } from '@oacore/design'
+import React from 'react'
 
-export const downloadPDF = async (pdfDocument, pdfUrl) => {
+const downloadPdf = pdfUrl => {
   const pdfName = pdfUrl.substring(pdfUrl.lastIndexOf('/') + 1)
 
   try {
     // Try to download file via blob to avoid opening PDF in another PDF plugin
-    const pdfData = await pdfDocument.getData()
-    const blob = new Blob([pdfData], { type: 'application/pdf' })
-    saveAs(blob, pdfName)
+    saveAs(pdfUrl, pdfName)
   } catch (error) {
     // If blob is not supported or something happens
     // download it via traditional way
@@ -28,4 +28,14 @@ export const downloadPDF = async (pdfDocument, pdfUrl) => {
   }
 }
 
-export default downloadPDF
+export const DownloadFile = ({ url, className }) => (
+  <Button
+    title="Download document"
+    onClick={() => downloadPdf(url)}
+    className={className}
+  >
+    <Icon src="#file-download" alt="Download document" />
+  </Button>
+)
+
+export default DownloadFile
