@@ -52,7 +52,7 @@ const PdfLoader = React.memo(({ url, children }) => {
           scope.setFingerprint(['redirection'])
           Sentry.captureException(e)
         })
-        redirect(url)
+        // redirect(url)
       } finally {
         setIsLoading(false)
       }
