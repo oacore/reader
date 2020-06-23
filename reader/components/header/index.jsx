@@ -12,7 +12,7 @@ import {
 import Print from '../print'
 
 const Header = () => {
-  const [{ metadata, ui }, dispatch] = useGlobalStore()
+  const [{ metadata, ui, document }, dispatch] = useGlobalStore()
 
   const handleRedirection = () => {
     const coreHostname = 'core.ac.uk'
@@ -57,7 +57,11 @@ const Header = () => {
         </Button>
       </AppBar.Item>
       <AppBar.Item className={styles.itemRight}>
-        <DownloadFile url={metadata.url} className={styles.buttonMenu} />
+        <DownloadFile
+          document={document}
+          url={metadata.url}
+          className={styles.buttonMenu}
+        />
         <Print className={styles.buttonMenu} />
       </AppBar.Item>
     </AppBar>
