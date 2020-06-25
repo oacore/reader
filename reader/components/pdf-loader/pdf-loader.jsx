@@ -47,11 +47,16 @@ const PdfLoader = React.memo(({ url, children }) => {
         console.error(
           `Unable to load PDF document. Redirecting to default browser view. Error: ${e}`
         )
-        Sentry.withScope(scope => {
-          // group redirection errors together
-          scope.setFingerprint(['redirection'])
-          Sentry.captureException(e)
-        })
+
+        // Probably CORS issue. Don't report it.
+        if (!url.startsWith('https://core.ac.uk/')) {
+          Sentry.withScope(scope => {
+            // group redirection errors together
+            scope.setFingerprint(['redirection'])
+            Sentry.captureException(e)
+          })
+        }
+
         redirect(url)
       } finally {
         setIsLoading(false)
