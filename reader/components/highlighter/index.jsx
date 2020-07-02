@@ -81,8 +81,10 @@ class Index extends React.Component {
         pagesRange.selectionStartPage.node
       ),
       position: {
-        left: `${((firstRect.left - pdfRect.left + firstRect.width / 2) * 100) /
-          pagesRange.selectionStartPage.node.children[0].offsetWidth}%`,
+        left: `${
+          ((firstRect.left - pdfRect.left + firstRect.width / 2) * 100) /
+          pagesRange.selectionStartPage.node.children[0].offsetWidth
+        }%`,
         top: `${firstRect.top - pdfRect.top}px`,
         height: `${firstRect.height}px`,
       },

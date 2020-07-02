@@ -1,4 +1,4 @@
-export const getPageFromElement = target => {
+export const getPageFromElement = (target) => {
   const node = target.closest('.page')
 
   if (!(node instanceof HTMLElement)) return null

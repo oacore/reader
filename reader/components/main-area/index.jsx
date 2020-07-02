@@ -29,7 +29,7 @@ const MainArea = () => {
           eventBus={document.eventBus}
           renderingQueue={document.renderingQueue}
           metadata={metadata}
-          setDocument={d => dispatch(setDocument(d))}
+          setDocument={(d) => dispatch(setDocument(d))}
           globalDispatch={dispatch}
         />
       </PdfLoader>

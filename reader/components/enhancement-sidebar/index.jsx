@@ -15,10 +15,10 @@ const EnhancementSidebar = () => {
       if (firstAnnotationId > secondAnnotationId) return 1
 
       const firstAnnotationsSorted = firstAnnotation.rects[firstAnnotationId]
-        .map(f => [f.top, f.left])
+        .map((f) => [f.top, f.left])
         .sort()
       const secondAnnotationsSorted = secondAnnotation.rects[secondAnnotationId]
-        .map(f => [f.top, f.left])
+        .map((f) => [f.top, f.left])
         .sort()
 
       if (firstAnnotationsSorted[0][0] < secondAnnotationsSorted[0][0])

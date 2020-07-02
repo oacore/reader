@@ -60,8 +60,9 @@ class Highlights extends React.PureComponent {
             ...annotationsByPage[pageNumber],
             ...rects.map((rect, index) => (
               <Highlight
-                key={`${annotationId}-${index +
-                  annotationsByPage[pageNumber].length}`}
+                key={`${annotationId}-${
+                  index + annotationsByPage[pageNumber].length
+                }`}
                 rect={rect}
                 color={annotationContent.color}
                 viewPort={pageViewport}

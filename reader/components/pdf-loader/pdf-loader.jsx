@@ -10,7 +10,7 @@ import DocumentPlaceholder from './document-placeholder'
 const CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.4.456/cmaps/'
 const CMAP_PACKED = true
 
-const redirect = url => {
+const redirect = (url) => {
   if (url) setTimeout(() => window.location.replace(url), 5000)
 }
 const PdfLoader = React.memo(({ url, children }) => {
@@ -50,7 +50,7 @@ const PdfLoader = React.memo(({ url, children }) => {
 
         // Probably CORS issue. Don't report it.
         if (!url.startsWith('https://core.ac.uk/')) {
-          Sentry.withScope(scope => {
+          Sentry.withScope((scope) => {
             // group redirection errors together
             scope.setFingerprint(['redirection'])
             Sentry.captureException(e)

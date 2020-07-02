@@ -29,7 +29,7 @@ export const unsetRelatedPapers = () => ({
   type: UI_ACTIONS.UNSET_RELATED_PAPERS,
 })
 
-export const changeCurrentPageNumber = currentPageNumber => ({
+export const changeCurrentPageNumber = (currentPageNumber) => ({
   type: UI_ACTIONS.CHANGE_CURRENT_PAGE_NUMBER,
   payload: {
     currentPageNumber,

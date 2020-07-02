@@ -52,7 +52,7 @@ class ThumbnailsSidebar extends React.PureComponent {
     document.eventBus.off('rotationchanging', this.onRotationChanging)
   }
 
-  onRotationChanging = e => {
+  onRotationChanging = (e) => {
     const {
       store: { document },
     } = this.props
@@ -72,7 +72,7 @@ class ThumbnailsSidebar extends React.PureComponent {
 
     return (
       <div
-        ref={node => {
+        ref={(node) => {
           this.containerNode = node
         }}
         className={styles.thumbnailsView}

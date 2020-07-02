@@ -96,7 +96,7 @@ class Viewer extends React.PureComponent {
     this.setState({ toolbarEnabled: true })
   }
 
-  onPageChanging = e => {
+  onPageChanging = (e) => {
     const { globalDispatch } = this.props
     globalDispatch(changeCurrentPageNumber(e.pageNumber))
   }

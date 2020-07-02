@@ -128,7 +128,7 @@ class PDFThumbnailView {
     anchor.href = linkService.getAnchorUrl(`#page=${id}`)
     this.l10n
       .get('thumb_page_title', { page: id }, 'Page {{page}}')
-      .then(msg => {
+      .then((msg) => {
         anchor.title = msg
       })
     anchor.onclick = () => {
@@ -256,7 +256,7 @@ class PDFThumbnailView {
           { page: this.pageId },
           'Thumbnail of Page {{page}}'
         )
-        .then(msg => {
+        .then((msg) => {
           this.canvas.setAttribute('aria-label', msg)
         })
 
@@ -273,7 +273,7 @@ class PDFThumbnailView {
         { page: this.pageId },
         'Thumbnail of Page {{page}}'
       )
-      .then(msg => {
+      .then((msg) => {
         image.setAttribute('aria-label', msg)
       })
 
@@ -298,7 +298,7 @@ class PDFThumbnailView {
     this.renderingState = RenderingStates.RUNNING
 
     const renderCapability = createPromiseCapability()
-    const finishRenderTask = error => {
+    const finishRenderTask = (error) => {
       // The renderTask may have been replaced by a new one, so only remove
       // the reference to the renderTask if it matches the one that is
       // triggering this callback.
@@ -319,7 +319,7 @@ class PDFThumbnailView {
 
     const ctx = this._getPageDrawContext()
     const drawViewport = this.viewport.clone({ scale: this.scale })
-    const renderContinueCallback = cont => {
+    const renderContinueCallback = (cont) => {
       if (!this.renderingQueue.isHighestPriority(this)) {
         this.renderingState = RenderingStates.PAUSED
         this.resume = () => {
@@ -344,7 +344,7 @@ class PDFThumbnailView {
       () => {
         finishRenderTask(null)
       },
-      error => {
+      (error) => {
         finishRenderTask(error)
       }
     )
@@ -441,7 +441,7 @@ class PDFThumbnailView {
 
     this.l10n
       .get('thumb_page_title', { page: this.pageId }, 'Page {{page}}')
-      .then(msg => {
+      .then((msg) => {
         this.anchor.title = msg
       })
 
@@ -453,7 +453,7 @@ class PDFThumbnailView {
         { page: this.pageId },
         'Thumbnail of Page {{page}}'
       )
-      .then(ariaLabel => {
+      .then((ariaLabel) => {
         if (this.image) this.image.setAttribute('aria-label', ariaLabel)
         else if (this.disableCanvasToImageConversion && this.canvas)
           this.canvas.setAttribute('aria-label', ariaLabel)

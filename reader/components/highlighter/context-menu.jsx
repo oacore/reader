@@ -96,7 +96,7 @@ class ContextMenu extends React.PureComponent {
       >
         <div className="highlight-popup">
           <div className="d-flex justify-content-between">
-            {HIGHLIGHTS_COLORS.map(color => (
+            {HIGHLIGHTS_COLORS.map((color) => (
               <button
                 key={color}
                 className="btn p-0"

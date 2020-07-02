@@ -14,10 +14,10 @@ export const GlobalProvider = ({ children, metadata, document }) => (
 
 export const useGlobalStore = () => useContext(GlobalContext)
 
-export const withGlobalStore = Component =>
+export const withGlobalStore = (Component) =>
   React.forwardRef((props, ref) => (
     <GlobalContext.Consumer>
-      {state => (
+      {(state) => (
         <Component ref={ref} {...props} store={state[0]} dispatch={state[1]} />
       )}
     </GlobalContext.Consumer>

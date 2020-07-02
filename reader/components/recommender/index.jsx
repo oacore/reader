@@ -13,8 +13,8 @@ const Recommender = React.memo(({ containerWidth }) => {
   // Trigger related papers load when this component intersect the viewport
   const observer = useRef(
     'IntersectionObserver' in window &&
-      new IntersectionObserver(entries => {
-        entries.forEach(entry => {
+      new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
           if (entry.intersectionRatio > 0) {
             setIsVisible(true)
             observer.current.unobserve(recommenderRef.current)
@@ -105,7 +105,7 @@ const Recommender = React.memo(({ containerWidth }) => {
       <h5 className="display">Related papers</h5>
       {isVisible && data !== null && (
         <ul className={styles.relatedPapers}>
-          {data.slice(0, 6).map(el => {
+          {data.slice(0, 6).map((el) => {
             const detailedInfo = []
             if (el.repositoryName)
               detailedInfo.push(`Provided by: ${el.repositoryName}`)
@@ -124,7 +124,7 @@ const Recommender = React.memo(({ containerWidth }) => {
                     {detailedInfo.join(' | ')}
                   </div>
                   <div className={styles.authors}>
-                    by {el.authors.map(a => a.replace(',', ' ')).join(', ')}
+                    by {el.authors.map((a) => a.replace(',', ' ')).join(', ')}
                   </div>
                 </div>
               </li>

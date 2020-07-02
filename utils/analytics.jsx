@@ -39,12 +39,12 @@ const logPageView = () => {
   )
 }
 
-export const logTiming = options => {
+export const logTiming = (options) => {
   if (!isGAInitialized) return
   ReactGA.timing(options, trackers.length === 2 ? ['prod', 'dev'] : undefined)
 }
 
-export const withGoogleAnalytics = Page => {
+export const withGoogleAnalytics = (Page) => {
   class WithAnalytics extends React.Component {
     // eslint-disable-next-line class-methods-use-this
     componentDidMount() {
