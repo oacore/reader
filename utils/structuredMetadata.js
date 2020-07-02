@@ -1,6 +1,6 @@
 import { addEllipsis } from './helpers'
 
-const structuredMetadata = metadata => {
+const structuredMetadata = (metadata) => {
   const ld = {
     '@context': 'http://schema.org',
     '@graph': [
@@ -42,7 +42,7 @@ const structuredMetadata = metadata => {
         'name': metadata.title,
         'author':
           metadata.authors &&
-          metadata.authors.map(author => ({
+          metadata.authors.map((author) => ({
             '@type': 'Person',
             'name': author,
           })),

@@ -35,7 +35,7 @@ class PDFThumbnailViewer extends _PDFThumbnailViewer {
 
     pdfDocument
       .getPage(1)
-      .then(firstPage => {
+      .then((firstPage) => {
         const pagesCount = pdfDocument.numPages
         const viewport = firstPage.getViewport({ scale: 1 })
         for (let pageNum = 1; pageNum <= pagesCount; ++pageNum) {
@@ -58,7 +58,7 @@ class PDFThumbnailViewer extends _PDFThumbnailViewer {
         const thumbnailView = this._thumbnails[this._currentPageNumber - 1]
         thumbnailView.div.classList.add(this.classNameSelected)
       })
-      .catch(reason => {
+      .catch((reason) => {
         console.error('Unable to initialize thumbnail viewer', reason)
       })
   }
@@ -92,7 +92,7 @@ class PDFThumbnailViewer extends _PDFThumbnailViewer {
       let shouldScroll = false
       if (pageNumber <= first || pageNumber >= last) shouldScroll = true
       else {
-        visibleThumbs.views.some(view => {
+        visibleThumbs.views.some((view) => {
           if (view.id !== pageNumber) return false
 
           shouldScroll = view.percent < 100

@@ -18,7 +18,7 @@ class OutlineSidebar extends React.PureComponent {
       store: { document },
     } = this.props
 
-    document.documentProxy.getOutline().then(outline => {
+    document.documentProxy.getOutline().then((outline) => {
       this.setState({
         isOutlineLoading: false,
         outline,

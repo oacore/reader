@@ -44,7 +44,7 @@ const OutlineItem = ({ isExpanded, item, linkService }) => {
         </button>
       )}
       <a
-        onClick={e => {
+        onClick={(e) => {
           e.preventDefault()
           if (item.onClick) item.onClick()
           else if (item.dest) linkService.navigateTo(item.dest)

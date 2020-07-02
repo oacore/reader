@@ -9,11 +9,11 @@ import { getAssetPath } from '../utils/helpers'
 import { Sentry } from '../utils/sentry'
 import structuredMetadata from '../utils/structuredMetadata'
 
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   Sentry.captureException(err)
 })
 
-process.on('uncaughtException', err => {
+process.on('uncaughtException', (err) => {
   Sentry.captureException(err)
 })
 
@@ -36,7 +36,7 @@ export async function getServerSideProps({ params: { pdfId }, res }) {
       numberOfRetries -= 1
       if (![404, 410].includes(e.statusCode)) {
         if (!e.message.includes('socket hang up') || !numberOfRetries) {
-          Sentry.withScope(scope => {
+          Sentry.withScope((scope) => {
             // group API errors with the same status code together
             scope.setFingerprint(['api', e.statusCode])
             Sentry.captureException(e)
@@ -85,8 +85,8 @@ export async function getServerSideProps({ params: { pdfId }, res }) {
 class Reader extends React.Component {
   // eslint-disable-next-line class-methods-use-this
   componentDidCatch(error, errorInfo) {
-    Sentry.withScope(scope => {
-      Object.keys(errorInfo).forEach(key => {
+    Sentry.withScope((scope) => {
+      Object.keys(errorInfo).forEach((key) => {
         scope.setExtra(key, errorInfo[key])
         scope.setExtra('ssr', false)
       })
@@ -125,7 +125,7 @@ class Reader extends React.Component {
             crossOrigin="anonymous"
           />
 
-          {['64', '128', '256', '512'].map(size => (
+          {['64', '128', '256', '512'].map((size) => (
             <link
               key={size}
               rel="icon"
@@ -160,10 +160,10 @@ class Reader extends React.Component {
           {abstract && <meta name="DCTERMS.abstract" content={abstract} />}
 
           {(authors || []).length &&
-            authors.map(author => (
+            authors.map((author) => (
               <meta key={author} name="citation_author" content={author} />
             )) &&
-            authors.map(author => (
+            authors.map((author) => (
               <meta key={author} name="DC.creator" content={author} />
             ))}
 
@@ -175,7 +175,7 @@ class Reader extends React.Component {
           )}
           {oai && <meta name="DC.identifier" content={oai} />}
           {(subjects || []).length &&
-            subjects.map(subject => (
+            subjects.map((subject) => (
               <meta key={subject} name="DC.subject" content={subject} />
             ))}
 

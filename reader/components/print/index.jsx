@@ -47,7 +47,7 @@ class Print extends React.Component {
     window.print = this.originalPrintFunction
   }
 
-  suppressPrintShortcut = e => {
+  suppressPrintShortcut = (e) => {
     // Intercept Cmd/Ctrl + P in all browsers.
     // Also intercept Cmd/Ctrl + Shift + P in Chrome and Opera
     if (
@@ -146,7 +146,7 @@ class Print extends React.Component {
 
     return document.documentProxy
       .getPage(pageNumber)
-      .then(pdfPage => {
+      .then((pdfPage) => {
         const renderContext = {
           canvasContext: ctx,
           transform: [PRINT_UNITS, 0, 0, PRINT_UNITS, 0, 0],
@@ -162,7 +162,7 @@ class Print extends React.Component {
   }
 
   // convert canvas to image
-  useRenderedPage = printItem => {
+  useRenderedPage = (printItem) => {
     const wrapper = document.createElement('div')
     const img = document.createElement('img')
 
@@ -170,7 +170,7 @@ class Print extends React.Component {
     img.style.height = printItem.height
 
     if ('toBlob' in this.scratchCanvas) {
-      this.scratchCanvas.toBlob(blob => {
+      this.scratchCanvas.toBlob((blob) => {
         img.src = URL.createObjectURL(blob)
       })
     } else img.src = this.scratchCanvas.toDataURL()

@@ -221,7 +221,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             className={styles.inputChangePageNumber}
             name="page-number"
             value={ui.currentPageNumber}
-            onChange={e => {
+            onChange={(e) => {
               if (e.target.value === '') return
               const pageNumber = Number(e.target.value)
               if (Number.isNaN(pageNumber) || pageNumber > viewer.pagesCount)
@@ -229,7 +229,7 @@ const Toolbar = ({ viewer, eventBus }) => {
 
               globalDispatch(changeCurrentPageNumber(pageNumber))
             }}
-            onFocus={e => e.target.select()}
+            onFocus={(e) => e.target.select()}
             onBlur={handleBlurInput}
           />{' '}
           / <span className={styles.pagesCount}>{viewer.pagesCount}</span>
