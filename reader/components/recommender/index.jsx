@@ -114,19 +114,21 @@ const Recommender = React.memo(({ containerWidth }) => {
 
             return (
               <li key={el.id}>
-                <img
-                  alt="thumb"
-                  src={`https://core.ac.uk/image/${el.id}/medium`}
-                />
-                <div className={styles.metadata}>
-                  <div className={styles.title}>{el.title}</div>
-                  <div className={styles.detailInfo}>
-                    {detailedInfo.join(' | ')}
-                  </div>
-                  <div className={styles.authors}>
-                    by {el.authors.map((a) => a.replace(',', ' ')).join(', ')}
-                  </div>
-                </div>
+                <a href={`https://core.ac.uk/display/${el.id}`}>
+                  <img
+                    alt="thumb"
+                    src={`https://core.ac.uk/image/${el.id}/medium`}
+                  />
+                  <span className={styles.metadata}>
+                    <span className={styles.title}>{el.title}</span>
+                    <span className={styles.detailInfo}>
+                      {detailedInfo.join(' | ')}
+                    </span>
+                    <span className={styles.authors}>
+                      by {el.authors.map((a) => a.replace(',', ' ')).join(', ')}
+                    </span>
+                  </span>
+                </a>
               </li>
             )
           })}
