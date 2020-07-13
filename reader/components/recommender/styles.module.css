@@ -11,12 +11,22 @@
 }
 
 .related-papers li {
+  width: 100%;
+}
+
+.related-papers li a {
   display: flex;
   flex-grow: 1;
+  height: calc(100% - 1.5rem);
   padding: 1rem;
   margin-bottom: 1.5rem;
   border-color: var(--gray-500);
   border-style: dashed;
+}
+
+.related-papers li a:hover {
+  text-decoration: none;
+  background: var(--gray-400);
 }
 
 @media (min-width: 992px) {
@@ -35,6 +45,8 @@
 }
 
 .metadata {
+  display: flex;
+  flex-direction: column;
   padding-left: 0.75rem;
 }
 
