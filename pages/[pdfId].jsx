@@ -5,7 +5,6 @@ import ErrorPage from 'next/error'
 
 import getArticleMetadata from '../reader/utils/getArticleMetadata'
 import { withGoogleAnalytics, logTiming } from '../utils/analytics'
-import { getAssetPath } from '../utils/helpers'
 import { Sentry } from '../utils/sentry'
 import structuredMetadata from '../utils/structuredMetadata'
 
@@ -131,7 +130,7 @@ class Reader extends React.Component {
               rel="icon"
               type="image/png"
               sizes={`${size}x${size}`}
-              href={getAssetPath(`/static/favicon/favicon-${size}px.png`)}
+              href={`https://core.ac.uk/favicon/favicon-${size}px.png`}
             />
           ))}
 
@@ -139,7 +138,7 @@ class Reader extends React.Component {
             rel="icon"
             sizes="any"
             type="image/svg+xml"
-            href={getAssetPath('/static/favicon/favicon.svg')}
+            href="https://core.ac.uk/favicon/favicon.svg"
           />
 
           <meta name="referrer" content="origin" />
