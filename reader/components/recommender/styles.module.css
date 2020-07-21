@@ -24,6 +24,10 @@
   border-style: dashed;
 }
 
+.thumb {
+  align-self: flex-start;
+}
+
 .related-papers li a:hover {
   text-decoration: none;
   background: var(--gray-400);

@@ -118,6 +118,7 @@ const Recommender = React.memo(({ containerWidth }) => {
                   <img
                     alt="thumb"
                     src={`https://core.ac.uk/image/${el.id}/medium`}
+                    className={styles.thumb}
                   />
                   <span className={styles.metadata}>
                     <span className={styles.title}>{el.title}</span>
