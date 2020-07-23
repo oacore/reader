@@ -11,7 +11,6 @@ const icons = [
   'magnify-plus-outline',
   'magnify-minus-outline',
   'file-document',
-  path.join(__dirname, './public/static/core-symbol.svg'),
 ]
 
 const iconsRoot = path.join(
