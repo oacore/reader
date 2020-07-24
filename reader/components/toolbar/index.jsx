@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useReducer } from 'react'
 import { Icon, Button, TextField } from '@oacore/design'
 import { classNames } from '@oacore/design/lib/utils'
 
+import { logEvent } from '../../../utils/analytics'
 import styles from './styles.module.css'
 import { useGlobalStore } from '../../store'
 import {
@@ -151,11 +152,15 @@ const Toolbar = ({ viewer, eventBus }) => {
         <Button
           title="Show related papers"
           type="button"
-          onClick={() =>
+          onClick={() => {
             dispatch({
               type: 'toggle_related_papers',
             })
-          }
+            logEvent({
+              category: 'toolbar',
+              action: 'related papers click',
+            })
+          }}
         >
           {!state.relatedPapersClicked ? 'Related papers' : 'Back to reading'}
         </Button>
@@ -171,6 +176,10 @@ const Toolbar = ({ viewer, eventBus }) => {
             // important to rerender otherwise page becomes slightly
             // blurred until scroll event occurs
             viewer.update()
+            logEvent({
+              category: 'toolbar',
+              action: 'rotate',
+            })
           }}
         >
           <Icon src="#format-rotate-90" alt="Rotate" />
@@ -183,6 +192,10 @@ const Toolbar = ({ viewer, eventBus }) => {
             zoomIn()
             dispatch({ type: 'noop' })
             viewer.update()
+            logEvent({
+              category: 'toolbar',
+              action: 'zoom in',
+            })
           }}
         >
           <Icon src="#magnify-plus-outline" alt="Zoom in" />
@@ -195,6 +208,10 @@ const Toolbar = ({ viewer, eventBus }) => {
             zoomOut()
             dispatch({ type: 'noop' })
             viewer.update()
+            logEvent({
+              category: 'toolbar',
+              action: 'zoom out',
+            })
           }}
         >
           <Icon src="#magnify-minus-outline" alt="Zoom out" />
@@ -206,6 +223,10 @@ const Toolbar = ({ viewer, eventBus }) => {
           type="button"
           disabled={viewer.currentPageNumber <= 1}
           onClick={() => {
+            logEvent({
+              category: 'toolbar',
+              action: 'prev page',
+            })
             viewer.currentPageNumber -= 1
             globalDispatch(changeCurrentPageNumber(viewer.currentPageNumber))
           }}
@@ -228,6 +249,10 @@ const Toolbar = ({ viewer, eventBus }) => {
                 return
 
               globalDispatch(changeCurrentPageNumber(pageNumber))
+              logEvent({
+                category: 'toolbar',
+                action: 'change page number',
+              })
             }}
             onFocus={(e) => e.target.select()}
             onBlur={handleBlurInput}
@@ -239,6 +264,10 @@ const Toolbar = ({ viewer, eventBus }) => {
           type="button"
           disabled={viewer.currentPageNumber >= viewer.pagesCount}
           onClick={() => {
+            logEvent({
+              category: 'toolbar',
+              action: 'next page',
+            })
             viewer.currentPageNumber += 1
             globalDispatch(changeCurrentPageNumber(viewer.currentPageNumber))
           }}

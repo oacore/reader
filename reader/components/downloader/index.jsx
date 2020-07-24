@@ -2,6 +2,8 @@ import { saveAs } from 'file-saver'
 import { Button, Icon } from '@oacore/design'
 import React from 'react'
 
+import { logEvent } from '../../../utils/analytics'
+
 const downloadPdf = async (document, pdfUrl) => {
   const pdfName = pdfUrl.substring(pdfUrl.lastIndexOf('/') + 1)
 
@@ -34,7 +36,13 @@ export const DownloadFile = ({ document, url, className }) => (
   <Button
     disabled={!document.documentProxy} // pdf is not loaded yet
     title="Download document"
-    onClick={() => downloadPdf(document.documentProxy, url)}
+    onClick={() => {
+      downloadPdf(document.documentProxy, url)
+      logEvent({
+        category: 'app bar',
+        action: 'download file',
+      })
+    }}
     className={className}
   >
     <Icon src="#file-download" alt="Download document" />

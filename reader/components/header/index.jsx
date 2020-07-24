@@ -10,6 +10,7 @@ import {
   toggleThumbnailsSidebar,
 } from '../../store/ui/actions'
 import Print from '../print'
+import { logEvent } from '../../../utils/analytics'
 
 const Header = () => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()
@@ -27,7 +28,13 @@ const Header = () => {
       <AppBar.Item>
         <Button
           title="Show outline"
-          onClick={() => dispatch(toggleOutlineSidebar())}
+          onClick={() => {
+            dispatch(toggleOutlineSidebar())
+            logEvent({
+              category: 'app bar',
+              action: 'show outline',
+            })
+          }}
           className={classNames.use(
             styles.buttonMenu,
             ui.isOutlineSidebarVisible && styles.buttonActive
@@ -37,7 +44,13 @@ const Header = () => {
         </Button>
         <Button
           title="Show thumbnails"
-          onClick={() => dispatch(toggleThumbnailsSidebar())}
+          onClick={() => {
+            dispatch(toggleThumbnailsSidebar())
+            logEvent({
+              category: 'app bar',
+              action: 'show thumbnails',
+            })
+          }}
           className={classNames.use(
             styles.buttonMenu,
             ui.isThumbnailSidebarVisible && styles.buttonActive

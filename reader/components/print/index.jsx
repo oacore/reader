@@ -6,6 +6,7 @@ import ReactToPrint, { PrintContextConsumer } from 'react-to-print'
 
 import { withGlobalStore } from '../../store'
 import styles from './styles.module.css'
+import { logEvent } from '../../../utils/analytics'
 
 // The size of the canvas in pixels for printing.
 const PRINT_RESOLUTION = 150
@@ -264,7 +265,13 @@ class Print extends React.Component {
                 disabled={!document.pagesLoaded}
                 onClick={() => {
                   if (isPrinting) this.rejectPrinting()
-                  else handlePrint()
+                  else {
+                    handlePrint()
+                    logEvent({
+                      category: 'app bar',
+                      action: 'printing file',
+                    })
+                  }
                 }}
               >
                 {isPrinting ? (
