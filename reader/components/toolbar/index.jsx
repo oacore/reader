@@ -212,7 +212,7 @@ const Toolbar = ({ viewer, eventBus }) => {
         >
           <Icon src="#chevron-left" alt="Previous page" />
         </Button>
-        <div>
+        <div className={styles.pagination}>
           <TextField
             label="Page number"
             labelSrOnly
