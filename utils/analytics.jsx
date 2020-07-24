@@ -39,6 +39,23 @@ const logPageView = () => {
   )
 }
 
+export const logEvent = ({
+  category,
+  action,
+  value,
+  nonInteraction = true,
+}) => {
+  if (!isGAInitialized) return
+
+  ReactGA.event({
+    category,
+    action,
+    label: 'reader',
+    value,
+    nonInteraction,
+  })
+}
+
 export const logTiming = (options) => {
   if (!isGAInitialized) return
   ReactGA.timing(options, trackers.length === 2 ? ['prod', 'dev'] : undefined)
