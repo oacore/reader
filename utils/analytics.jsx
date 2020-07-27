@@ -47,13 +47,16 @@ export const logEvent = ({
 }) => {
   if (!isGAInitialized) return
 
-  ReactGA.event({
-    category,
-    action,
-    label: 'reader',
-    value,
-    nonInteraction,
-  })
+  ReactGA.event(
+    {
+      category,
+      action,
+      label: 'reader',
+      value,
+      nonInteraction,
+    },
+    trackers.length === 2 ? ['prod', 'dev'] : undefined
+  )
 }
 
 export const logTiming = (options) => {
