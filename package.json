@@ -59,8 +59,7 @@
     "react-ga": "^3.1.2",
     "react-to-print": "^2.9.0",
     "smoothscroll-polyfill": "^0.4.4",
-    "web-streams-polyfill": "^2.1.0",
-    "webpack": "^4.44.1",
+    "webpack": "^4.43.0",
     "worker-loader": "^2.0.0"
   },
   "engines": {
