@@ -236,7 +236,7 @@ const Toolbar = ({ viewer, eventBus }) => {
         <div className={styles.pagination}>
           <TextField
             label="Page number"
-            labelSrOnly
+            variant="pure"
             ref={inputPageNumber}
             type="text"
             className={styles.inputChangePageNumber}
