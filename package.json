@@ -39,7 +39,7 @@
     "stylelint": "^13.6.1"
   },
   "dependencies": {
-    "@mdi/svg": "^5.4.55",
+    "@mdi/svg": "^5.5.55",
     "@oacore/api": "^1.0.10",
     "@oacore/design": "^0.3.4",
     "@sentry/browser": "^5.20.1",
