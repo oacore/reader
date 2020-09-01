@@ -57,7 +57,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-ga": "^3.1.2",
-    "react-to-print": "^2.9.0",
+    "react-to-print": "^2.10.0",
     "smoothscroll-polyfill": "^0.4.4",
     "webpack": "^4.43.0",
     "worker-loader": "^2.0.0"
