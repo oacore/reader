@@ -32,6 +32,7 @@ export async function getServerSideProps({ params: { pdfId }, res }) {
       ;[metadata, statusCode] = await getArticleMetadata(pdfId)
       break
     } catch (e) {
+      statusCode = e.statusCode || 500
       numberOfRetries -= 1
       if (![404, 410].includes(e.statusCode)) {
         if (!e.message.includes('socket hang up') || !numberOfRetries) {
@@ -71,6 +72,7 @@ export async function getServerSideProps({ params: { pdfId }, res }) {
       'connect-src *',
     ].join(';')
   )
+  res.statusCode = statusCode
 
   return {
     props: {
