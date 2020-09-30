@@ -60,7 +60,7 @@
     "react-ga": "^3.1.2",
     "react-to-print": "^2.10.0",
     "smoothscroll-polyfill": "^0.4.4",
-    "webpack": "^4.43.0",
+    "webpack": "^4.44.2",
     "worker-loader": "^2.0.0"
   },
   "engines": {
