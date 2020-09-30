@@ -52,7 +52,7 @@
     "next": "^9.5.3",
     "next-transpile-modules": "^4.1.0",
     "pdfjs-dist": "^2.4.456",
-    "postcss": "^7.0.32",
+    "postcss": "^8.1.1",
     "postcss-extend": "^1.0.5",
     "postcss-preset-env": "^6.7.0",
     "react": "^16.13.1",
