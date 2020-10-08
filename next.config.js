@@ -72,7 +72,7 @@ const nextConfig = {
       )
       if (cssLoaderConfig && cssLoaderConfig.options) {
         // Patch it with the new config
-        cssLoaderConfig.options.localsConvention = 'camelCase'
+        cssLoaderConfig.options.modules.exportLocalsConvention = 'camelCase'
       }
     })
 
