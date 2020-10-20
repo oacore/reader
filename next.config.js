@@ -4,6 +4,7 @@ const withWorkers = require('@zeit/next-workers')
 const withTM = require('next-transpile-modules')(['pdfjs-dist/lib'])
 const withSourceMaps = require('@zeit/next-source-maps')
 
+const csp = require
 const helpers = require('./utils/helpers')
 
 /** Build Target
@@ -22,6 +23,16 @@ const nextConfig = {
     BUILD_TARGET: process.env.BUILD_TARGET,
   },
   assetPrefix: helpers.getAssetPath('', process.env.BUILD_TARGET),
+
+  async headers() {
+    return [
+      {
+        source: '/:path(.*)',
+        headers: [{ key: 'Content-Security-Policy', value: csp }],
+      },
+    ]
+  },
+
   webpack: (config) => {
     const originalEntry = config.entry
     config.entry = async () => {
