@@ -4,7 +4,7 @@ const withWorkers = require('@zeit/next-workers')
 const withTM = require('next-transpile-modules')(['pdfjs-dist/lib'])
 const withSourceMaps = require('@zeit/next-source-maps')
 
-const csp = require
+const csp = require('./csp.config')
 const helpers = require('./utils/helpers')
 
 /** Build Target
