@@ -7,13 +7,26 @@ const PRODUCION = '*.core.ac.uk'
 const config = {
   'default-src': [SELF, PRODUCION],
   'script-src': [SELF, '*.google-analytics.com'],
-  // TODO: Remove 'unsafe-inline' when the Next.js' bug is resolved
-  // See more: https://github.com/vercel/next.js/issues/17445
-  'style-src': [SELF, "'unsafe-inline'"],
-  // Google Analytics may transport data via image:
-  // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
-  'img-src': [SELF, PRODUCION, 'data:', '*.google-analytics.com'],
-  'connect-src': [SELF, PRODUCION, 'sentry.io', '*.google-analytics.com'],
+  'style-src': [
+    SELF,
+    'fonts.googleapis.com',
+    'fonts.gstatic.com',
+    // TODO: Remove 'unsafe-inline' when the Next.js' bug is resolved
+    // See more: https://github.com/vercel/next.js/issues/17445
+    "'unsafe-inline'",
+  ],
+  'font-src': [SELF, 'fonts.googleapis.com', 'fonts.gstatic.com'],
+  'img-src': [
+    SELF,
+    PRODUCION,
+    'data:',
+    'blob:',
+    // Google Analytics may transport data via image:
+    // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
+    '*.google-analytics.com',
+    'stats.g.doubleclick.net',
+  ],
+  'connect-src': ['*'],
 }
 
 if (process.env.NODE_ENV !== 'production') {

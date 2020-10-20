@@ -53,25 +53,6 @@ export async function getServerSideProps({ params: { pdfId }, res }) {
     value: Date.now() - startTime,
   })
 
-  res.setHeader(
-    'Content-Security-Policy',
-    [
-      // consider everything from these two domains as a safe
-      "default-src 'self' *.core.ac.uk core.ac.uk",
-      // in development there are attached inline scripts
-      // (probably from hot reload or some Next.JS magic)
-      // https://github.com/mozilla/pdf.js/issues/11036
-      `script-src 'self' *.google-analytics.com *.core.ac.uk core.ac.uk 'unsafe-eval' ${
-        process.env.NODE_ENV !== 'production' ? "'unsafe-inline'" : ''
-      }`,
-      "style-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/ 'unsafe-inline'",
-      `font-src 'self' data: https://fonts.googleapis.com/ https://fonts.gstatic.com/`,
-      // google analytics may transport info via image
-      // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#transport
-      "img-src 'self' *.core.ac.uk core.ac.uk data: blob: *.google-analytics.com https://stats.g.doubleclick.net/",
-      'connect-src *',
-    ].join(';')
-  )
   res.statusCode = statusCode
 
   return {
