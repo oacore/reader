@@ -57,7 +57,7 @@
     "postcss-preset-env": "^6.7.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-ga": "^3.1.2",
+    "react-ga": "^3.2.0",
     "react-to-print": "^2.10.0",
     "smoothscroll-polyfill": "^0.4.4",
     "webpack": "^4.44.2",
