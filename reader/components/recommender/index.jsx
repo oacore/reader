@@ -30,10 +30,11 @@ const Recommender = React.memo(({ containerWidth }) => {
       return () => {}
     }
 
+    const instance = recommenderRef.current
     if (recommenderRef.current) observer.current.observe(recommenderRef.current)
 
     return () => {
-      observer.current.unobserve(recommenderRef.current)
+      observer.current.unobserve(instance?.current)
     }
   }, [recommenderRef])
 
