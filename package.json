@@ -43,7 +43,7 @@
     "@oacore/api": "^1.0.10",
     "@oacore/design": "^3.1.1",
     "@sentry/browser": "^5.27.2",
-    "@sentry/node": "^5.24.2",
+    "@sentry/node": "^5.27.2",
     "@zeit/next-source-maps": "^0.0.3",
     "@zeit/next-workers": "^1.0.0",
     "core-js": "3.6.5",
