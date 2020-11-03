@@ -2,23 +2,24 @@
  * Content-Security-Policy
  */
 const SELF = "'self'"
-const PRODUCION = '*.core.ac.uk'
+const PRODUCTION = '*.core.ac.uk core.ac.uk'
 
 const config = {
-  'default-src': [SELF, PRODUCION],
-  'script-src': [SELF, '*.google-analytics.com'],
+  'default-src': [SELF, PRODUCTION],
+  // PDF.js worker sadly uses unsafe-eval
+  'script-src': [SELF, '*.google-analytics.com', "'unsafe-eval'"],
   'style-src': [
     SELF,
     'fonts.googleapis.com',
     'fonts.gstatic.com',
-    // TODO: Remove 'unsafe-inline' when the Next.js' bug is resolved
+    // TODO: Move 'unsafe-inline' to dev when the Next.js' bug is resolved
     // See more: https://github.com/vercel/next.js/issues/17445
     "'unsafe-inline'",
   ],
   'font-src': [SELF, 'fonts.googleapis.com', 'fonts.gstatic.com'],
   'img-src': [
     SELF,
-    PRODUCION,
+    PRODUCTION,
     'data:',
     'blob:',
     // Google Analytics may transport data via image:
@@ -31,8 +32,7 @@ const config = {
 
 if (process.env.NODE_ENV !== 'production') {
   // Allow hot module replacement using inlined scripts and styles
-  config['script-src'].push("'unsafe-inline'", "'unsafe-eval'")
-  config['style-src'].push("'unsafe-inline'")
+  config['script-src'].push("'unsafe-inline'")
 
   // Allow connection to the local hosts in development:
   // - local API is running on a different port
