@@ -8,4 +8,6 @@ export const metaDataInitialState = {
   title: null,
 }
 
-export default (state = metaDataInitialState) => state
+const reducer = (state = metaDataInitialState) => state
+
+export default reducer

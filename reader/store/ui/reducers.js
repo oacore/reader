@@ -9,7 +9,7 @@ export const uiInitialState = {
   currentPageNumber: 1,
 }
 
-export default (state = uiInitialState, { type, payload }) => {
+const reducer = (state = uiInitialState, { type, payload }) => {
   switch (type) {
     case UI_ACTIONS.TOGGLE_THUMBNAILS_SIDEBAR:
       return {
@@ -59,3 +59,5 @@ export default (state = uiInitialState, { type, payload }) => {
       return state
   }
 }
+
+export default reducer

@@ -10,7 +10,7 @@ export const documentInitialState = {
   annotations: {},
 }
 
-export default (state = documentInitialState, { type, payload = {} }) => {
+const reducer = (state = documentInitialState, { type, payload = {} }) => {
   switch (type) {
     case DOCUMENT_ACTIONS.SET_DOCUMENT:
       return {
@@ -33,3 +33,5 @@ export default (state = documentInitialState, { type, payload = {} }) => {
       return state
   }
 }
+
+export default reducer
