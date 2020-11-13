@@ -2,7 +2,6 @@ const path = require('path')
 
 const withWorkers = require('@zeit/next-workers')
 const withTM = require('next-transpile-modules')(['pdfjs-dist/lib'])
-const withSourceMaps = require('@zeit/next-source-maps')
 
 const csp = require('./csp.config')
 const helpers = require('./utils/helpers')
@@ -110,4 +109,4 @@ nextConfig.workerLoaderOptions = {
   name: 'static/[hash].worker.js',
 }
 
-module.exports = withSourceMaps(withTM(withWorkers(nextConfig)))
+module.exports = withTM(withWorkers(nextConfig))
