@@ -47,7 +47,7 @@
     "@zeit/next-workers": "^1.0.0",
     "core-js": "3.6.5",
     "cssnano": "^4.1.10",
-    "file-saver": "^2.0.2",
+    "file-saver": "^2.0.5",
     "next": "^10.0.0",
     "next-transpile-modules": "^4.1.0",
     "pdfjs-dist": "^2.4.456",
