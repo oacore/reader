@@ -42,7 +42,7 @@
     "@mdi/svg": "^5.8.55",
     "@oacore/api": "^1.0.10",
     "@oacore/design": "^3.2.1",
-    "@sentry/browser": "^5.27.2",
+    "@sentry/browser": "^5.27.6",
     "@sentry/node": "^5.27.2",
     "@zeit/next-workers": "^1.0.0",
     "core-js": "3.6.5",
