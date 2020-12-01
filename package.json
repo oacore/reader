@@ -48,7 +48,7 @@
     "core-js": "3.6.5",
     "cssnano": "^4.1.10",
     "file-saver": "^2.0.2",
-    "next": "^10.0.0",
+    "next": "^10.0.3",
     "next-transpile-modules": "^4.1.0",
     "pdfjs-dist": "^2.4.456",
     "postcss": "^8.1.4",
