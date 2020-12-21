@@ -93,12 +93,6 @@ const nextConfig = {
       'react-dom': path.join(__dirname, 'node_modules', 'react-dom'),
     })
 
-    config.module.rules.push({
-      test: /\.js$/,
-      use: ['source-map-loader'],
-      enforce: 'pre',
-    })
-
     // TODO: Remove once https://github.com/zeit/next-plugins/blob/master/packages/next-workers/index.js#L20 is released
     config.output.globalObject = 'self'
     return config
