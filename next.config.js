@@ -1,7 +1,7 @@
 const path = require('path')
 
 const withWorkers = require('@zeit/next-workers')
-const withTM = require('next-transpile-modules')(['pdfjs-dist/lib'])
+const withTM = require('next-transpile-modules')(['pdfjs-dist'])
 
 const csp = require('./csp.config')
 const helpers = require('./utils/helpers')
@@ -91,12 +91,6 @@ const nextConfig = {
 
       'react': path.join(__dirname, 'node_modules', 'react'),
       'react-dom': path.join(__dirname, 'node_modules', 'react-dom'),
-    })
-
-    config.module.rules.push({
-      test: /\.js$/,
-      use: ['source-map-loader'],
-      enforce: 'pre',
     })
 
     // TODO: Remove once https://github.com/zeit/next-plugins/blob/master/packages/next-workers/index.js#L20 is released
