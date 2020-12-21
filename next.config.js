@@ -1,7 +1,7 @@
 const path = require('path')
 
 const withWorkers = require('@zeit/next-workers')
-const withTM = require('next-transpile-modules')(['pdfjs-dist/lib'])
+const withTM = require('next-transpile-modules')(['pdfjs-dist'])
 
 const csp = require('./csp.config')
 const helpers = require('./utils/helpers')
