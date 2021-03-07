@@ -34,6 +34,12 @@ const PdfLoader = React.memo(({ url, children }) => {
             cMapPacked: CMAP_PACKED,
           }).promise
 
+          // const tokenizedText = await document.getTextContent()
+          // const pageText = tokenizedText.items
+          //   .map((token) => token.str)
+          //   .join('')
+          // console.log(pageText)
+
           document.getDownloadInfo().then(() => {
             logTiming({
               category: 'API calls',
@@ -57,7 +63,7 @@ const PdfLoader = React.memo(({ url, children }) => {
           })
         }
 
-        redirect(url)
+        // redirect(url)
       } finally {
         setIsLoading(false)
       }

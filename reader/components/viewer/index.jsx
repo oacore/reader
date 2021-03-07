@@ -7,6 +7,7 @@ import Toolbar from '../toolbar'
 import Recommender from '../recommender'
 import { changeCurrentPageNumber } from '../../store/ui/actions'
 import { debounce } from '../../utils/helpers'
+import Wikify from '../wikify'
 
 class Viewer extends React.PureComponent {
   containerNode = React.createRef()
@@ -128,14 +129,16 @@ class Viewer extends React.PureComponent {
     const { Metadata, pdfViewer } = this
 
     return (
-      <div className={stylesMain.pdfContainer} ref={this.containerNode}>
-        {metadataContainerWidth && <Metadata metadata={metadata} />}
-        <div ref={this.viewerNode} className="pdfViewer" />
-        {metadataContainerWidth && (
-          <Recommender containerWidth={metadataContainerWidth} />
-        )}
-        {toolbarEnabled && <Toolbar viewer={pdfViewer} eventBus={eventBus} />}
-      </div>
+      <Wikify eventBus={eventBus}>
+        <div className={stylesMain.pdfContainer} ref={this.containerNode}>
+          {metadataContainerWidth && <Metadata metadata={metadata} />}
+          <div ref={this.viewerNode} className="pdfViewer" />
+          {metadataContainerWidth && (
+            <Recommender containerWidth={metadataContainerWidth} />
+          )}
+          {toolbarEnabled && <Toolbar viewer={pdfViewer} eventBus={eventBus} />}
+        </div>
+      </Wikify>
     )
   }
 }

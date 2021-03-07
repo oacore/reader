@@ -57,6 +57,7 @@
     "react-ga": "^3.3.0",
     "react-to-print": "^2.12.1",
     "smoothscroll-polyfill": "^0.4.4",
+    "tippy.js": "^6.3.1",
     "webpack": "^4.44.2",
     "worker-loader": "^3.0.8"
   },

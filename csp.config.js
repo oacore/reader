@@ -20,6 +20,7 @@ const config = {
   'img-src': [
     SELF,
     PRODUCTION,
+    'upload.wikimedia.org',
     'data:',
     'blob:',
     // Google Analytics may transport data via image:
