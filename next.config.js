@@ -1,8 +1,5 @@
 const path = require('path')
 
-const withWorkers = require('@zeit/next-workers')
-const withTM = require('next-transpile-modules')(['pdfjs-dist'])
-
 const csp = require('./csp.config')
 const helpers = require('./utils/helpers')
 
@@ -32,7 +29,7 @@ const nextConfig = {
     ]
   },
 
-  webpack: (config) => {
+  webpack: (config, { defaultLoaders }) => {
     const originalEntry = config.entry
     config.entry = async () => {
       const entries = await originalEntry()
@@ -86,6 +83,22 @@ const nextConfig = {
       }
     })
 
+    config.module.rules.push({
+      test: /\.+(js|jsx|mjs|ts|tsx)$/,
+      loader: defaultLoaders.babel,
+      include: (f) => f.includes('/node_modules/pdfjs-dist/lib/'),
+    })
+
+    rules.push({
+      test: /\.worker\.(js|ts)$/,
+      loader: 'worker-loader',
+      options: {
+        publicPath: `${nextConfig.assetPrefix}/_next/`,
+        filename: 'static/[hash].worker.js',
+        esModule: false,
+      },
+    })
+
     Object.assign(config.resolve.alias, {
       '@sentry/node': config.isServer ? '@sentry/node' : '@sentry/browser',
 
@@ -98,9 +111,5 @@ const nextConfig = {
     return config
   },
 }
-nextConfig.workerLoaderOptions = {
-  publicPath: `${nextConfig.assetPrefix}/_next/`,
-  name: 'static/[hash].worker.js',
-}
 
-module.exports = withTM(withWorkers(nextConfig))
+module.exports = nextConfig

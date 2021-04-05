@@ -44,13 +44,11 @@
     "@oacore/design": "^4.0.3",
     "@sentry/browser": "^5.29.2",
     "@sentry/node": "^5.29.2",
-    "@zeit/next-workers": "^1.0.0",
     "core-js": "^3.8.1",
     "cssnano": "^4.1.10",
     "file-saver": "^2.0.5",
     "next": "^10.0.3",
-    "next-transpile-modules": "^6.0.0",
-    "pdfjs-dist": "^2.4.456",
+    "pdfjs-dist": "^2.8.335",
     "postcss": "^8.2.1",
     "postcss-extend": "^1.0.5",
     "postcss-preset-env": "^6.7.0",
@@ -60,7 +58,7 @@
     "react-to-print": "^2.12.1",
     "smoothscroll-polyfill": "^0.4.4",
     "webpack": "^4.44.2",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^3.0.8"
   },
   "engines": {
     "node": ">=12"

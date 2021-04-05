@@ -1,6 +1,6 @@
 import React from 'react'
 import { PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
-import { EventBus, PDFLinkService } from 'pdfjs-dist/es5/web/pdf_viewer'
+import { EventBus, PDFLinkService } from 'pdfjs-dist/legacy/web/pdf_viewer'
 
 import MainArea from './components/main-area'
 import Layout from './components/layout'

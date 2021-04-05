@@ -1,5 +1,5 @@
 import React from 'react'
-import { PDFViewer as _PDFViewer } from 'pdfjs-dist/es5/web/pdf_viewer'
+import { PDFViewer as _PDFViewer } from 'pdfjs-dist/legacy/web/pdf_viewer'
 
 import stylesMain from '../main-area/styles.module.css'
 import styles from './styles.module.css'
