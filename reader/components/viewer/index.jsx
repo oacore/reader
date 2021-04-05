@@ -125,11 +125,13 @@ class Viewer extends React.PureComponent {
   // when particular PDF page is not rendered
   render() {
     const { toolbarEnabled, metadataContainerWidth } = this.state
-    const { metadata, eventBus } = this.props
+    const { metadata, eventBus, documentProxy } = this.props
     const { Metadata, pdfViewer } = this
 
+    const WikifyOrEmpty = documentProxy ? Wikify : React.Fragment
+
     return (
-      <Wikify eventBus={eventBus}>
+      <WikifyOrEmpty eventBus={eventBus} document={documentProxy}>
         <div className={stylesMain.pdfContainer} ref={this.containerNode}>
           {metadataContainerWidth && <Metadata metadata={metadata} />}
           <div ref={this.viewerNode} className="pdfViewer" />
@@ -138,7 +140,7 @@ class Viewer extends React.PureComponent {
           )}
           {toolbarEnabled && <Toolbar viewer={pdfViewer} eventBus={eventBus} />}
         </div>
-      </Wikify>
+      </WikifyOrEmpty>
     )
   }
 }
