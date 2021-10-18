@@ -49,7 +49,7 @@ const PdfLoader = React.memo(({ url, children }) => {
         )
 
         // Probably CORS issue. Don't report it.
-        if (!url.startsWith('https://core.ac.uk/')) {
+        if (url && !url.startsWith('https://core.ac.uk/')) {
           Sentry.withScope((scope) => {
             // group redirection errors together
             scope.setFingerprint(['redirection'])
@@ -71,13 +71,30 @@ const PdfLoader = React.memo(({ url, children }) => {
     <>
       {isLoading && <LoadingBar fixed />}
       <DocumentPlaceholder>
-        {!isLoading && (
+        {!isLoading && url && (
           <div className={styles.notice}>
             We are not allowed to display external PDFs yet. You will be
             redirected to the full text document in the repository in a few
             seconds, if not <a href={url}>click here</a>.
           </div>
         )}
+
+        {!isLoading &&
+          !url &&
+          document &&
+          document.location &&
+          document.location.pathname && (
+            <div className={styles.notice}>
+              We are not allowed to display external PDFs yet. You can check the
+              page:
+              <a
+                href={`https://core.ac.uk/outputs${document.location.pathname}`}
+              >
+                https://core.ac.uk/outputs{document.location.pathname}
+              </a>
+              .
+            </div>
+          )}
       </DocumentPlaceholder>
     </>
   )
