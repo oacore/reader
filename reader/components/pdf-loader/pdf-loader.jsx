@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState, cloneElement } from 'react'
 import { LoadingBar } from '@oacore/design'
 
@@ -13,7 +14,7 @@ const CMAP_PACKED = true
 const redirect = (url) => {
   if (url) setTimeout(() => window.location.replace(url), 5000)
 }
-const PdfLoader = React.memo(({ url, children }) => {
+const PdfLoader = React.memo(({ url, id, children }) => {
   const [documentProxy, setDocumentProxy] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -86,11 +87,9 @@ const PdfLoader = React.memo(({ url, children }) => {
           document.location.pathname && (
             <div className={styles.notice}>
               We are not allowed to display external PDFs yet. You can check the
-              page:
-              <a
-                href={`https://core.ac.uk/outputs${document.location.pathname}`}
-              >
-                https://core.ac.uk/outputs{document.location.pathname}
+              page: {' '}
+              <a href={`https://core.ac.uk/outputs/${id}`}>
+                https://core.ac.uk/outputs/{id}
               </a>
               .
             </div>

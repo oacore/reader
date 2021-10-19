@@ -23,7 +23,7 @@ const MainArea = () => {
         {document.documentProxy && <ThumbnailSidebar />}
         {document.documentProxy && <OutlineSidebar />}
       </div>
-      <PdfLoader url={metadata.url}>
+      <PdfLoader url={metadata.url} id={metadata.id}>
         <Viewer
           linkService={document.linkService}
           eventBus={document.eventBus}
