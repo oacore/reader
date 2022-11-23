@@ -81,7 +81,7 @@ class Reader extends React.Component {
     const {
       statusCode,
       id,
-      downloadLink,
+      downloadUrl,
       title,
       abstract,
       repositories,
@@ -101,7 +101,7 @@ class Reader extends React.Component {
 
           <link
             rel="preload"
-            href={downloadLink}
+            href={downloadUrl}
             as="fetch"
             type="application/pdf"
             crossOrigin="anonymous"
@@ -125,10 +125,10 @@ class Reader extends React.Component {
           />
 
           <meta name="referrer" content="origin" />
-          {downloadLink && (
+          {downloadUrl && (
             <>
-              <meta name="DC.format" content={downloadLink} />
-              <meta name="citation_pdf_url" content={downloadLink} />
+              <meta name="DC.format" content={downloadUrl} />
+              <meta name="citation_pdf_url" content={downloadUrl} />
             </>
           )}
 
@@ -172,7 +172,7 @@ class Reader extends React.Component {
         </Head>
         <CoreReader
           id={id}
-          downloadUrl={downloadLink}
+          downloadUrl={downloadUrl}
           repositories={repositories}
           year={year}
           authors={authors}
