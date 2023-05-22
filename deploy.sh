@@ -128,7 +128,7 @@ eval npm install
 #eval node -v
 #echo "$PWD"
 #cd "$DEPLOYMENT_TARGET"
-eval npm run build
+#eval npm run build
 #exitWithMessageOnError "npm build failed"
 #cd - > /dev/null
 #
