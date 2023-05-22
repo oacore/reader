@@ -112,25 +112,25 @@ fi
 # 3. Install npm packages
 eval export API_KEY=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
 eval rm package-lock.json
-# eval rm -rf node_modules
-if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
-  cd "$DEPLOYMENT_TARGET"
-  echo "Running npm install"
-  eval node -v
-  echo "$PWD"
-eval npm install
-  exitWithMessageOnError "npm failed"
-  cd - > /dev/null
-fi
-echo "Running npm run build"
-echo "$DEPLOYMENT_TARGET"
-eval node -v
-echo "$PWD"
-cd "$DEPLOYMENT_TARGET"
-eval npm run build
-exitWithMessageOnError "npm build failed"
-cd - > /dev/null
-
-echo "$PWD"
-##################################################################################################################################
-echo "Finished successfully."
+eval rm -rf node_modules
+#if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
+#  cd "$DEPLOYMENT_TARGET"
+#  echo "Running npm install"
+#  eval node -v
+#  echo "$PWD"
+#  eval npm install
+#  exitWithMessageOnError "npm failed"
+#  cd - > /dev/null
+#fi
+#echo "Running npm run build"
+#echo "$DEPLOYMENT_TARGET"
+#eval node -v
+#echo "$PWD"
+#cd "$DEPLOYMENT_TARGET"
+#eval npm run build
+#exitWithMessageOnError "npm build failed"
+#cd - > /dev/null
+#
+#echo "$PWD"
+###################################################################################################################################
+#echo "Finished successfully."
