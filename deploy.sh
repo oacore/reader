@@ -113,12 +113,13 @@ fi
 eval export API_KEY=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
 eval rm package-lock.json
 eval rm -rf node_modules
+
 #if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
 #  cd "$DEPLOYMENT_TARGET"
 #  echo "Running npm install"
 #  eval node -v
 #  echo "$PWD"
-#  eval npm install
+eval npm install
 #  exitWithMessageOnError "npm failed"
 #  cd - > /dev/null
 #fi
@@ -127,7 +128,7 @@ eval rm -rf node_modules
 #eval node -v
 #echo "$PWD"
 #cd "$DEPLOYMENT_TARGET"
-#eval npm run build
+eval npm run build
 #exitWithMessageOnError "npm build failed"
 #cd - > /dev/null
 #
