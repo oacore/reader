@@ -2,13 +2,13 @@
 import React, { useEffect, useState, cloneElement } from 'react'
 import { LoadingBar } from '@oacore/design'
 
-import pdfjs from '../../lib/pdf-js/webpack'
+import * as pdfjs from '../../lib/pdf-js/webpack'
 import { Sentry } from '../../../utils/sentry'
 import styles from './styles.module.css'
 import { logTiming } from '../../../utils/analytics'
 import DocumentPlaceholder from './document-placeholder'
 
-const CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.4.456/cmaps/'
+const CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/cmaps/'
 const CMAP_PACKED = true
 
 const redirect = (url) => {

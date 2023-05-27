@@ -22,6 +22,7 @@ class ThumbnailsSidebar extends React.PureComponent {
       classNameSelected: styles.selected,
       classNameThumbnailImage: styles.thumbnailImage,
       classNameThumbnail: styles.thumbnail,
+      eventBus,
     })
 
     renderingQueue.setThumbnailViewer(this.thumbnailViewer)
