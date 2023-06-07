@@ -1,5 +1,5 @@
 import React, { createElement } from 'react'
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 
 const isProduction = process.env.NODE_ENV === 'production'
 const trackers = (process.env.GA_TRACKING_CODE || '').split(',')
@@ -32,11 +32,12 @@ if (isProduction && trackers[0] !== '') {
 
 const logPageView = () => {
   if (!isGAInitialized) return
-  ReactGA.set({ page: window.location.pathname })
-  ReactGA.pageview(
-    window.location.pathname,
-    trackers.length === 2 ? ['prod', 'dev'] : undefined
-  )
+
+  ReactGA.send({
+    hitType: 'reader',
+    page: window.location.pathname,
+    title: window.location.pathname,
+  })
 }
 
 export const logEvent = ({

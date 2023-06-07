@@ -1,4 +1,5 @@
 import React from 'react'
+// eslint-disable-next-line import/no-unresolved
 import { PDFViewer as _PDFViewer } from 'pdfjs-dist/es5/web/pdf_viewer'
 
 import stylesMain from '../main-area/styles.module.css'

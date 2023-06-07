@@ -1,5 +1,6 @@
 import React from 'react'
 import { PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
+// eslint-disable-next-line import/no-unresolved
 import { EventBus, PDFLinkService } from 'pdfjs-dist/es5/web/pdf_viewer'
 
 import MainArea from './components/main-area'

@@ -30,6 +30,7 @@ const OutlineItem = ({ isExpanded, item, linkService }) => {
   const [isOpen, toggleIsOpen] = useState(isExpanded)
 
   return (
+    // eslint-disable-next-line jsx-a11y/role-has-required-aria-props
     <li className={styles.outlineItem} role="treeitem" aria-expanded={isOpen}>
       {Boolean(item.items.length) && (
         <button
