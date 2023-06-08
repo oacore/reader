@@ -13,10 +13,12 @@
  * limitations under the License.
  */
 
-// eslint-disable-next-line import/extensions,import/no-unresolved
-const pdfjs = require('pdfjs-dist/es5/build/pdf.js')
-// eslint-disable-next-line import/extensions,import/no-unresolved
-const PdfjsWorker = require('pdfjs-dist/es5/build/pdf.worker.js')
+// const pdfjs = require('pdfjs-dist/es5/build/pdf.js')
+// eslint-disable-next-line import/extensions
+const pdfjs = require('pdfjs-dist/build/pdf.js')
+// const PdfjsWorker = require('pdfjs-dist/es5/build/pdf.worker.js')
+// eslint-disable-next-line import/extensions
+const PdfjsWorker = require('pdfjs-dist/build/pdf.worker.js')
 
 if (typeof window !== 'undefined' && 'Worker' in window)
   pdfjs.GlobalWorkerOptions.workerPort = new PdfjsWorker()
