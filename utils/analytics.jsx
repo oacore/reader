@@ -15,25 +15,27 @@ const logPageView = () => {
   if (!isGAInitialized) return
 
   ReactGA.send({
-    hitType: 'reader',
+    hitType: 'Reader',
     page: `Reader. ${window.location.pathname}`,
     title: `Reader. ${window.location.pathname}`,
   })
 }
 
-export const logEvent = ({ category }) => {
-  // eslint-disable-next-line no-console
-  console.log(JSON.stringify(category))
-  // ReactGA.event(
-  //   {
-  //     category,
-  //     action,
-  //     label: 'reader',
-  //     value,
-  //     nonInteraction,
-  //   },
-  //   ['prod', 'dev']
-  // )
+export const logEvent = ({
+  category,
+  action,
+  value,
+  nonInteraction = true,
+}) => {
+  if (!isGAInitialized) return
+
+  ReactGA.event({
+    category: category ?? 'Reader category',
+    action: action ?? 'Reader action',
+    label: 'Reader',
+    value: value ?? 99,
+    nonInteraction: nonInteraction ?? true,
+  })
 }
 
 export const logTiming = (options) => {
