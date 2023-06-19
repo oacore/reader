@@ -21,15 +21,9 @@ const logPageView = () => {
   })
 }
 
-export const logEvent = () => {
-  if (!isGAInitialized) return
-
-  ReactGA.send({
-    hitType: 'reader',
-    page: window.location.pathname,
-    title: window.location.pathname,
-  })
-
+export const logEvent = ({ category }) => {
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify(category))
   // ReactGA.event(
   //   {
   //     category,
@@ -44,13 +38,8 @@ export const logEvent = () => {
 
 export const logTiming = (options) => {
   if (!isGAInitialized) return
-  ReactGA.send({
-    hitType: 'reader',
-    page: `logTiming ${window.location.pathname}`,
-    title: window.location.pathname,
-  })
   // eslint-disable-next-line no-console
-  // console.log(JSON.stringify(options))
+  console.log(JSON.stringify(options))
 }
 
 export const withGoogleAnalytics = (Page) => {
