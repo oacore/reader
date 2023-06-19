@@ -50,7 +50,7 @@ export const logTiming = (options) => {
     title: window.location.pathname,
   })
   // eslint-disable-next-line no-console
-  console.log(JSON.stringify(options))
+  // console.log(JSON.stringify(options))
 }
 
 export const withGoogleAnalytics = (Page) => {
