@@ -30,8 +30,8 @@ export const logEvent = ({
   if (!isGAInitialized) return
 
   ReactGA.event({
-    category: category ?? 'Reader category',
-    action: action ?? 'Reader action',
+    category: `Reader. ${category}` ?? 'Category',
+    action: `Reader. ${action}` ?? 'Action',
     label: 'Reader',
     value: value ?? 99,
     nonInteraction: nonInteraction ?? true,
