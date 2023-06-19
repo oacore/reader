@@ -29,9 +29,11 @@ export const logEvent = ({
 }) => {
   if (!isGAInitialized) return
 
+  const valueCategory = category ?? 'Default category'
+  const valueAction = action ?? 'Default action'
   ReactGA.event({
-    category: `Reader. ${category}` ?? 'Category',
-    action: `Reader. ${action}` ?? 'Action',
+    category: `Reader. ${valueCategory}`,
+    action: `Reader. ${valueAction}`,
     label: 'Reader',
     value: value ?? 99,
     nonInteraction: nonInteraction ?? true,
