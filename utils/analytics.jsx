@@ -1,5 +1,5 @@
 import React, { createElement } from 'react'
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 
 const isProduction = process.env.NODE_ENV === 'production'
 const trackers = (process.env.GA_TRACKING_CODE || '').split(',')
