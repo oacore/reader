@@ -29,21 +29,31 @@ export const logEvent = ({
 }) => {
   if (!isGAInitialized) return
 
-  ReactGA.event(
-    {
-      category,
-      action,
-      label: 'reader',
-      value,
-      nonInteraction,
-    },
-    ['prod', 'dev']
-  )
+  ReactGA.send({
+    hitType: 'reader',
+    page: `event /category=${category}/action=${action}/value=${value}/nonInteraction${nonInteraction}`,
+    title: window.location.pathname,
+  })
+
+  // ReactGA.event(
+  //   {
+  //     category,
+  //     action,
+  //     label: 'reader',
+  //     value,
+  //     nonInteraction,
+  //   },
+  //   ['prod', 'dev']
+  // )
 }
 
 export const logTiming = (options) => {
   if (!isGAInitialized) return
-  ReactGA.set(options)
+  ReactGA.send({
+    hitType: 'reader',
+    page: `logTiming ${JSON.stringify(options)}`,
+    title: window.location.pathname,
+  })
 }
 
 export const withGoogleAnalytics = (Page) => {
