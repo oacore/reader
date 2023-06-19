@@ -6,7 +6,7 @@ let isGAInitialized = false
 
 if (isProduction && process.env.GA_TRACKING_CODE) {
   ReactGA.initialize(process.env.GA_TRACKING_CODE, {
-    siteSpeedSampleRate: 100,
+    siteSpeedSampleRate: 2,
   })
   isGAInitialized = true
 }
