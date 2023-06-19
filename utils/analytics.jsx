@@ -16,8 +16,8 @@ const logPageView = () => {
 
   ReactGA.send({
     hitType: 'reader',
-    page: window.location.pathname,
-    title: window.location.pathname,
+    page: `Reader. ${window.location.pathname}`,
+    title: `Reader. ${window.location.pathname}`,
   })
 }
 
