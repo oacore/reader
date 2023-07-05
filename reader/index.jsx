@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { PDFRenderingQueue } from 'pdfjs-dist/lib/web/pdf_rendering_queue'
-import { EventBus, PDFLinkService } from 'pdfjs-dist/es5/web/pdf_viewer'
+import { EventBus, PDFLinkService } from 'pdfjs-dist/web/pdf_viewer'
 
 import MainArea from './components/main-area'
 import Layout from './components/layout'
@@ -25,6 +25,28 @@ const CoreReader = ({
   // Link service allows to clicking on internal links in PDF
   const linkService = new PDFLinkService({ eventBus })
 
+  const [members, setMembers] = useState([])
+
+  useEffect(() => {
+    async function fetchMembers() {
+      try {
+        const response = await fetch(
+          'https://api-dev.core.ac.uk/internal/members'
+        )
+        const data = await response.json()
+
+        const filtered = data.filter(
+          (member) => !member.organisation_name.toLowerCase().includes('test')
+        )
+        setMembers(filtered)
+      } catch (error) {
+        console.error('Error retrieving data:', error)
+        setMembers([])
+      }
+    }
+    fetchMembers()
+  }, [])
+
   return (
     <>
       <GlobalStore
@@ -45,7 +67,7 @@ const CoreReader = ({
       >
         <Layout id="pdf-viewer-container">
           <Header />
-          <MainArea />
+          <MainArea members={members} />
         </Layout>
       </GlobalStore>
     </>

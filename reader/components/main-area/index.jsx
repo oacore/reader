@@ -9,7 +9,7 @@ import { useGlobalStore } from '../../store'
 import { setDocument } from '../../store/document/actions'
 import styles from './styles.module.css'
 
-const MainArea = () => {
+const MainArea = ({ members }) => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()
 
   return (
@@ -31,6 +31,7 @@ const MainArea = () => {
           metadata={metadata}
           setDocument={(d) => dispatch(setDocument(d))}
           globalDispatch={dispatch}
+          members={members}
         />
       </PdfLoader>
     </div>

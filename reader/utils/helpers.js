@@ -9,4 +9,12 @@ export const debounce = (callback, time = 250) => {
   }
 }
 
-export default { debounce }
+export function checkType(dataProviderId, members) {
+  return members.find((item) => {
+    if (Array.isArray(item.repo_id))
+      return item.repo_id.includes(dataProviderId?.toString())
+    return +item.repo_id === +dataProviderId
+  })
+}
+
+export default { debounce, checkType }
