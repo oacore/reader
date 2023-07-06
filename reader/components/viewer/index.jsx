@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { PDFViewer as _PDFViewer } from 'pdfjs-dist/es5/web/pdf_viewer'
+import { PDFViewer as _PDFViewer } from 'pdfjs-dist/web/pdf_viewer'
 import { useRouter } from 'next/router'
 import { DataProviderLogo } from '@oacore/design/lib/elements/logo'
 
