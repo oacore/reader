@@ -1,143 +1,167 @@
-import React from 'react'
-import { PDFViewer as _PDFViewer } from 'pdfjs-dist/es5/web/pdf_viewer'
+import React, { useRef, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { PDFViewer } from 'pdfjs-dist/web/pdf_viewer'
 
 import stylesMain from '../main-area/styles.module.css'
 import styles from './styles.module.css'
 import Toolbar from '../toolbar'
 import Recommender from '../recommender'
 import { changeCurrentPageNumber } from '../../store/ui/actions'
-import { debounce } from '../../utils/helpers'
+import { checkType, debounce } from '../../utils/helpers'
+import DataProviderLogo from '../logo'
 
-class Viewer extends React.PureComponent {
-  containerNode = React.createRef()
+const Viewer = ({
+  linkService,
+  eventBus,
+  renderingQueue,
+  setDocument,
+  documentProxy,
+  metadata,
+  members,
+}) => {
+  const containerNode = useRef()
+  const viewerNode = useRef()
+  const pdfViewerRef = useRef(null)
+  const [toolbarEnabled, setToolbarEnabled] = useState(false)
+  const [metadataContainerWidth, setMetadataContainerWidth] = useState(null)
 
-  viewerNode = React.createRef()
+  const [dataProvider, setDataProvider] = useState({})
+  const router = useRouter()
 
-  pdfViewer = null
+  const handleResizeEvent = debounce(() => {
+    pdfViewerRef.current.currentScaleValue = 'auto'
+    pdfViewerRef.current.update()
 
-  state = {
-    toolbarEnabled: false,
-    metadataContainerWidth: null,
-  }
-
-  handleResizeEvent = debounce(() => {
-    this.pdfViewer.currentScaleValue = 'auto'
-    this.pdfViewer.update()
-
-    this.setState({
-      metadataContainerWidth: this.pdfViewer.getPageView(0).width,
-    })
+    setMetadataContainerWidth(pdfViewerRef?.current?.getPageView(0)?.width)
   })
 
-  componentDidMount() {
-    const {
-      linkService,
-      eventBus,
-      renderingQueue,
-      setDocument,
-      documentProxy,
-    } = this.props
+  const onPagesLoaded = () => {
+    setMetadataContainerWidth(pdfViewerRef?.current?.getPageView(0)?.width)
+    setDocument({ pagesLoaded: true })
+  }
+  const onPagesInit = () => {
+    // eslint-disable-next-line no-underscore-dangle
+    pdfViewerRef.current._setScale('auto', /* no_scroll */ true)
+    pdfViewerRef.current.update()
+    setToolbarEnabled(true)
+  }
 
-    // PDFViewer allows to render pages on demand,
-    // i.e. page is render only when is visible
-    // This PDFViewer makes animations (sidebar open/closed) much more faster.
-    this.pdfViewer = new _PDFViewer({
-      container: this.containerNode.current,
-      viewer: this.viewerNode.current,
+  const onPageChanging = (e) => {
+    changeCurrentPageNumber(e.pageNumber)
+  }
+
+  useEffect(() => {
+    const fetchMetadata = async (id) => {
+      const t = await fetch(
+        `https://api.core.ac.uk/internal/data-providers/${id}`
+      )
+      const res = await t.json()
+      setDataProvider(res)
+    }
+    fetchMetadata(metadata.repositories.id)
+  }, [router.query?.dataId])
+
+  useEffect(() => {
+    pdfViewerRef.current = new PDFViewer({
+      container: containerNode.current,
+      viewer: viewerNode.current,
       enhanceTextSelection: true,
       renderingQueue,
       eventBus,
       linkService,
     })
 
-    eventBus.on('pagesinit', this.onPagesInit)
-    eventBus.on('pagesloaded', this.onPagesLoaded)
-    eventBus.on('pagechanging', this.onPageChanging)
+    eventBus.on('pagesinit', onPagesInit)
+    eventBus.on('pagesloaded', onPagesLoaded)
+    eventBus.on('pagechanging', onPageChanging)
 
-    renderingQueue.setViewer(this.pdfViewer)
-    linkService.setViewer(this.pdfViewer)
+    renderingQueue.setViewer(pdfViewerRef.current)
+    linkService.setViewer(pdfViewerRef.current)
 
-    this.pdfViewer.setDocument(documentProxy)
+    pdfViewerRef.current.setDocument(documentProxy)
     linkService.setDocument(documentProxy)
 
     setDocument({
-      viewer: this.pdfViewer,
+      viewer: pdfViewerRef.current,
       documentProxy,
     })
 
-    window.addEventListener('resize', this.handleResizeEvent)
-  }
+    window.addEventListener('resize', handleResizeEvent)
 
-  componentWillUnmount() {
-    const { eventBus } = this.props
+    return () => {
+      eventBus.off('pagesinit', onPagesInit)
+      eventBus.off('pagesloaded', onPagesLoaded)
+      eventBus.off('pagechanging', onPageChanging)
+      window.removeEventListener('resize', handleResizeEvent)
+    }
+  }, [])
 
-    // unregister all event listeners
-    eventBus.off('pagesinit', this.onPagesInit)
-    eventBus.off('pagesloaded', this.onPagesLoaded)
+  const memberType = checkType(dataProvider.id, members)
 
-    window.removeEventListener('resize', this.handleResizeEvent)
-  }
+  const checkBillingType =
+    memberType?.billing_type === 'supporting' ||
+    memberType?.billing_type === 'sustaining'
 
-  onPagesLoaded = () => {
-    const { setDocument } = this.props
-
-    this.setState({
-      metadataContainerWidth: this.pdfViewer.getPageView(0).width,
-    })
-    setDocument({
-      pagesLoaded: true,
-    })
-  }
-
-  onPagesInit = () => {
-    // eslint-disable-next-line no-underscore-dangle
-    this.pdfViewer._setScale('auto', /* no_scroll */ true)
-    this.pdfViewer.update()
-    this.setState({ toolbarEnabled: true })
-  }
-
-  onPageChanging = (e) => {
-    const { globalDispatch } = this.props
-    globalDispatch(changeCurrentPageNumber(e.pageNumber))
-  }
-
-  Metadata = ({ metadata }) => {
-    const { metadataContainerWidth } = this.state
-    return (
-      <div
-        className={styles.pdfMetadata}
-        style={{
-          width: metadataContainerWidth,
-        }}
-      >
-        <div />
-        <div>
-          {metadata.repositories?.name || ''}
-          <b>{metadata.year}</b>
-        </div>
-      </div>
-    )
-  }
-
-  // It's important to use `pdfViewer` class in inner element.
-  // It allows to use custom PDF.js styles, i.e. loading animation
-  // when particular PDF page is not rendered
-  render() {
-    const { toolbarEnabled, metadataContainerWidth } = this.state
-    const { metadata, eventBus } = this.props
-    const { Metadata, pdfViewer } = this
-
-    return (
-      <div className={stylesMain.pdfContainer} ref={this.containerNode}>
-        {metadataContainerWidth && <Metadata metadata={metadata} />}
-        <div ref={this.viewerNode} className="pdfViewer" />
-        {metadataContainerWidth && (
-          <Recommender containerWidth={metadataContainerWidth} />
-        )}
-        {toolbarEnabled && <Toolbar viewer={pdfViewer} eventBus={eventBus} />}
-      </div>
-    )
-  }
+  return (
+    <div className={stylesMain.pdfContainer} ref={containerNode}>
+      {metadataContainerWidth &&
+        (checkBillingType ? (
+          <div className={styles.pdfMetadata}>
+            <header className={styles.header}>
+              <DataProviderLogo
+                alt="logo"
+                imageSrc={dataProvider.logoBase64}
+                size="lg"
+              />
+              <div className={styles.headerInfo}>
+                <h5 className={styles.headerInfoCaption}>
+                  <a
+                    href="https://core.ac.uk/membership"
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.headerInfoCaptionLink}
+                  >
+                    {memberType?.billing_type
+                      ? `${memberType?.billing_type} member`
+                      : `Not a member yet`}
+                  </a>
+                </h5>
+                <h1 className={styles.headerInfoTitle}>
+                  {dataProvider.institution}
+                </h1>
+                <span className={styles.subHeaderInfo}>
+                  {metadata.repositories?.name || ''}
+                </span>
+              </div>
+            </header>
+            <div className={styles.subHeader}>
+              <span className={styles.subTitle}>{metadata.title}</span>
+              <span className={styles.subYear}>{metadata.year}</span>
+            </div>
+          </div>
+        ) : (
+          <div
+            className={styles.pdfMetadataNone}
+            style={{
+              width: metadataContainerWidth,
+            }}
+          >
+            <div />
+            <div>
+              {metadata.repositories?.name || ''}
+              <b>{metadata.year}</b>
+            </div>
+          </div>
+        ))}
+      <div ref={viewerNode} className="pdfViewer" />
+      {metadataContainerWidth && (
+        <Recommender containerWidth={metadataContainerWidth} />
+      )}
+      {toolbarEnabled && (
+        <Toolbar viewer={pdfViewerRef.current} eventBus={eventBus} />
+      )}
+    </div>
+  )
 }
 
 export default Viewer
