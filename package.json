@@ -46,10 +46,9 @@
     "@sentry/node": "^5.29.2",
     "@zeit/next-workers": "^1.0.0",
     "core-js": "^3.8.1",
-    "cssnano": "^6.0.3",
+    "cssnano": "^4.1.10",
     "file-saver": "^2.0.5",
-    "fit-curve": "^0.2.0",
-    "next": "^14.0.4",
+    "next": "^10.0.3",
     "next-transpile-modules": "^6.0.0",
     "pdfjs-dist": "^2.4.456",
     "postcss": "8.4.14",
@@ -61,10 +60,10 @@
     "react-ga4": "^2.1.0",
     "react-to-print": "^2.12.1",
     "smoothscroll-polyfill": "^0.4.4",
-    "webpack": "^5.89.0",
+    "webpack": "^4.44.2",
     "worker-loader": "^2.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=12"
   }
 }
