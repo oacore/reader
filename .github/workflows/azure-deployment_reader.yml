@@ -4,9 +4,9 @@
 name: Build and deploy Node.js app to Azure Web App - reader
 
 on:
-  push:
-    branches:
-      - azure-deployment
+  # push:
+  #   branches:
+  #     - azure-deployment
   workflow_dispatch:
 
 jobs:
