@@ -9,9 +9,9 @@ env:
 
 
 on:
-  push:
-    branches:
-      - azure-deployment
+  # push:
+  #   branches:
+  #     - azure-deployment
   workflow_dispatch:
 
 jobs:
