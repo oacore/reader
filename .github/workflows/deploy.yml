@@ -1,0 +1,93 @@
+name: container deploy azure
+
+on:
+  push:
+    branches:
+      - container_deploy
+  workflow_dispatch:
+
+env:
+  ACR_NAME: corefrontend
+  IMAGE_NAME: reader
+  RESOURCE_GROUP: test-rg
+  WEBAPP_NAME: reader-core-container
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.vars.outputs.tag }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set Git SHA tag
+        id: vars
+        run: echo "tag=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+
+      - name: ACR Login
+        run: az acr login --name ${{ env.ACR_NAME }}
+
+      - name: Docker Build and Tag
+        run: |
+          docker build \
+            --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
+            --build-arg API_TOKEN=${{ secrets.API_TOKEN }} \
+            -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
+            -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest \
+            .
+
+      - name: Docker Push
+        run: |
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set image tag from build job
+        run: echo "TAG=${{ needs.build-and-push.outputs.tag }}" >> $GITHUB_ENV
+
+      - name: Set app settings (API_TOKEN & NPM_TOKEN)
+        run: |
+          az webapp config appsettings set \
+            --name ${{ env.WEBAPP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --settings \
+              API_TOKEN=${{ secrets.API_TOKEN }} \
+              NPM_TOKEN=${{ secrets.NPM_TOKEN }}
+
+      - name: Deploy Docker image to Azure Web App
+        run: |
+          az webapp config container set \
+            --name ${{ env.WEBAPP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --docker-custom-image-name ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }} \
+            --docker-registry-server-url https://${{ env.ACR_NAME }}.azurecr.io
+
+      - name: Restart Web App
+        run: |
+          az webapp restart \
+            --name ${{ env.WEBAPP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }}
