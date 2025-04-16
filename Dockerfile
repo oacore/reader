@@ -1,21 +1,42 @@
-# BUILD IMAGE
-#   docker build --rm -t core-reader .
-#
-# RUN CONTAINER
-#   docker run --name core-reader-dev -ti -p 3000:3000 core-reader:latest
+# Stage 1: Build stage
+FROM node:16 AS builder
 
+# Accept tokens as build args
+ARG NPM_TOKEN
+ARG API_TOKEN
 
-FROM node:12.8.0-alpine
-MAINTAINER core.ac.uk
-
-ENV NODE_ENV development
-
+# Set working directory
 WORKDIR /app
-ADD . /app
-RUN npm run install
+
+# Configure GitHub Packages auth (do NOT commit this)
+RUN echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
+
+# Install dependencies
+COPY package*.json .npmrc ./
+RUN npm ci --legacy-peer-deps
+
+# Copy full source (including env.config)
+COPY . .
+
+# Build the Next.js app
 RUN npm run build
 
-EXPOSE 3000
+# Stage 2: Runtime stage
+FROM node:16-alpine
 
-# default command runs dev server
-CMD npm run start --host 0.0.0.0
+# Add dumb-init for signal handling
+RUN apk add --no-cache dumb-init
+
+WORKDIR /app
+
+# Copy everything from builder
+COPY --from=builder /app /app
+
+# Expose app port
+EXPOSE 8080
+
+# Use dumb-init to handle signals properly
+ENTRYPOINT ["dumb-init", "--"]
+
+# Default command
+CMD ["node_modules/next/dist/bin/next", "start", "-p", "8080"]
