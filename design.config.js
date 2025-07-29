@@ -18,6 +18,12 @@ const iconsRoot = path.join(
   './svg'
 )
 
+const publicPath =
+  process.env.ICONS_PUBLIC_PATH ||
+  (process.env.BUILD_TARGET === 'aws'
+    ? '/reader/static/design'
+    : '/static/design')
+
 const config = {
   icons: {
     path: iconsRoot,
@@ -26,7 +32,7 @@ const config = {
 
   output: {
     path: path.join(__dirname, 'public/static/design'),
-    publicPath: process.env.ICONS_PUBLIC_PATH || '/static/design',
+    publicPath,
     icons: {
       files: 'icons',
       sprite: 'icons.svg',

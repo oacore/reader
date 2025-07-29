@@ -40,10 +40,7 @@ const Header = () => {
             ui.isOutlineSidebarVisible && styles.buttonActive
           )}
         >
-          <Icon
-            src="/static/design/icons.svg#file-document"
-            alt="Show outline"
-          />
+          <Icon src="#file-document" alt="Show outline" />
         </Button>
         <Button
           title="Show thumbnails"
