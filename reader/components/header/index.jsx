@@ -1,5 +1,6 @@
 import React from 'react'
-import { Icon, Button, AppBar } from '@oacore/design'
+import { Button, AppBar } from '@oacore/design'
+import Icon from '@oacore/design/lib/elements/icon'
 import { classNames } from '@oacore/design/lib/utils'
 
 import { DownloadFile } from '../downloader'
