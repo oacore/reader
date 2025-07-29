@@ -12,20 +12,10 @@ import {
 } from '../../store/ui/actions'
 import Print from '../print'
 import { logEvent } from '../../../utils/analytics'
+import { getIconPath } from '../../utils/helpers'
 
 const Header = () => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()
-
-  // Helper function to get the correct icon path based on environment
-  const getIconPath = (iconName) => {
-    const isProduction =
-      process.env.NODE_ENV === 'production' ||
-      process.env.BUILD_TARGET === 'aws'
-    const basePath = isProduction
-      ? '/reader/static/design/icons.svg'
-      : '/static/design/icons.svg'
-    return `${basePath}#${iconName}`
-  }
 
   const handleRedirection = () => {
     const coreHostname = 'core.ac.uk'
