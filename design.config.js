@@ -18,20 +18,6 @@ const iconsRoot = path.join(
   './svg'
 )
 
-const getPublicPath = () => {
-  if (process.env.BUILD_TARGET === 'aws') {
-    // eslint-disable-next-line no-console
-    console.log(process.env.BUILD_TARGET, 'process.env.BUILD_TARGET')
-    return '/reader/static/design'
-  }
-  if (process.env.ICONS_PUBLIC_PATH) {
-    // eslint-disable-next-line no-console
-    console.log(process.env.ICONS_PUBLIC_PATH, 'process.env.ICONS_PUBLIC_PATH')
-    return process.env.ICONS_PUBLIC_PATH
-  }
-  return '/static/design'
-}
-
 const config = {
   icons: {
     path: iconsRoot,
@@ -40,7 +26,7 @@ const config = {
 
   output: {
     path: path.join(__dirname, 'public/static/design'),
-    publicPath: getPublicPath(),
+    publicPath: process.env.ICONS_PUBLIC_PATH || '/static/design',
     icons: {
       files: 'icons',
       sprite: 'icons.svg',
