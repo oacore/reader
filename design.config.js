@@ -19,7 +19,7 @@ const iconsRoot = path.join(
 )
 
 const publicPath =
-  process.env.BUILD_TARGET === 'aws'
+  process.env.NODE_ENV === 'production' || process.env.BUILD_TARGET === 'aws'
     ? '/reader/static/design'
     : process.env.ICONS_PUBLIC_PATH || '/static/design'
 
