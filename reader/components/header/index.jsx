@@ -23,13 +23,6 @@ const Header = () => {
     else window.location = `https://${coreHostname}/${pdfSuffix}`
   }
 
-  // eslint-disable-next-line no-console
-  console.log(process.env.ICONS_PUBLIC_PATH, 'process.env.ICONS_PUBLIC_PATH')
-  // eslint-disable-next-line no-console
-  console.log(process.env.BUILD_TARGET, 'aws')
-  // eslint-disable-next-line no-console
-  console.log(process.env.NODE_ENV, 'env')
-
   return (
     <AppBar className={styles.appBar}>
       <AppBar.Item>
