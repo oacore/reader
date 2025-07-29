@@ -41,7 +41,10 @@ const Header = () => {
             ui.isOutlineSidebarVisible && styles.buttonActive
           )}
         >
-          <Icon src="#file-document" alt="Show outline" />
+          <Icon
+            src="/static/design/icons.svg#file-document"
+            alt="Show outline"
+          />
         </Button>
         <Button
           title="Show thumbnails"
@@ -57,7 +60,10 @@ const Header = () => {
             ui.isThumbnailSidebarVisible && styles.buttonActive
           )}
         >
-          <Icon src="#view-grid" alt="Show thumbnails" />
+          <Icon
+            src="/static/design/icons.svg#view-grid"
+            alt="Show thumbnails"
+          />
         </Button>
       </AppBar.Item>
       <AppBar.Item className={styles.itemCenter}>
@@ -67,7 +73,7 @@ const Header = () => {
           onClick={handleRedirection}
           className={styles.buttonMenu}
         >
-          <Icon src="#core-symbol" alt="CORE" />
+          <Icon src="/static/design/icons.svg#core-symbol" alt="CORE" />
         </Button>
       </AppBar.Item>
       <AppBar.Item className={styles.itemRight}>
