@@ -103,17 +103,9 @@ const nextConfig = {
       config.externals = config.externals.filter((external) => {
         if (typeof external === 'function') return true
 
-        // Don't externalize native dependencies
-        const nativeDeps = ['sharp', 'watchpack-chokidar2', 'fsevents']
-        return !nativeDeps.includes(external)
+        // Don't externalize sharp
+        return external !== 'sharp'
       })
-    }
-
-    // Ensure native modules are bundled
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-      path: false,
     }
 
     // TODO: Remove once https://github.com/zeit/next-plugins/blob/master/packages/next-workers/index.js#L20 is released
