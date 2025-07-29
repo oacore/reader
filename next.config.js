@@ -98,13 +98,22 @@ const nextConfig = {
       'react-dom': path.join(__dirname, 'node_modules', 'react-dom'),
     })
 
-    // Handle sharp package
+    // Handle native dependencies
     if (config.externals) {
       config.externals = config.externals.filter((external) => {
         if (typeof external === 'function') return true
 
-        return external !== 'sharp'
+        // Don't externalize native dependencies
+        const nativeDeps = ['sharp', 'watchpack-chokidar2', 'fsevents']
+        return !nativeDeps.includes(external)
       })
+    }
+
+    // Ensure native modules are bundled
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      path: false,
     }
 
     // TODO: Remove once https://github.com/zeit/next-plugins/blob/master/packages/next-workers/index.js#L20 is released
