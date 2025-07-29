@@ -16,6 +16,17 @@ import { logEvent } from '../../../utils/analytics'
 const Header = () => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()
 
+  // Helper function to get the correct icon path based on environment
+  const getIconPath = (iconName) => {
+    const isProduction =
+      process.env.NODE_ENV === 'production' ||
+      process.env.BUILD_TARGET === 'aws'
+    const basePath = isProduction
+      ? '/reader/static/design/icons.svg'
+      : '/static/design/icons.svg'
+    return `${basePath}#${iconName}`
+  }
+
   const handleRedirection = () => {
     const coreHostname = 'core.ac.uk'
     const pdfSuffix = `display/${metadata.id}`
@@ -41,10 +52,7 @@ const Header = () => {
             ui.isOutlineSidebarVisible && styles.buttonActive
           )}
         >
-          <Icon
-            src="/static/design/icons.svg#file-document"
-            alt="Show outline"
-          />
+          <Icon src={getIconPath('file-document')} alt="Show outline" />
         </Button>
         <Button
           title="Show thumbnails"
@@ -60,10 +68,7 @@ const Header = () => {
             ui.isThumbnailSidebarVisible && styles.buttonActive
           )}
         >
-          <Icon
-            src="/static/design/icons.svg#view-grid"
-            alt="Show thumbnails"
-          />
+          <Icon src={getIconPath('view-grid')} alt="Show thumbnails" />
         </Button>
       </AppBar.Item>
       <AppBar.Item className={styles.itemCenter}>
@@ -73,7 +78,7 @@ const Header = () => {
           onClick={handleRedirection}
           className={styles.buttonMenu}
         >
-          <Icon src="/static/design/icons.svg#core-symbol" alt="CORE" />
+          <Icon src={getIconPath('core-symbol')} alt="CORE" />
         </Button>
       </AppBar.Item>
       <AppBar.Item className={styles.itemRight}>
