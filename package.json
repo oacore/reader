@@ -10,6 +10,7 @@
     "dev": "next dev",
     "build": "node ./node_modules/.bin/design build icons && next build",
     "start": "next start",
+    "postinstall": "npm rebuild sharp",
     "lint:json": "prettier --ignore-path .gitignore --check '**/*.json'",
     "lint:js": "eslint --ignore-path .gitignore --ext .js,.jsx .",
     "lint:css": "stylelint --ignore-path .gitignore '**/*.css'",
@@ -59,6 +60,7 @@
     "react-dom": "^17.0.1",
     "react-ga4": "^2.1.0",
     "react-to-print": "^2.12.1",
+    "sharp": "^0.32.0",
     "smoothscroll-polyfill": "^0.4.4",
     "webpack": "^4.44.2",
     "worker-loader": "^2.0.0"

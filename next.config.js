@@ -23,6 +23,11 @@ const nextConfig = {
   },
   assetPrefix: helpers.getAssetPath('', process.env.BUILD_TARGET),
 
+  // Fix for sharp package in CI
+  experimental: {
+    esmExternals: false,
+  },
+
   async headers() {
     return [
       {
@@ -92,6 +97,15 @@ const nextConfig = {
       'react': path.join(__dirname, 'node_modules', 'react'),
       'react-dom': path.join(__dirname, 'node_modules', 'react-dom'),
     })
+
+    // Handle sharp package
+    if (config.externals) {
+      config.externals = config.externals.filter((external) => {
+        if (typeof external === 'function') return true
+
+        return external !== 'sharp'
+      })
+    }
 
     // TODO: Remove once https://github.com/zeit/next-plugins/blob/master/packages/next-workers/index.js#L20 is released
     config.output.globalObject = 'self'
