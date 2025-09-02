@@ -9,8 +9,8 @@ on:
 env:
   ACR_NAME: corefrontend
   IMAGE_NAME: reader
-  RESOURCE_GROUP: test-rg
-  WEBAPP_NAME: reder-core-container
+  RESOURCE_GROUP: core-frontend
+  WEBAPP_NAME: core-frontend-reader
 
 permissions:
   id-token: write
