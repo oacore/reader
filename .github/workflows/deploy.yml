@@ -9,7 +9,7 @@ on:
 env:
   ACR_NAME: corefrontend
   IMAGE_NAME: reader
-  RESOURCE_GROUP: test-rg
+  RESOURCE_GROUP: core-frontend
   CONTAINERAPP_NAME: core-frontend-reader
 
 permissions:
