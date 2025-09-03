@@ -100,7 +100,7 @@ const nextConfig = {
 }
 nextConfig.workerLoaderOptions = {
   publicPath: `${nextConfig.assetPrefix}/_next/`,
-  name: 'static/[hash].worker.js',
+  name: `${nextConfig.assetPrefix}/[hash].worker.js`,
 }
 
 module.exports = withTM(withWorkers(nextConfig))
