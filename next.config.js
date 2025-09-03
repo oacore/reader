@@ -16,6 +16,7 @@ const helpers = require('./utils/helpers')
  */
 
 const nextConfig = {
+  basePath: '/reader',
   env: {
     SENTRY_DSN: process.env.SENTRY_DSN,
     GA_TRACKING_CODE: process.env.GA_TRACKING_CODE,
