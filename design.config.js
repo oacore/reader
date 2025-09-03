@@ -25,7 +25,7 @@ const config = {
   },
 
   output: {
-    path: path.join(__dirname, '/static/design'),
+    path: path.join(__dirname, 'public/design'),
     publicPath: '/design',
     icons: {
       files: 'icons',
