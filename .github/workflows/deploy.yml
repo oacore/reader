@@ -9,8 +9,8 @@ on:
 env:
   ACR_NAME: corefrontend
   IMAGE_NAME: reader
-  RESOURCE_GROUP: core-frontend
-  WEBAPP_NAME: core-frontend-reader
+  RESOURCE_GROUP: test-rg
+  CONTAINERAPP_NAME: core-frontend-reader
 
 permissions:
   id-token: write
@@ -69,25 +69,10 @@ jobs:
       - name: Set image tag from build job
         run: echo "TAG=${{ needs.build-and-push.outputs.tag }}" >> $GITHUB_ENV
 
-      - name: Set app settings (API_TOKEN & NPM_TOKEN)
+      - name: Deploy to Azure Container App
         run: |
-          az webapp config appsettings set \
-            --name ${{ env.WEBAPP_NAME }} \
+          az containerapp update \
+            --name ${{ env.CONTAINERAPP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --settings \
-              API_TOKEN=${{ secrets.API_TOKEN }} \
-              NPM_TOKEN=${{ secrets.NPM_TOKEN }}
-
-      - name: Deploy Docker image to Azure Web App
-        run: |
-          az webapp config container set \
-            --name ${{ env.WEBAPP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --docker-custom-image-name ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }} \
-            --docker-registry-server-url https://${{ env.ACR_NAME }}.azurecr.io
-
-      - name: Restart Web App
-        run: |
-          az webapp restart \
-            --name ${{ env.WEBAPP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }}
+            --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }} \
+            --container-name ${{ env.IMAGE_NAME }}
