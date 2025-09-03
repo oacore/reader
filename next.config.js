@@ -16,13 +16,17 @@ const helpers = require('./utils/helpers')
  */
 
 const nextConfig = {
-  basePath: '/reader',
   env: {
     SENTRY_DSN: process.env.SENTRY_DSN,
     GA_TRACKING_CODE: process.env.GA_TRACKING_CODE,
     BUILD_TARGET: process.env.BUILD_TARGET,
   },
   assetPrefix: helpers.getAssetPath('', process.env.BUILD_TARGET),
+
+  // Fix for sharp package in CI
+  experimental: {
+    esmExternals: false,
+  },
 
   async headers() {
     return [
@@ -94,14 +98,24 @@ const nextConfig = {
       'react-dom': path.join(__dirname, 'node_modules', 'react-dom'),
     })
 
+    // Handle native dependencies
+    if (config.externals) {
+      config.externals = config.externals.filter((external) => {
+        if (typeof external === 'function') return true
+
+        // Don't externalize sharp
+        return external !== 'sharp'
+      })
+    }
+
     // TODO: Remove once https://github.com/zeit/next-plugins/blob/master/packages/next-workers/index.js#L20 is released
     config.output.globalObject = 'self'
     return config
   },
 }
 nextConfig.workerLoaderOptions = {
-  publicPath: `/reader/_next/`,
-  name: `static/[hash].worker.js`,
+  publicPath: `${nextConfig.assetPrefix}/_next/`,
+  name: 'static/[hash].worker.js',
 }
 
 module.exports = withTM(withWorkers(nextConfig))
