@@ -99,8 +99,8 @@ const nextConfig = {
   },
 }
 nextConfig.workerLoaderOptions = {
-  publicPath: `/reader/_next/`,
-  name: `static/[hash].worker.js`,
+  publicPath: `${nextConfig.assetPrefix}/_next/`,
+  name: 'static/[hash].worker.js',
 }
 
 module.exports = withTM(withWorkers(nextConfig))
