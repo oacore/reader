@@ -11,7 +11,7 @@ env:
   IMAGE_NAME: reader
   RESOURCE_GROUP: core-frontend
   CONTAINERAPP_NAME: core-frontend-reader
-  ICONS_PUBLIC_PATH: '/reader/design/'
+  ICONS_PUBLIC_PATH: /reader/design/
 
 permissions:
   id-token: write
