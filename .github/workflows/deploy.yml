@@ -74,5 +74,9 @@ jobs:
           az containerapp update \
             --name ${{ env.CONTAINERAPP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }} \
-            --container-name ${{ env.IMAGE_NAME }}
+            --set template.containers='[{
+              "name":"reader",
+              "image":"'${{ env.ACR_NAME }}'.azurecr.io/'${{ env.IMAGE_NAME }}':'${{ env.TAG }}'",
+              "resources":{"cpu":0.5,"memory":"1Gi"},
+              "ports":[{"port":8080}]
+            }]' 
