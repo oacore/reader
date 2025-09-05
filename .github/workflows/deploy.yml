@@ -44,6 +44,7 @@ jobs:
         run: |
           docker build \
             --build-arg GA_TRACKING_CODE=${{ secrets.GA_TRACKING_CODE }} \
+            --build-arg ICONS_PUBLIC_PATH=${{secrets.ICONS_PUBLIC_PATH}} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             --build-arg API_TOKEN=${{ secrets.API_TOKEN }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
