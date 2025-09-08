@@ -82,4 +82,4 @@ jobs:
               "image":"'${{ env.ACR_NAME }}'.azurecr.io/'${{ env.IMAGE_NAME }}':'${{ env.TAG }}'",
               "resources":{"cpu":0.5,"memory":"1Gi"},
               "ports":[{"port":8080}]
-            }]' 
+            }]'  
