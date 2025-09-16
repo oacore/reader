@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 env:
-  ACR_NAME: corefrontend
-  IMAGE_NAME: reader
+  ACR_NAME: corecontainers
+  IMAGE_NAME: core-frontend-reader
   RESOURCE_GROUP: core-frontend
   CONTAINERAPP_NAME: core-frontend-reader
   ICONS_PUBLIC_PATH: /reader/design/
