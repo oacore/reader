@@ -11,7 +11,9 @@ env:
   IMAGE_NAME: core-frontend-reader
   RESOURCE_GROUP: core-frontend
   CONTAINERAPP_NAME: core-frontend-reader
-  ICONS_PUBLIC_PATH: /reader/design/
+  NODE_ENV: production
+  SENTRY_DSN: https://c708e4ac05f44dea843e356da0459b21@sentry.io/1806836
+  PORT: 8080
 
 permissions:
   id-token: write
@@ -45,9 +47,7 @@ jobs:
         run: |
           docker build \
             --build-arg GA_TRACKING_CODE=${{ secrets.GA_TRACKING_CODE }} \
-            --build-arg ICONS_PUBLIC_PATH=${{env.ICONS_PUBLIC_PATH}} \
             --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
-            --build-arg API_TOKEN=${{ secrets.API_TOKEN }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
             -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest \
             .
@@ -77,9 +77,6 @@ jobs:
           az containerapp update \
             --name ${{ env.CONTAINERAPP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --set template.containers='[{
-              "name":"${{ env.IMAGE_NAME }}",
-              "image":"'${{ env.ACR_NAME }}'.azurecr.io/'${{ env.IMAGE_NAME }}':'${{ env.TAG }}'",
-              "resources":{"cpu":0.5,"memory":"1Gi"},
-              "ports":[{"port":8080}]
-            }]'  
+            --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }} \
+            --container-name ${{ env.IMAGE_NAME }} \
+            --set configuration.ingress.targetPort=${{ env.PORT }}

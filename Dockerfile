@@ -1,51 +1,28 @@
-# Stage 1: Build stage
-FROM node:16 AS builder
-
-# Accept tokens as build args
-ARG NPM_TOKEN
-ARG API_TOKEN
-
-ARG GA_TRACKING_CODE
-ENV GA_TRACKING_CODE=$GA_TRACKING_CODE
-ENV NEXT_PUBLIC_GA_MEASUREMENT_ID=$GA_TRACKING_CODE
-
-ARG ICONS_PUBLIC_PATH
-ENV ICONS_PUBLIC_PATH=$ICONS_PUBLIC_PATH
-ENV NEXT_PUBLIC_ICONS_PATH=$ICONS_PUBLIC_PATH
-ENV BUILD_TARGET=azure
-
-# Set working directory
-WORKDIR /app
-
-# Configure GitHub Packages auth (do NOT commit this)
-RUN echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
-
-# Install dependencies
-COPY package*.json .npmrc ./
-RUN npm ci --legacy-peer-deps
-
-# Copy full source (including env.config)
-COPY . .
-
-# Build the Next.js app
-RUN npm run build
-
-# Stage 2: Runtime stage
 FROM node:16-alpine
 
-# Add dumb-init for signal handling
-RUN apk add --no-cache dumb-init
+ARG BUILD_TARGET=azure
+ARG SENTRY_DSN
+ARG NODE_ENV=production
+ARG NPM_TOKEN
+ARG GA_TRACKING_CODE
+ARG ICONS_PUBLIC_PATH=/reader/static/design
+
+ENV SENTRY_DSN=$SENTRY_DSN \
+    NPM_TOKEN=$NPM_TOKEN \
+    GA_TRACKING_CODE=$GA_TRACKING_CODE \
+    ICONS_PUBLIC_PATH=$ICONS_PUBLIC_PATH \
+    BUILD_TARGET=$BUILD_TARGET
+
 
 WORKDIR /app
 
-# Copy everything from builder
-COPY --from=builder /app /app
+COPY . .
 
-# Expose app port
+RUN npm install sharp --ignore-scripts
+
+RUN npm ci --include=dev
+
+RUN NODE_ENV=$NODE_ENV npm run build
+
 EXPOSE 8080
-
-# Use dumb-init to handle signals properly
-ENTRYPOINT ["dumb-init", "--"]
-
-# Default command
 CMD ["node_modules/next/dist/bin/next", "start", "-p", "8080"]
