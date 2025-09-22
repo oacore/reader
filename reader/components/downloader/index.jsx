@@ -3,6 +3,7 @@ import { Button, Icon } from '@oacore/design'
 import React from 'react'
 
 import { logEvent } from '../../../utils/analytics'
+import { getIconPath } from '../../utils/helpers'
 
 const downloadPdf = async (document, pdfUrl) => {
   const pdfName = pdfUrl.substring(pdfUrl.lastIndexOf('/') + 1)
@@ -45,7 +46,7 @@ export const DownloadFile = ({ document, url, className }) => (
     }}
     className={className}
   >
-    <Icon src="#file-download" alt="Download document" />
+    <Icon src={getIconPath('file-download')} alt="Download document" />
   </Button>
 )
 

@@ -10,6 +10,7 @@ import {
   scrollToRelatedPapers,
   unsetRelatedPapers,
 } from '../../store/ui/actions'
+import { getIconPath } from '../../utils/helpers'
 
 const MIN_SCALE = 0.1
 const MAX_SCALE = 10.0
@@ -182,7 +183,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             })
           }}
         >
-          <Icon src="#format-rotate-90" alt="Rotate" />
+          <Icon src={getIconPath('format-rotate-90')} alt="Rotate" />
         </Button>
         <Button
           title="Zoom in"
@@ -198,7 +199,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             })
           }}
         >
-          <Icon src="#magnify-plus-outline" alt="Zoom in" />
+          <Icon src={getIconPath('magnify-plus-outline')} alt="Zoom in" />
         </Button>
         <Button
           title="Zoom out"
@@ -214,7 +215,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             })
           }}
         >
-          <Icon src="#magnify-minus-outline" alt="Zoom out" />
+          <Icon src={getIconPath('magnify-minus-outline')} alt="Zoom out" />
         </Button>
       </div>
       <div className={styles.pdfPagination}>
@@ -231,7 +232,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             globalDispatch(changeCurrentPageNumber(viewer.currentPageNumber))
           }}
         >
-          <Icon src="#chevron-left" alt="Previous page" />
+          <Icon src={getIconPath('chevron-left')} alt="Previous page" />
         </Button>
         <div className={styles.pagination}>
           <TextField
@@ -273,7 +274,7 @@ const Toolbar = ({ viewer, eventBus }) => {
             globalDispatch(changeCurrentPageNumber(viewer.currentPageNumber))
           }}
         >
-          <Icon src="#chevron-right" alt="Next page" />
+          <Icon src={getIconPath('chevron-right')} alt="Next page" />
         </Button>
       </div>
     </div>

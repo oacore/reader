@@ -12,6 +12,7 @@ import {
 } from '../../store/ui/actions'
 import Print from '../print'
 import { logEvent } from '../../../utils/analytics'
+import { getIconPath } from '../../utils/helpers'
 
 const Header = () => {
   const [{ metadata, ui, document }, dispatch] = useGlobalStore()
@@ -41,7 +42,7 @@ const Header = () => {
             ui.isOutlineSidebarVisible && styles.buttonActive
           )}
         >
-          <Icon src="#file-document" alt="Show outline" />
+          <Icon src={getIconPath('file-document')} alt="Show outline" />
         </Button>
         <Button
           title="Show thumbnails"
@@ -57,7 +58,7 @@ const Header = () => {
             ui.isThumbnailSidebarVisible && styles.buttonActive
           )}
         >
-          <Icon src="#view-grid" alt="Show thumbnails" />
+          <Icon src={getIconPath('view-grid')} alt="Show thumbnails" />
         </Button>
       </AppBar.Item>
       <AppBar.Item className={styles.itemCenter}>
@@ -67,7 +68,7 @@ const Header = () => {
           onClick={handleRedirection}
           className={styles.buttonMenu}
         >
-          <Icon src="#core-symbol" alt="CORE" />
+          <Icon src={getIconPath('core-symbol')} alt="CORE" />
         </Button>
       </AppBar.Item>
       <AppBar.Item className={styles.itemRight}>
