@@ -17,13 +17,4 @@ export function checkType(dataProviderId, members) {
   })
 }
 
-export const getIconPath = (iconName) => {
-  const isProduction =
-    process.env.NODE_ENV === 'production' || process.env.BUILD_TARGET === 'aws'
-  const basePath = isProduction
-    ? '/reader/static/design/icons.svg'
-    : '/static/design/icons.svg'
-  return `${basePath}#${iconName}`
-}
-
 export default { debounce, checkType }
