@@ -7,6 +7,7 @@ import ReactToPrint, { PrintContextConsumer } from 'react-to-print'
 import { withGlobalStore } from '../../store'
 import styles from './styles.module.css'
 import { logEvent } from '../../../utils/analytics'
+import { getIconPath } from '../../utils/helpers'
 
 // The size of the canvas in pixels for printing.
 const PRINT_RESOLUTION = 150
@@ -275,9 +276,9 @@ class Print extends React.Component {
                 }}
               >
                 {isPrinting ? (
-                  <Icon src="#printer-off" alt="Cancel print" />
+                  <Icon src={getIconPath('printer-off')} alt="Cancel print" />
                 ) : (
-                  <Icon src="#printer" alt="Print document" />
+                  <Icon src={getIconPath('printer')} alt="Print document" />
                 )}
               </Button>
             )}
