@@ -7,7 +7,13 @@ const PRODUCTION = '*.core.ac.uk core.ac.uk'
 const config = {
   'default-src': [SELF, PRODUCTION],
   // PDF.js worker sadly uses unsafe-eval
-  'script-src': [SELF, '*.google-analytics.com', "'unsafe-eval'", '*.googletagmanager.com', '*.cloudflareinsights.com'],
+  'script-src': [
+    SELF,
+    '*.google-analytics.com',
+    "'unsafe-eval'",
+    '*.googletagmanager.com',
+    '*.cloudflareinsights.com',
+  ],
   'style-src': [
     SELF,
     'fonts.googleapis.com',
