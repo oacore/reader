@@ -26,8 +26,7 @@ const config = {
 
   output: {
     path: path.join(__dirname, 'public/design'),
-    // publicPath: '/static/reader',
-    publicPath: '/design',
+    publicPath: '/static/reader',
     icons: {
       files: 'icons',
       sprite: 'icons.svg',
