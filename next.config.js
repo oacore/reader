@@ -22,7 +22,7 @@ const nextConfig = {
     BUILD_TARGET: process.env.BUILD_TARGET,
   },
   // assetPrefix: helpers.getAssetPath('', process.env.BUILD_TARGET),
-  assetPrefix: '/static/reader',
+  basePath: '/static/reader',
 
   // Fix for sharp package in CI
   experimental: {
