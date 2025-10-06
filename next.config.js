@@ -115,8 +115,8 @@ const nextConfig = {
   },
 }
 nextConfig.workerLoaderOptions = {
-  // publicPath: `${nextConfig.assetPrefix}/_next/`,
-  publicPath: `/reader/_next/`,
+  publicPath: `${nextConfig.assetPrefix}/_next/`,
+  //publicPath: `/reader/_next/`,
   name: 'static/[hash].worker.js',
 }
 
