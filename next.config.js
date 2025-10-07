@@ -21,8 +21,8 @@ const nextConfig = {
     GA_TRACKING_CODE: process.env.GA_TRACKING_CODE,
     BUILD_TARGET: process.env.BUILD_TARGET,
   },
-   assetPrefix: helpers.getAssetPath('', process.env.BUILD_TARGET),
-  //basePath: '/static/reader',
+  //  assetPrefix: helpers.getAssetPath('', process.env.BUILD_TARGET),
+  basePath: '/reader',
 
   // Fix for sharp package in CI
   experimental: {
