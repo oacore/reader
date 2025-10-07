@@ -1,5 +1,5 @@
 const getAssetPath = (path, target = process.env.BUILD_TARGET || '') =>
-  target === 'azure' ? `/static/reader${path}` : path
+  target === 'azure' ? `/reader${path}` : path
 
 const addEllipsis = (text, max) => {
   if (text.length <= max) return text
