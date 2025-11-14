@@ -1,4 +1,4 @@
-name: container deploy azure
+name: stage deploy azure
 
 on:
   push:
