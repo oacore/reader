@@ -3,7 +3,7 @@ name: container deploy azure
 on:
   push:
     branches:
-      - container_deploy
+      - stage
   workflow_dispatch:
 
 env:
