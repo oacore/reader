@@ -8,9 +8,9 @@ on:
 
 env:
   ACR_NAME: corecontainers
-  IMAGE_NAME: core-frontend-reader
-  RESOURCE_GROUP: core-frontend
-  CONTAINERAPP_NAME: core-frontend-reader
+  IMAGE_NAME: core-frontend-stage-reader
+  RESOURCE_GROUP: core-frontend-stage
+  CONTAINERAPP_NAME: core-frontend-stage-reader
   NODE_ENV: production
   SENTRY_DSN: https://c708e4ac05f44dea843e356da0459b21@sentry.io/1806836
   PORT: 8080
