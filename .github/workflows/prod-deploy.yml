@@ -1,0 +1,82 @@
+name: prod deploy azure
+
+on:
+  push:
+    branches:
+      - containerapp_deploy
+  workflow_dispatch:
+
+env:
+  ACR_NAME: corecontainers
+  IMAGE_NAME: core-frontend-reader
+  RESOURCE_GROUP: core-frontend
+  CONTAINERAPP_NAME: core-frontend-reader
+  NODE_ENV: production
+  SENTRY_DSN: https://c708e4ac05f44dea843e356da0459b21@sentry.io/1806836
+  PORT: 8080
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    environment: azure
+    outputs:
+      tag: ${{ steps.vars.outputs.tag }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set Git SHA tag
+        id: vars
+        run: echo "tag=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+
+      - name: ACR Login
+        run: az acr login --name ${{ env.ACR_NAME }}
+
+      - name: Docker Build and Tag
+        run: |
+          docker build \
+            --build-arg GA_TRACKING_CODE=${{ secrets.GA_TRACKING_CODE }} \
+            --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
+            -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
+            -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest \
+            .
+      - name: Docker Push
+        run: |
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: azure
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set image tag from build job
+        run: echo "TAG=${{ needs.build-and-push.outputs.tag }}" >> $GITHUB_ENV
+
+      - name: Deploy to Azure Container App
+        run: |
+          az containerapp update \
+            --name ${{ env.CONTAINERAPP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }} \
+            --container-name ${{ env.IMAGE_NAME }} \
+            --set configuration.ingress.targetPort=${{ env.PORT }}
