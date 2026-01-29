@@ -27,7 +27,7 @@ env:
   PROD_APP_NAME: core-frontend-reader
 
   STAGING_RESOURCE_GROUP: core-frontend-stage
-  STAGING_APP_NAME: core-frontend-reader-stage
+  STAGING_APP_NAME: core-frontend-stage-reader
 
   SENTRY_DSN: https://c708e4ac05f44dea843e356da0459b21@sentry.io/1806836
   NODE_ENV: production
