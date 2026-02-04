@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - containerapp_deploy
+
+  schedule:
+    - cron: "0 1 * * *"
+
   workflow_dispatch:
     inputs:
       target_env:
@@ -29,9 +33,11 @@ env:
   STAGING_RESOURCE_GROUP: core-frontend-stage
   STAGING_APP_NAME: core-frontend-stage-reader
 
-  SENTRY_DSN: https://c708e4ac05f44dea843e356da0459b21@sentry.io/1806836
   NODE_ENV: production
+  SENTRY_DSN: https://c708e4ac05f44dea843e356da0459b21@sentry.io/1806836
   PORT: 8080
+
+  ALLOWED_PROD_BRANCH: containerapp_deploy
 
 permissions:
   id-token: write
@@ -56,9 +62,20 @@ jobs:
         run: |
           SHA7="$(echo "${GITHUB_SHA}" | cut -c1-7)"
 
-          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+          # ✅ ADDED: schedule always deploys PROD from the frozen branch
+          if [[ "${GITHUB_EVENT_NAME}" == "schedule" ]]; then
+            DEPLOY_ENV="prod"
+            REF_TO_BUILD="${{ env.ALLOWED_PROD_BRANCH }}"
+
+          elif [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
             DEPLOY_ENV="${{ inputs.target_env }}"
             REF_TO_BUILD="${{ inputs.branch }}"
+
+            # existing: Freeze PROD to only one branch; fail if any other branch is selected for PROD
+            if [[ "${DEPLOY_ENV}" == "prod" && "${REF_TO_BUILD}" != "${{ env.ALLOWED_PROD_BRANCH }}" ]]; then
+              echo "::error title=Blocked prod deployment::Prod deployments are only allowed from '${{ env.ALLOWED_PROD_BRANCH }}'. You selected '${REF_TO_BUILD}'."
+              exit 1
+            fi
           else
             DEPLOY_ENV="staging"
             REF_TO_BUILD="${GITHUB_REF_NAME}"
@@ -82,18 +99,22 @@ jobs:
           echo "branch_tag=${BRANCH_TAG}" >> "$GITHUB_OUTPUT"
           echo "image_tag=${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
 
+
       - name: Summary
         run: |
-            {
-              echo "## Deploy plan"
-              echo "- **Env:** ${{ steps.vars.outputs.deploy_env }}"
-              echo "- **Branch:** ${{ steps.vars.outputs.ref_to_build }}"
-              echo "- **App:** ${{ steps.target.outputs.APP || steps.vars.outputs.app_name }}"
-              echo "- **RG:** ${{ steps.target.outputs.RG }}"
-              echo "- **Image:** ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }}"
-              echo "- **Tag:** ${{ steps.vars.outputs.image_tag }}"
-            } >> $GITHUB_STEP_SUMMARY   
-             
+          {
+            echo "## Deploy plan"
+            echo "- **Trigger:** ${{ github.event_name }}"
+            echo "- **Env:** ${{ steps.vars.outputs.deploy_env }}"
+            echo "- **Branch:** ${{ steps.vars.outputs.ref_to_build }}"
+            echo "- **App:** ${{ steps.vars.outputs.app_name }}"
+            echo "- **ACR:** ${{ env.ACR_NAME }}"
+            echo "- **Image:** ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}"
+            echo "- **Tag (sha7):** ${{ steps.vars.outputs.tag }}"
+            echo "- **Tag (env):** ${{ steps.vars.outputs.image_tag }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -149,7 +170,9 @@ jobs:
         id: target
         shell: bash
         run: |
-          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+          if [[ "${GITHUB_EVENT_NAME}" == "schedule" ]]; then
+            ENV="prod"
+          elif [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
             ENV="${{ inputs.target_env }}"
           else
             ENV="staging"
@@ -161,6 +184,16 @@ jobs:
           else
             echo "APP=${{ env.STAGING_APP_NAME }}" >> $GITHUB_OUTPUT
             echo "RG=${{ env.STAGING_RESOURCE_GROUP }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Enforce prod branch freeze
+        shell: bash
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            if [[ "${{ inputs.target_env }}" == "prod" && "${{ needs.build-and-push.outputs.ref_to_build }}" != "${{ env.ALLOWED_PROD_BRANCH }}" ]]; then
+              echo "::error title=Blocked prod deployment::Prod deployments are only allowed from '${{ env.ALLOWED_PROD_BRANCH }}'."
+              exit 1
+            fi
           fi
 
       - name: Deploy to Azure Container App
