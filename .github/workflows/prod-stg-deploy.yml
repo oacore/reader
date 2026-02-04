@@ -1,0 +1,205 @@
+name: Container App Prod/Staging Deploy
+
+on:
+  push:
+    branches:
+      - containerapp_deploy
+
+  schedule:
+    - cron: "0 1 * * *"
+
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: "Where to deploy"
+        required: true
+        type: choice
+        options:
+          - staging
+          - prod
+        default: staging
+      branch:
+        description: "Branch to build (default = containerapp_deploy)"
+        required: true
+        default: containerapp_deploy
+
+env:
+  ACR_NAME: corecontainers
+  IMAGE_NAME: core-frontend-reader
+
+  RESOURCE_GROUP: core-frontend
+  PROD_APP_NAME: core-frontend-reader
+
+  STAGING_RESOURCE_GROUP: core-frontend-stage
+  STAGING_APP_NAME: core-frontend-stage-reader
+
+  NODE_ENV: production
+  SENTRY_DSN: https://c708e4ac05f44dea843e356da0459b21@sentry.io/1806836
+  PORT: 8080
+
+  ALLOWED_PROD_BRANCH: containerapp_deploy
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    environment: azure
+    outputs:
+      tag: ${{ steps.vars.outputs.tag }}
+      deploy_env: ${{ steps.vars.outputs.deploy_env }}
+      app_name: ${{ steps.vars.outputs.app_name }}
+      ref_to_build: ${{ steps.vars.outputs.ref_to_build }}
+      branch_tag: ${{ steps.vars.outputs.branch_tag }}
+      image_tag: ${{ steps.vars.outputs.image_tag }}
+
+    steps:
+      - name: Compute variables
+        id: vars
+        shell: bash
+        run: |
+          SHA7="$(echo "${GITHUB_SHA}" | cut -c1-7)"
+
+          # ✅ ADDED: schedule always deploys PROD from the frozen branch
+          if [[ "${GITHUB_EVENT_NAME}" == "schedule" ]]; then
+            DEPLOY_ENV="prod"
+            REF_TO_BUILD="${{ env.ALLOWED_PROD_BRANCH }}"
+
+          elif [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            DEPLOY_ENV="${{ inputs.target_env }}"
+            REF_TO_BUILD="${{ inputs.branch }}"
+
+            # existing: Freeze PROD to only one branch; fail if any other branch is selected for PROD
+            if [[ "${DEPLOY_ENV}" == "prod" && "${REF_TO_BUILD}" != "${{ env.ALLOWED_PROD_BRANCH }}" ]]; then
+              echo "::error title=Blocked prod deployment::Prod deployments are only allowed from '${{ env.ALLOWED_PROD_BRANCH }}'. You selected '${REF_TO_BUILD}'."
+              exit 1
+            fi
+          else
+            DEPLOY_ENV="staging"
+            REF_TO_BUILD="${GITHUB_REF_NAME}"
+          fi
+
+          BRANCH_TAG="$(echo "${REF_TO_BUILD}" | tr '[:upper:]' '[:lower:]' \
+            | sed -E 's#[^a-z0-9_.-]+#-#g' | sed -E 's#^-+##; s#-+$##' | cut -c1-40)"
+
+          if [[ "${DEPLOY_ENV}" == "prod" ]]; then
+            APP_NAME="${{ env.PROD_APP_NAME }}"
+            IMAGE_TAG="prod"
+          else
+            APP_NAME="${{ env.STAGING_APP_NAME }}"
+            IMAGE_TAG="stg-${BRANCH_TAG}"
+          fi
+
+          echo "tag=${SHA7}" >> "$GITHUB_OUTPUT"
+          echo "deploy_env=${DEPLOY_ENV}" >> "$GITHUB_OUTPUT"
+          echo "app_name=${APP_NAME}" >> "$GITHUB_OUTPUT"
+          echo "ref_to_build=${REF_TO_BUILD}" >> "$GITHUB_OUTPUT"
+          echo "branch_tag=${BRANCH_TAG}" >> "$GITHUB_OUTPUT"
+          echo "image_tag=${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
+
+
+      - name: Summary
+        run: |
+          {
+            echo "## Deploy plan"
+            echo "- **Trigger:** ${{ github.event_name }}"
+            echo "- **Env:** ${{ steps.vars.outputs.deploy_env }}"
+            echo "- **Branch:** ${{ steps.vars.outputs.ref_to_build }}"
+            echo "- **App:** ${{ steps.vars.outputs.app_name }}"
+            echo "- **ACR:** ${{ env.ACR_NAME }}"
+            echo "- **Image:** ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}"
+            echo "- **Tag (sha7):** ${{ steps.vars.outputs.tag }}"
+            echo "- **Tag (env):** ${{ steps.vars.outputs.image_tag }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.vars.outputs.ref_to_build }}
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Docker ACR Login
+        run: az acr login --name ${{ env.ACR_NAME }}
+
+      - name: Docker Build
+        shell: bash
+        run: |
+          if [[ "${{ steps.vars.outputs.deploy_env }}" == "staging" ]]; then
+            INSTALL_DEV=true
+          else
+            INSTALL_DEV=false
+          fi
+
+          docker build \
+            --build-arg GA_TRACKING_CODE=${{ secrets.GA_TRACKING_CODE }} \
+            --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
+            -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }} \
+            -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }} .
+
+      - name: Docker Push
+        run: |
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: azure
+    env:
+      TAG: ${{ needs.build-and-push.outputs.tag }}
+      IMAGE_TAG: ${{ needs.build-and-push.outputs.image_tag }}
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Resolve deploy target
+        id: target
+        shell: bash
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "schedule" ]]; then
+            ENV="prod"
+          elif [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            ENV="${{ inputs.target_env }}"
+          else
+            ENV="staging"
+          fi
+
+          if [[ "$ENV" == "prod" ]]; then
+            echo "APP=${{ env.PROD_APP_NAME }}" >> $GITHUB_OUTPUT
+            echo "RG=${{ env.RESOURCE_GROUP }}" >> $GITHUB_OUTPUT
+          else
+            echo "APP=${{ env.STAGING_APP_NAME }}" >> $GITHUB_OUTPUT
+            echo "RG=${{ env.STAGING_RESOURCE_GROUP }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Enforce prod branch freeze
+        shell: bash
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            if [[ "${{ inputs.target_env }}" == "prod" && "${{ needs.build-and-push.outputs.ref_to_build }}" != "${{ env.ALLOWED_PROD_BRANCH }}" ]]; then
+              echo "::error title=Blocked prod deployment::Prod deployments are only allowed from '${{ env.ALLOWED_PROD_BRANCH }}'."
+              exit 1
+            fi
+          fi
+
+      - name: Deploy to Azure Container App
+        run: |
+          az containerapp update \
+            --name ${{ steps.target.outputs.APP }} \
+            --resource-group ${{ steps.target.outputs.RG }} \
+            --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }} \
+            --set configuration.ingress.targetPort=${{ env.PORT }}
