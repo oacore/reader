@@ -3,7 +3,7 @@ name: Container App Prod/Staging Deploy
 on:
   push:
     branches:
-      - containerapp_deploy
+      - main
 
   schedule:
     - cron: "0 1 * * *"
@@ -19,9 +19,9 @@ on:
           - prod
         default: staging
       branch:
-        description: "Branch to build (default = containerapp_deploy)"
+        description: "Branch to build (default = main)"
         required: true
-        default: containerapp_deploy
+        default: main
 
 env:
   ACR_NAME: corecontainers
@@ -37,7 +37,7 @@ env:
   SENTRY_DSN: https://c708e4ac05f44dea843e356da0459b21@sentry.io/1806836
   PORT: 8080
 
-  ALLOWED_PROD_BRANCH: containerapp_deploy
+  ALLOWED_PROD_BRANCH: main
 
 permissions:
   id-token: write
