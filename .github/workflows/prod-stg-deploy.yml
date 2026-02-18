@@ -197,10 +197,14 @@ jobs:
           fi
 
       - name: Deploy to Azure Container App
+        shell: bash
         run: |
+          REDEPLOY_AT="${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-$(date -u +%Y%m%d%H%M%S)"
           az containerapp update \
             --name ${{ steps.target.outputs.APP }} \
             --resource-group ${{ steps.target.outputs.RG }} \
             --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.TAG }} \
             --container-name ${{ steps.target.outputs.APP }} \
-            --set configuration.ingress.targetPort=${{ env.PORT }}
+            --set configuration.ingress.targetPort=${{ env.PORT }} \
+            --set-env-vars REDEPLOY_AT="$REDEPLOY_AT"
+
