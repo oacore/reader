@@ -18,9 +18,15 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install sharp --ignore-scripts
+# RUN npm install sharp --ignore-scripts
+
+# RUN npm ci --include=dev
+
+# RUN NODE_ENV=$NODE_ENV npm run build
 
 RUN npm ci --include=dev
+
+RUN npm install --no-save postcss@^8.4.0
 
 RUN NODE_ENV=$NODE_ENV npm run build
 
