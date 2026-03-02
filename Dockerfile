@@ -24,13 +24,14 @@ COPY . .
 
 # RUN NODE_ENV=$NODE_ENV npm run build
 
-RUN npm ci --include=dev
+RUN NODE_ENV=development npm ci --include=dev
 
-RUN npm install --no-save --legacy-peer-deps postcss@8.5.6
-
+RUN NODE_ENV=development npm install --no-save --legacy-peer-deps postcss@8.5.6
 RUN rm -rf /app/node_modules/next/node_modules/postcss \
  && cp -a /app/node_modules/postcss /app/node_modules/next/node_modules/postcss
-RUN npm install --no-save --legacy-peer-deps @babel/plugin-proposal-decorators
+
+RUN NODE_ENV=development npm install --no-save --legacy-peer-deps @babel/plugin-proposal-decorators
+
 RUN NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=$NODE_ENV npm run build
 
 EXPOSE 8080
