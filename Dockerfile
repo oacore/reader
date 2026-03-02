@@ -25,8 +25,10 @@ COPY . .
 # RUN NODE_ENV=$NODE_ENV npm run build
 
 RUN npm ci --include=dev
-
 RUN npm install --no-save --legacy-peer-deps postcss@8.5.6
+
+RUN rm -rf /app/node_modules/next/node_modules/postcss \
+ && cp -a /app/node_modules/postcss /app/node_modules/next/node_modules/postcss
 
 RUN NODE_ENV=$NODE_ENV npm run build
 
