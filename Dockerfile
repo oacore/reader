@@ -26,7 +26,7 @@ COPY . .
 
 RUN npm ci --include=dev
 
-RUN npm install --no-save postcss@^8.4.0
+RUN npm install --no-save --legacy-peer-deps postcss@8.5.6
 
 RUN NODE_ENV=$NODE_ENV npm run build
 
