@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-frontend-reader
+  namespace: core-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-frontend-reader
+  template:
+    metadata:
+      labels:
+        app: core-frontend-reader
+    spec:
+      nodeSelector:
+        agentpool: userpool
+      containers:
+        - name: reader
+          image: ${IMAGE}
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
