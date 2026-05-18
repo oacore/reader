@@ -6,6 +6,7 @@ metadata:
 spec:
   hostnames:
     - core.preferans.uk
+    - core.ac.uk
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
