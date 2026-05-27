@@ -18,6 +18,13 @@ spec:
       containers:
         - name: reader
           image: ${IMAGE}
+          env:
+            - name: NODE_ENV
+              value: production
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: core-frontend-reader-secrets
           ports:
             - name: http
               containerPort: 8080
