@@ -2,7 +2,7 @@
  * Content-Security-Policy
  */
 const SELF = "'self'"
-const PRODUCTION = '*.core.ac.uk core.ac.uk'
+const PRODUCTION = '*.core.ac.uk core.ac.uk *.core.preferans.uk core.preferans.uk'
 
 const config = {
   'default-src': [SELF, PRODUCTION],
