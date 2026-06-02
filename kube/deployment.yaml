@@ -30,13 +30,13 @@ spec:
               containerPort: 8080
           startupProbe:
             httpGet:
-              path: /reader/health
+              path: /
               port: http
             failureThreshold: 30
             periodSeconds: 5
           readinessProbe:
             httpGet:
-              path: /reader/health
+              path: /
               port: http
             initialDelaySeconds: 5
             periodSeconds: 10
@@ -44,7 +44,7 @@ spec:
             failureThreshold: 3
           livenessProbe:
             httpGet:
-              path: /reader/health
+              path: /
               port: http
             initialDelaySeconds: 15
             periodSeconds: 20
