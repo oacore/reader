@@ -4,7 +4,7 @@ metadata:
   name: core-frontend-reader
   namespace: core-frontend
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: core-frontend-reader
