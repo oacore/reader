@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: core-frontend-reader
+  namespace: core-frontend
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: core-frontend-reader

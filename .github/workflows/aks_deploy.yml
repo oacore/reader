@@ -1,4 +1,4 @@
-name: AKS deployment - core-frontend-about
+name: AKS deployment - core-frontend-reader
 
 on:
   push:
@@ -7,11 +7,11 @@ on:
 
 env:
   ACR_NAME: corecontainers
-  IMAGE_NAME: core-frontend-about
+  IMAGE_NAME: core-frontend-reader
   RESOURCE_GROUP: core-frontend
   AKS_CLUSTER_NAME: core-frontend-kubernetes-cluster
   NAMESPACE: core-frontend
-  DEPLOYMENT_NAME: core-frontend-about
+  DEPLOYMENT_NAME: core-frontend-reader
 
 jobs:
   build-and-deploy:
