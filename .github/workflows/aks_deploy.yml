@@ -3,6 +3,8 @@ name: AKS deployment - core-frontend-reader
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 3 * * *'
   workflow_dispatch:
 
 env:
