@@ -2,7 +2,7 @@ name: AKS deployment - core-frontend-reader
 
 on:
   push:
-    branches: [aks]
+    branches: [main]
   workflow_dispatch:
 
 env:
