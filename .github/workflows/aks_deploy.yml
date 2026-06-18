@@ -1,4 +1,4 @@
-name: AKS deployment - core-frontend-reader
+name: AKS prod
 
 on:
   push:
@@ -76,15 +76,15 @@ jobs:
 
       - name: Apply Service and HTTPRoute
         run: |
-          kubectl apply -f kube/service.yaml
-          kubectl apply -f kube/httproute.yaml
-          kubectl apply -f kube/pdb.yaml
-          kubectl apply -f kube/hpa.yaml
+          kubectl apply -f kube/prod/service.yaml
+          kubectl apply -f kube/prod/httproute.yaml
+          kubectl apply -f kube/prod/pdb.yaml
+          kubectl apply -f kube/prod/hpa.yaml
 
       - name: Deploy to AKS
         run: |
           export IMAGE="${{ steps.image.outputs.ref }}"
-          envsubst < kube/deployment.yaml | kubectl apply -f -
+          envsubst < kube/prod/deployment.yaml | kubectl apply -f -
 
       - name: Wait for rollout
         run: |
