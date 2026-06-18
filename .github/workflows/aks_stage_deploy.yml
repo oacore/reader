@@ -1,0 +1,91 @@
+name: AKS stage
+
+on:
+  push:
+    branches: [stage]
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+env:
+  ACR_NAME: corecontainers
+  IMAGE_NAME: core-frontend-reader
+  RESOURCE_GROUP: core-frontend
+  AKS_CLUSTER_NAME: core-frontend-kubernetes-cluster
+  NAMESPACE: core-frontend-stage
+  DEPLOYMENT_NAME: core-frontend-reader
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-24.04-arm
+    environment: azure
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set image reference
+        id: image
+        run: |
+          TAG=$(echo ${{ github.sha }} | cut -c1-7)
+          echo "ref=${{ env.ACR_NAME }}.azurecr.io/aks-${{ env.IMAGE_NAME }}:$TAG" >> $GITHUB_OUTPUT
+
+      - name: Docker ACR Login
+        run: az acr login --name ${{ env.ACR_NAME }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker build and push
+        run: |
+          docker buildx build \
+            --platform linux/arm64 \
+            --push \
+            --build-arg GA_TRACKING_CODE=${{ secrets.GA_TRACKING_CODE }} \
+            --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
+            -t ${{ steps.image.outputs.ref }} .
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --name ${{ env.AKS_CLUSTER_NAME }} \
+            --admin \
+            --overwrite-existing
+
+      - name: Sync secrets to AKS
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GA_TRACKING_CODE: ${{ secrets.GA_TRACKING_CODE }}
+        run: |
+          kubectl create secret generic core-frontend-reader-secrets \
+            --namespace core-frontend-stage \
+            --from-literal=NPM_TOKEN="${{ env.NPM_TOKEN }}" \
+            --from-literal=GA_TRACKING_CODE="${{ secrets.GA_TRACKING_CODE }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Apply Service and HTTPRoute
+        run: |
+          kubectl apply -f kube/stage/service.yaml
+          kubectl apply -f kube/stage/httproute.yaml
+
+      - name: Deploy to AKS
+        run: |
+          export IMAGE="${{ steps.image.outputs.ref }}"
+          envsubst < kube/stage/deployment.yaml | kubectl apply -f -
+
+      - name: Wait for rollout
+        run: |
+          kubectl rollout status deployment/${{ env.DEPLOYMENT_NAME }} \
+            --namespace ${{ env.NAMESPACE }} \
+            --timeout=300s
