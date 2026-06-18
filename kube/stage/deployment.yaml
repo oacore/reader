@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-frontend-reader
+  namespace: core-frontend-stage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-frontend-reader
+  template:
+    metadata:
+      labels:
+        app: core-frontend-reader
+    spec:
+      nodeSelector:
+        agentpool: userpool
+      containers:
+        - name: reader
+          image: ${IMAGE}
+          env:
+            - name: NODE_ENV
+              value: production
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: core-frontend-reader-secrets
+          ports:
+            - name: http
+              containerPort: 8080
+          startupProbe:
+            httpGet:
+              path: /reader/healthz
+              port: http
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /reader/healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /reader/healthz
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi

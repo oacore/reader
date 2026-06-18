@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-frontend-reader
+  namespace: core-frontend-stage
+spec:
+  type: ClusterIP
+  selector:
+    app: core-frontend-reader
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

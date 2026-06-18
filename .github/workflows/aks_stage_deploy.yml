@@ -1,10 +1,10 @@
-name: AKS prod
+name: AKS stage
 
 on:
   push:
-    branches: [main]
+    branches: [stage]
   schedule:
-    - cron: '0 3 * * *'
+    - cron: '0 4 * * *'
   workflow_dispatch:
 
 env:
@@ -12,7 +12,7 @@ env:
   IMAGE_NAME: core-frontend-reader
   RESOURCE_GROUP: core-frontend
   AKS_CLUSTER_NAME: core-frontend-kubernetes-cluster
-  NAMESPACE: core-frontend
+  NAMESPACE: core-frontend-stage
   DEPLOYMENT_NAME: core-frontend-reader
 
 jobs:
@@ -69,22 +69,20 @@ jobs:
           GA_TRACKING_CODE: ${{ secrets.GA_TRACKING_CODE }}
         run: |
           kubectl create secret generic core-frontend-reader-secrets \
-            --namespace core-frontend \
+            --namespace core-frontend-stage \
             --from-literal=NPM_TOKEN="${{ env.NPM_TOKEN }}" \
             --from-literal=GA_TRACKING_CODE="${{ secrets.GA_TRACKING_CODE }}" \
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Apply Service and HTTPRoute
         run: |
-          kubectl apply -f kube/prod/service.yaml
-          kubectl apply -f kube/prod/httproute.yaml
-          kubectl apply -f kube/prod/pdb.yaml
-          kubectl apply -f kube/prod/hpa.yaml
+          kubectl apply -f kube/stage/service.yaml
+          kubectl apply -f kube/stage/httproute.yaml
 
       - name: Deploy to AKS
         run: |
           export IMAGE="${{ steps.image.outputs.ref }}"
-          envsubst < kube/prod/deployment.yaml | kubectl apply -f -
+          envsubst < kube/stage/deployment.yaml | kubectl apply -f -
 
       - name: Wait for rollout
         run: |
