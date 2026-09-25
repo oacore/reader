@@ -37,7 +37,7 @@ jobs:
       - name: Set image reference
         id: image
         run: |
-          TAG=$(echo ${{ github.sha }} | cut -c1-7)
+          TAG=$(echo ${{ github.sha }} | cut -c1-7)-stg
           echo "ref=${{ env.ACR_NAME }}.azurecr.io/aks-${{ env.IMAGE_NAME }}:$TAG" >> $GITHUB_OUTPUT
 
       - name: Docker ACR Login

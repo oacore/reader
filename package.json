@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "CORE Reader is a full-featured PDF viewer with enhancements especially for academic papers",
   "main": "next.config.js",
-  "author": "CORE, The Open University <dev@core.ac.uk>",
+  "author": "CORE, The Open University <dev@core.science>",
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
